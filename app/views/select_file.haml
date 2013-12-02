@@ -1,0 +1,34 @@
+.jumbotron
+  %h1 Calculateur d'horaire pour l'ÉTS
+  %p Planifiez facilement et rapidement votre prochain horaire
+.container
+  - if flash.has_key?(:error)
+    .alert.alert-danger.alert-dismissable
+      %button.close{'data-dismiss' => 'alert', 'aria-hidden' => true} &times
+      = flash[:error]
+  %form{action: '/', method: :post, enctype: 'multipart/form-data'}
+    .form-horizontal
+      .form-group
+        %label.col-xs-2.control-label{for: 'input-file'} Fichier
+        .col-xs-10.controls.form-horizontal
+          .input-group
+            %span.input-group-addon
+              %input{id: 'input-file-selected', type: 'radio', name: 'file-group', checked: true, value: 'input-file'}
+            %input#input-file.form-control{type: 'file', name: 'input-file', accept: 'application/pdf'}
+            %span.input-group-addon .pdf
+      .col-xs-12.textual-separation ou
+      .form-group
+        %label.col-xs-2.control-label{for: 'input-link'} Lien
+        .col-xs-10.controls.form-horizontal
+          .input-group
+            %span.input-group-addon
+              %input{id: 'input-link-selected', type: 'radio', name: 'file-group', value: 'input-link'}
+            %input#input-link.form-control{type: 'text', name: 'input-link', placeholder: 'http://etsmtl.ca/Etudiants-actuels/Baccalaureat/Cours-horaires-1er-cycle/Horaire-cours/Anciens/Automne/hor_LOG.pdf'}
+            %span.input-group-addon .pdf
+      .form-group.schedule-group
+        .col-xs-2.schedule-link-label Liens vers les horaires
+        .col-xs-10
+          %a{title: 'Liens vers les horaires', href: 'http://etsmtl.ca/horaires-bac', target: '_blank'} http://etsmtl.ca/horaires-bac
+    %button.btn.btn-block.pull-right.btn-primary
+      Soumettre
+      %i.glyphicon.glyphicon-share

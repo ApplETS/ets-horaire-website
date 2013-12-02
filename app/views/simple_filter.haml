@@ -1,0 +1,7 @@
+.filter
+  .input-group
+    %span.input-group-addon
+      %input{id: "#{simple_filter.slug}-activated", type: "checkbox", name: "#{simple_filter.slug}-activated"}
+    %span.input-group-addon.filter-label
+      %label.control-label{for: "#{simple_filter.slug}-activated"}= simple_filter.name
+    %input.form-control{id: simple_filter.slug, type: "text", name: simple_filter.slug}
