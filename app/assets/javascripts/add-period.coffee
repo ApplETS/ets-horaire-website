@@ -1,4 +1,7 @@
 $ ->
+  $(".day-off-list").find('.day-off-row').each (index, element) ->
+    removeRowOnButtonClickIn $(element)
+
   source = $("#day-off-template").html()
   template = Handlebars.compile(source)
 
@@ -7,4 +10,6 @@ $ ->
     addPeriodButton.before template()
 
     addedRow = $(".day-off-list").find('.day-off-row:last')
-    addedRow.find(".btn.remove-period").click -> addedRow.remove()
+    removeRowOnButtonClickIn addedRow
+
+removeRowOnButtonClickIn = (row) -> row.find(".btn.remove-period").click -> row.remove()

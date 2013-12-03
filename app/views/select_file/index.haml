@@ -13,7 +13,7 @@
         .col-xs-10.controls.form-horizontal
           .input-group
             %span.input-group-addon
-              %input{id: 'input-file-selected', type: 'radio', name: 'file-group', checked: true, value: 'input-file'}
+              %input{id: 'input-file-selected', type: 'radio', name: 'file-group', checked: (!params.has_key?('file-group') || params['file-group'] == 'input-file'), value: 'input-file'}
             %input#input-file.form-control{type: 'file', name: 'input-file', accept: 'application/pdf'}
             %span.input-group-addon .pdf
       .col-xs-12.textual-separation ou
@@ -22,13 +22,13 @@
         .col-xs-10.controls.form-horizontal
           .input-group
             %span.input-group-addon
-              %input{id: 'input-link-selected', type: 'radio', name: 'file-group', value: 'input-link'}
-            %input#input-link.form-control{type: 'text', name: 'input-link', placeholder: 'http://etsmtl.ca/Etudiants-actuels/Baccalaureat/Cours-horaires-1er-cycle/Horaire-cours/Anciens/Automne/hor_LOG.pdf'}
+              %input{id: 'input-link-selected', type: 'radio', name: 'file-group', checked: (params['file-group'] == 'input-link'), value: 'input-link'}
+            %input#input-link.form-control{type: 'text', name: 'input-link', value: params['input-link'], placeholder: 'http://etsmtl.ca/Etudiants-actuels/Baccalaureat/Cours-horaires-1er-cycle/Horaire-cours/Anciens/Automne/hor_LOG.pdf'}
             %span.input-group-addon .pdf
-      .form-group.schedule-group
-        .col-xs-2.schedule-link-label Liens vers les horaires
-        .col-xs-10
-          %a{title: 'Liens vers les horaires', href: 'http://etsmtl.ca/horaires-bac', target: '_blank'} http://etsmtl.ca/horaires-bac
-    %button.btn.btn-block.pull-right.btn-primary
-      Soumettre
-      %i.glyphicon.glyphicon-share
+      .row.schedules-url-group
+        .col-xs-10.pull-right
+          %a{title: 'Liens vers les horaires', href: 'http://etsmtl.ca/horaires-bac', target: '_blank'} Liens vers les horaires
+    %footer
+      %button.btn.btn-block.pull-right.btn-primary
+        Soumettre
+        %i.glyphicon.glyphicon-share

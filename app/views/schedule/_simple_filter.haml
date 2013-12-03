@@ -1,0 +1,8 @@
+.filter
+  %h2.filter-heading
+    %label.control-label{for: "#{simple_filter.slug}-activated"}= simple_filter.name
+  .filter-body
+    .input-group
+      %span.input-group-addon
+        %input{id: "#{simple_filter.slug}-activated", type: "checkbox", name: "#{simple_filter.slug}-activated", checked: (params["#{simple_filter.slug}-activated"] == 'on')}
+      %input.form-control{id: simple_filter.slug, type: "number", name: simple_filter.slug, value: params[simple_filter.slug]}

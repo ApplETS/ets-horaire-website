@@ -1,42 +1,10 @@
 # encoding: UTF-8
 
-require 'sinatra/base'
-require 'sinatra/assetpack'
-require 'sinatra/partial'
-require 'sinatra/flash'
-require 'haml'
-require 'sass'
-require 'compass'
-require 'ostruct'
 require 'net/http'
-require 'pp'
 
 class Application < Sinatra::Base
-  register Sinatra::AssetPack
-  register Sinatra::Partial
-  register Sinatra::Flash
-
-  enable :sessions
-  set :views, 'app/views'
-
-  assets do
-    serve '/images', from: 'app/assets/images'
-    serve '/js', :from => 'app/assets/javascripts'
-    serve '/css', :from => 'app/assets/stylesheets'
-    css_compression :sass
-
-    js :application, %w(
-      /js/handlebars-v1.1.2.js
-      /js/add-period.js
-    )
-
-    css :application, %w(
-      /css/style.css
-    )
-  end
-
   get '/' do
-    haml :select_file
+    haml :'select_file/index'
   end
 
   post '/' do
@@ -48,24 +16,11 @@ class Application < Sinatra::Base
     rescue EtsHoraireException => e
       # log the error
       flash[:error] = e.message
-        haml :select_file
+      haml :'select_file/index'
     rescue Exception => e
       # log the error
       raise e
     end
-  end
-
-  get '/horaire' do
-    simple_filters = [
-      OpenStruct.new(name: "Nombre de cours minimum", slug: "minimum-number-of-courses"),
-      OpenStruct.new(name: "Nombre de cours maximum", slug: "minimum-number-of-maximum")
-    ]
-    output_types = [
-      OpenStruct.new(source: "simple_list", name: "Liste simple", slug: "output-simple-list"),
-      OpenStruct.new(source: "ascii_calendar", name: "Calendrier ASCII", slug: "output-ascii-calendar"),
-      OpenStruct.new(source: "html_calendar", name: "Calendrier HTML", slug: "output-html-calendar")
-    ]
-    haml :compute_schedule, locals: { filename: 'logiciel_e13', courses: %w(LOG121 MAT145 COM110), simple_filters: simple_filters, output_types: output_types }
   end
 
   private
@@ -130,13 +85,11 @@ class Application < Sinatra::Base
     File.open("tmp/files/#{server_filename}", 'wb') do |file_on_server|
       yield file_on_server
     end
-    server_filename
+    filename_without_extension
   end
 
   class EtsHoraireException < Exception; end
   class NoFileSpecified < EtsHoraireException; end
   class WrongFileFormat < EtsHoraireException; end
   class InvalidURL < EtsHoraireException; end
-
-  run! if app_file == $0
 end

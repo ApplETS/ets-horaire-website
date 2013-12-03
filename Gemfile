@@ -8,6 +8,7 @@ gem 'sass'
 gem 'compass'
 gem 'coffee-script'
 gem 'sinatra-flash'
+gem 'thin'
 
 group :development do
   gem 'shotgun'
