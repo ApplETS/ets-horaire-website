@@ -30,6 +30,6 @@ class ScheduleController < ApplicationController
 
   def handle_missing_filename
     flash[:notice] = 'Veuillez téléverser un fichier PDF.'
-    redirect '/'
+    redirect_to select_file_path
   end
 end

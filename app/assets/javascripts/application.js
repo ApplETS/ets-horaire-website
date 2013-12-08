@@ -14,4 +14,5 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require handlebars-v1.1.2
-//= require add-period
+//= require select_file/toggle-radiobuttons
+//= require schedule/add-period
