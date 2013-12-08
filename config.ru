@@ -1,8 +1,4 @@
-require 'sinatra'
-require 'bundler/setup'
-require './app'
+# This file is used by Rack-based servers to start the application.
 
-set :run, false
-set :raise_errors, true
-
-run EtsHoraire.new
+require ::File.expand_path('../config/environment',  __FILE__)
+run Rails.application

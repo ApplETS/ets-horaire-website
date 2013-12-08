@@ -2,20 +2,18 @@
 
 require 'net/http'
 
-EtsHoraire.class_eval do
-  get '/' do
-    haml :'select_file/index'
+class SelectFileController < ApplicationController
+  def index
   end
 
-  post '/' do
+  def upload
     begin
       ensure_has_specified_file
-      filename = upload_file_to_server
-      session[:filename] = filename
-      redirect '/horaire'
+      upload_file_to_server
+      redirect_to schedule_path
     rescue EtsHoraireException => e
       flash[:error] = e.message
-      haml :'select_file/index'
+      render 'index'
     rescue Exception => e
       # log the error
       raise e
@@ -46,11 +44,11 @@ EtsHoraire.class_eval do
 
   def upload_file_from_computer
     file_from_computer = params['input-file']
-    filename = file_from_computer[:filename]
+    filename = file_from_computer.original_filename
     ensure_is_pdf filename
 
     write_to_file_named(filename) do |file_on_server|
-      file_on_server.write file_from_computer[:tempfile].read
+      file_on_server.write file_from_computer.tempfile.read
     end
   end
 
@@ -60,16 +58,16 @@ EtsHoraire.class_eval do
     ensure_is_pdf filename
 
     url = URI.parse(url_of_file)
-    write_to_file_named(filename) do |file_on_server|
-      http = Net::HTTP.new(url.host, url.port)
-      http.request_get(url.path) do |remote_file|
+    http = Net::HTTP.new(url.host, url.port)
+    http.request_get(url.path) do |remote_file|
+      write_to_file_named(filename) do |file_on_server|
         remote_file.read_body do |segment|
           file_on_server.write segment
         end
       end
     end
   rescue Errno::ECONNREFUSED
-    raise InvalidURL.new('Veuillez spécifier un URL valide!')
+    raise InvalidURL.new('Veuillez spécifier un URL existant!')
   rescue URI::InvalidURIError
     raise InvalidURL.new('Veuillez spécifier un URL valide!')
   end
@@ -78,15 +76,14 @@ EtsHoraire.class_eval do
     raise WrongFileFormat.new('Le fichier doit être un PDF!') unless File.extname(filename) == '.pdf'
   end
 
-  def write_to_file_named(filename)
+  def write_to_file_named(filename, &block)
     filename_without_extension = File.basename(filename, '.*')
     exact_timestamp = Time.now.to_f.to_s.sub('.', '')
     server_filename = "#{filename_without_extension}_#{exact_timestamp}.pdf"
 
-    File.open("tmp/files/#{server_filename}", 'wb') do |file_on_server|
-      yield file_on_server
-    end
-    filename_without_extension
+    File.open("files/#{server_filename}", 'wb', &block)
+    session[:filename] = filename
+    session[:server_filename] = server_filename
   end
 
   class EtsHoraireException < Exception; end

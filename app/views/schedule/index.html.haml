@@ -1,18 +1,18 @@
 .container
-  %form{action: '/horaire', method: :post}
+  = form_tag(schedule_path, method: :post) do
     .form-horizontal
       .form-group
         %label.col-xs-12.col-sm-2.control-label Fichier
         .col-xs-12.col-sm-10.controls.form-horizontal
           .input-group
-            %input.form-control{disabled: true, type: "text", value: filename}
+            %input.form-control{disabled: true, type: "text", value: @filename}
             %span.input-group-addon .pdf
       .form-group
         %label.col-xs-12.col-sm-2.control-label{for: "courses"} Cours
         .col-xs-12.col-sm-10.controls
           .input-group.input-group-lg
           %select#courses.form-control{name: 'courses[]', multiple: 'multiple'}
-            - courses.each do |course|
+            - @courses.each do |course|
               %option{value: course, selected: (params['courses'] || []).include?(course)}= course
       .form-group
         .controls.pull-right.col-xs-12.col-sm-10
@@ -24,13 +24,13 @@
       .panel-heading
         Filtres
       .panel-body
-        = partial :'schedule/simple_filter', collection: simple_filters
+        = render partial: 'simple_filter', collection: @simple_filters
         .filter.days-off-filter
           %h2.filter-heading Journées de congées
           .filter-body
             .day-off-list
               .row
-                = partial :'schedule/day_off_template', collection: days_off
+                = render partial: 'day_off_template', collection: @days_off
                 %a.btn.btn-primary.btn-block.add-period
                   Ajouter un congé
                   %i.glyphicon.glyphicon-plus
@@ -38,9 +38,9 @@
       .panel-heading Sorties
       .panel-body
         %ul.list-group.output-list
-          = partial :'schedule/output_type', collection: output_types
+          = render partial: 'output_type', collection: @output_types
     %footer
       %button.btn.btn-block.pull-right.btn-primary
         Soumettre
         %i.glyphicon.glyphicon-share
-%script#day-off-template{type: "text/x-handlebars-template"}= partial :'schedule/day_off_template'
+%script#day-off-template{type: "text/x-handlebars-template"}= render partial: 'day_off_template'

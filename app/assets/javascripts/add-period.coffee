@@ -1,4 +1,6 @@
 $ ->
+  return unless $('body#schedule').length
+
   $(".day-off-list").find('.day-off-row').each (index, element) ->
     removeRowOnButtonClickIn $(element)
 

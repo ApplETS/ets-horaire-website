@@ -14,7 +14,7 @@ module FlashHelper
       content = "#{button}#{flash[key]}"
       "<div class=\"alert #{FLASH_TYPES[key]} alert-dismissable\">#{content}</div>"
     end
-    flash_messages.join
+    flash_messages.join.html_safe
   end
 
   class MissingFlashType < Exception; end

@@ -3,7 +3,7 @@
   %p Planifiez facilement et rapidement votre prochain horaire
 .container
   = flash_messages
-  %form{action: '/', method: :post, enctype: 'multipart/form-data'}
+  = form_tag(select_file_path, method: :post, enctype: 'multipart/form-data') do
     .form-horizontal
       .form-group
         %label.col-xs-12.col-sm-2.control-label{for: 'input-file'} Fichier
