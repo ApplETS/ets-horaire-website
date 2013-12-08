@@ -21,11 +21,12 @@ class EtsHoraire < Sinatra::Base
 
   assets do
     serve '/images', from: 'app/assets/images'
-    serve '/js', :from => 'app/assets/javascripts'
-    serve '/css', :from => 'app/assets/stylesheets'
+    serve '/js', from: 'app/assets/javascripts'
+    serve '/css', from: 'app/assets/stylesheets'
     css_compression :sass
 
     js :application, %w(
+      /js/jquery-1.10.2.min.js
       /js/handlebars-v1.1.2.js
       /js/add-period.js
     )

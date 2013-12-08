@@ -11,7 +11,7 @@
           .input-group
             %span.input-group-addon
               %input{id: 'input-file-selected', type: 'radio', name: 'file-group', checked: (!params.has_key?('file-group') || params['file-group'] == 'input-file'), value: 'input-file'}
-            %input#input-file.form-control{type: 'file', name: 'input-file', accept: 'application/pdf'}
+            %input#input-file.form-control.filestyle{type: 'file', name: 'input-file', accept: 'application/pdf', data: {icon: false}}
             %span.input-group-addon .pdf
       .col-xs-12.textual-separation ou
       .form-group
