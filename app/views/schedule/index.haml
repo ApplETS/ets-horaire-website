@@ -2,23 +2,24 @@
   %form{action: '/horaire', method: :post}
     .form-horizontal
       .form-group
-        %label.col-xs-2.control-label Fichier
-        .col-xs-10.controls.form-horizontal
+        %label.col-xs-12.col-sm-2.control-label Fichier
+        .col-xs-12.col-sm-10.controls.form-horizontal
           .input-group
             %input.form-control{disabled: true, type: "text", value: filename}
             %span.input-group-addon .pdf
       .form-group
-        %label.col-xs-2.control-label{for: "courses"} Cours
-        .col-xs-10.controls
+        %label.col-xs-12.col-sm-2.control-label{for: "courses"} Cours
+        .col-xs-12.col-sm-10.controls
           .input-group.input-group-lg
           %select#courses.form-control{name: 'courses[]', multiple: 'multiple'}
             - courses.each do |course|
               %option{value: course, selected: (params['courses'] || []).include?(course)}= course
       .form-group
-        .controls.pull-right.col-xs-10
+        .controls.pull-right.col-xs-12.col-sm-10
           %a.btn.btn-block.btn-primary{title: 'Choisir un nouveau PDF', href: '/'}
             Choisir un nouveau PDF
             %i.glyphicon.glyphicon-upload
+      %hr.visible-xs
     .panel.panel-default.filters
       .panel-heading
         Filtres

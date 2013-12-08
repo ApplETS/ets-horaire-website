@@ -2,7 +2,7 @@
 
 require 'net/http'
 
-class Application < Sinatra::Base
+EtsHoraire.class_eval do
   get '/' do
     haml :'select_file/index'
   end
@@ -14,7 +14,6 @@ class Application < Sinatra::Base
       session[:filename] = filename
       redirect '/horaire'
     rescue EtsHoraireException => e
-      # log the error
       flash[:error] = e.message
       haml :'select_file/index'
     rescue Exception => e
@@ -62,13 +61,15 @@ class Application < Sinatra::Base
 
     url = URI.parse(url_of_file)
     write_to_file_named(filename) do |file_on_server|
-      Net::HTTP.new(url.host, url.port).request_get(url.path) do |remote_file|
+      http = Net::HTTP.new(url.host, url.port)
+      http.request_get(url.path) do |remote_file|
         remote_file.read_body do |segment|
           file_on_server.write segment
         end
       end
     end
-
+  rescue Errno::ECONNREFUSED
+    raise InvalidURL.new('Veuillez spécifier un URL valide!')
   rescue URI::InvalidURIError
     raise InvalidURL.new('Veuillez spécifier un URL valide!')
   end

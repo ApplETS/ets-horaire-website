@@ -33,12 +33,11 @@ nav
           padding: 0 15px
 
           .day-off-row
-            margin-left: 0
-            margin-right: 0
             margin-bottom: 10px
+            padding: 0 10px
 
             .col-xs-1, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9, .col-xs-10, .col-xs-11, .col-xs-12
-              padding: 0
+              padding: 0 5px
 .outputs
   .panel-body
     padding: 0
@@ -52,12 +51,9 @@ nav
 
 footer
   overflow: hidden
-  padding: 10px
+  padding: 10px 0
 
-//$screen-sm-min: 768px
-//$screen-md-min: 992px
-//$screen-lg-min: 1200px
-//
-//@media (min-width: $screen-sm-min)
-//@media (min-width: $screen-md-min)
-//@media (min-width: $screen-lg-min)
+$screen-sm-min: 768px
+@media (max-width: $screen-sm-min)
+  .textual-separation
+    margin-bottom: -15px

@@ -1,17 +1,21 @@
+require 'sinatra/base'
 require 'sinatra/assetpack'
 require 'sinatra/partial'
-require 'sinatra/flash'
+require 'rack-flash'
 require 'haml'
 require 'sass'
 require 'compass'
+require_relative 'app/helpers/flash_helper'
 
-class Application < Sinatra::Base
+class EtsHoraire < Sinatra::Base
   register Sinatra::AssetPack
   register Sinatra::Partial
-  register Sinatra::Flash
+  use Rack::Flash
+  helpers FlashHelper
 
   enable :sessions
   enable :partial_underscores
+  set :session_secret, 'Never underestimate the power of the Schwartz!'
   set :root, File.dirname(__FILE__)
   set :views, 'app/views'
 

@@ -2,8 +2,10 @@
 
 require 'ostruct'
 
-class Application < Sinatra::Base
+EtsHoraire.class_eval do
   get '/horaire' do
+    return handle_missing_filename unless session.has_key?(:filename)
+
     days_off = []
     (params['day-off-weekday'] || []).size.times do |index|
       days_off << OpenStruct.new(
@@ -29,5 +31,12 @@ class Application < Sinatra::Base
       days_off: days_off,
       output_types: output_types
     }
+  end
+
+  private
+
+  def handle_missing_filename
+    flash[:notice] = 'Veuillez téléverser un fichier PDF.'
+    redirect '/'
   end
 end

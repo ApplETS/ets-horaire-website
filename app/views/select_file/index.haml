@@ -2,15 +2,12 @@
   %h1 Calculateur d'horaire pour l'ÉTS
   %p Planifiez facilement et rapidement votre prochain horaire
 .container
-  - if flash.has_key?(:error)
-    .alert.alert-danger.alert-dismissable
-      %button.close{'data-dismiss' => 'alert', 'aria-hidden' => true} &times
-      = flash[:error]
+  = flash_messages
   %form{action: '/', method: :post, enctype: 'multipart/form-data'}
     .form-horizontal
       .form-group
-        %label.col-xs-2.control-label{for: 'input-file'} Fichier
-        .col-xs-10.controls.form-horizontal
+        %label.col-xs-12.col-sm-2.control-label{for: 'input-file'} Fichier
+        .col-xs-12.col-sm-10.controls.form-horizontal
           .input-group
             %span.input-group-addon
               %input{id: 'input-file-selected', type: 'radio', name: 'file-group', checked: (!params.has_key?('file-group') || params['file-group'] == 'input-file'), value: 'input-file'}
@@ -18,15 +15,15 @@
             %span.input-group-addon .pdf
       .col-xs-12.textual-separation ou
       .form-group
-        %label.col-xs-2.control-label{for: 'input-link'} Lien
-        .col-xs-10.controls.form-horizontal
+        %label.col-xs-12.col-sm-2.control-label{for: 'input-link'} Lien
+        .col-xs-12.col-sm-10.controls.form-horizontal
           .input-group
             %span.input-group-addon
               %input{id: 'input-link-selected', type: 'radio', name: 'file-group', checked: (params['file-group'] == 'input-link'), value: 'input-link'}
             %input#input-link.form-control{type: 'text', name: 'input-link', value: params['input-link'], placeholder: 'http://etsmtl.ca/Etudiants-actuels/Baccalaureat/Cours-horaires-1er-cycle/Horaire-cours/Anciens/Automne/hor_LOG.pdf'}
             %span.input-group-addon .pdf
       .row.schedules-url-group
-        .col-xs-10.pull-right
+        .col-xs-12.col-sm-10.pull-right
           %a{title: 'Liens vers les horaires', href: 'http://etsmtl.ca/horaires-bac', target: '_blank'} Liens vers les horaires
     %footer
       %button.btn.btn-block.pull-right.btn-primary
