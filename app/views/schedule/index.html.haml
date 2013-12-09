@@ -1,22 +1,24 @@
 .container
-  = form_tag(schedule_path, method: :post) do
+  = form_tag(schedule_path, method: :get) do
     .form-horizontal
       .form-group
         %label.col-xs-12.col-sm-2.control-label Fichier
         .col-xs-12.col-sm-10.controls.form-horizontal
           %input.form-control{disabled: true, type: "text", value: @filename}
       .form-group
-        %label.col-xs-12.col-sm-2.control-label{for: "courses"} Cours
-        .col-xs-12.col-sm-10.controls
-          .input-group.input-group-lg
-          %select#courses.form-control{name: 'courses[]', multiple: 'multiple'}
-            - @courses.each do |course|
-              %option{value: course, selected: (params['courses'] || []).include?(course)}= course
-      .form-group
         .controls.pull-right.col-xs-12.col-sm-10
-          %a.btn.btn-block.btn-primary{title: 'Choisir un nouveau PDF', href: '/'}
+          = link_to select_file_path, class: 'btn btn-block btn-primary' do
             Choisir un nouveau PDF
             %i.glyphicon.glyphicon-upload
+      %hr
+      .form-group
+        %label.col-xs-12.col-sm-2.control-label Cours
+        .col-xs-12.col-sm-10.controls
+          .input-group.input-group-lg
+          - @courses.each do |course|
+            %label.course.label{for: "course-#{course}", class: "label-#{(params.try(:[], 'courses').try(:[], course) == 'on' ? 'success' : 'primary')}"}
+              %input.hidden{id: "course-#{course}", type: 'checkbox', name: "courses[#{course}]", checked: (params.try(:[], 'courses').try(:[], course) == 'on')}
+              = course
       %hr.visible-xs
     .panel.panel-default.filters
       .panel-heading

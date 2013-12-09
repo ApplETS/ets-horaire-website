@@ -1,0 +1,113 @@
+@import "compass"
+
+$column-width: <%= COLUMN_WIDTH %>px
+$row-height: <%= ROW_HEIGHT %>px
+$period-padding: <%= PERIOD_PADDING %>px
+$period-width: $column-width - $period-padding * 2 - 10px
+
+.weekly-calendar
+  position: relative
+  float: left
+  margin: 25px
+
+  table.backdrop
+    th, td
+      padding: 0
+
+    th
+      width: $column-width
+      height: 20px
+
+    th.hour
+      width: 50px
+
+    tbody
+      tr
+        height: $row-height
+        font-size: 12px
+
+      tr.hour
+        border-top: 1px solid #808080
+
+      tr.half-hour
+        border-top: 1px dashed #d3d3d3
+
+  .schedule
+    position: absolute
+    top: 20px
+    left: 50px
+
+    .weekday
+      position: absolute
+      top: 0
+      left: 0
+
+<%= weekday_classes %>
+
+      .period
+        position: absolute
+        top: 0px
+        width: $period-width
+        padding: $period-padding
+        @include border-radius(5px)
+        @include box-shadow(0 0 3px rgba(0, 0, 0, .3))
+
+        &.period-1
+          background-color: #F26C4F
+
+        &.period-2
+          background-color: #7CC576
+
+        &.period-3
+          background-color: #438CCA
+
+        &.period-4
+          background-color: #FFF467
+
+        &.period-5
+          background-color: #ACD372
+
+        &.period-6
+          background-color: #F68E55
+
+        &.period-7
+          background-color: #3BB878
+
+        &.period-8
+          background-color: #1ABBB4
+
+        &.period-9
+          background-color: #00BFF3
+
+        &.period-10
+          background-color: #FBAF5C
+
+        &.period-11
+          background-color: #5574B9
+
+        &.period-12
+          background-color: #605CA8
+
+        &.period-13
+          background-color: #855FA8
+
+        &.period-14
+          background-color: #A763A8
+
+        &.period-15
+          background-color: #F06EA9
+
+        &.period-16
+          background-color: #F26D7D
+
+<%= period_classes %>
+
+        .hour
+          margin-bottom: 5px
+          font-size: 12px
+          font-weight: bold
+        .title
+          .course
+            font-size: 14px
+          .type
+            font-size: 12px

@@ -4,5 +4,5 @@
   .filter-body
     .input-group
       %span.input-group-addon
-        %input{id: "#{simple_filter.slug}-activated", type: "checkbox", name: "#{simple_filter.slug}-activated", checked: (params["#{simple_filter.slug}-activated"] == 'on')}
-      %input.form-control{id: simple_filter.slug, type: "number", name: simple_filter.slug, value: params[simple_filter.slug]}
+        %input{id: "#{simple_filter.slug}-activated", type: "checkbox", name: "filters[#{simple_filter.slug}][activated]", checked: (params.try(:[], 'filters').try(:[], simple_filter.slug).try(:[], 'activated') == 'on')}
+      %input.form-control{id: simple_filter.slug, type: "number", name: "filters[#{simple_filter.slug}][value]", value: params.try(:[], 'filters').try(:[], simple_filter.slug).try(:[], 'value')}

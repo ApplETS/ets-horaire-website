@@ -5,4 +5,4 @@
       %h4.media-heading= output_type.name
       .checkbox
         %label{for: output_type.slug}
-          %input{id: output_type.slug, type: 'checkbox', value: 'true', name: output_type.slug, checked: params[output_type.slug]} Activé
+          %input{id: output_type.slug, type: 'checkbox', value: 'true', name: "output_types[#{output_type.slug}]", checked: params.try(:[], 'output_types').try(:[], output_type.slug)} Activé

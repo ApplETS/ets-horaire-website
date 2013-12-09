@@ -15,5 +15,5 @@
     %nav.navbar.navbar-default
       .container
         .navbar-header
-          %a.navbar-brand{:href => "/"} Calculateur d'horaire
+          = link_to "Calculateur d'horaire", select_file_path, class: 'navbar-brand'
     = yield

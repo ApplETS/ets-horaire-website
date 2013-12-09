@@ -3,27 +3,29 @@
 require 'net/http'
 
 class SelectFileController < ApplicationController
+  before_filter :ensure_has_specified_file, only: :upload
+
   def index
   end
 
   def upload
-    begin
-      ensure_has_specified_file
-      upload_file_to_server
-      redirect_to schedule_path
-    rescue EtsHoraireException => e
-      flash[:error] = e.message
-      render 'index'
-    rescue Exception => e
-      # log the error
-      raise e
-    end
+    upload_file_to_server
+    redirect_to schedule_path
+  rescue EtsHoraireException => e
+    flash[:error] = e.message
+    render 'index'
+  rescue Exception => e
+    # log the error
+    raise e
   end
 
   private
 
   def ensure_has_specified_file
-    raise NoFileSpecified.new('Veuillez spécifier un fichier!') unless file_from_computer? || file_from_url?
+    unless file_from_computer? || file_from_url?
+      flash[:error] = 'Veuillez spécifier un fichier!'
+      render 'index'
+    end
   end
 
   def file_from_computer?
@@ -81,13 +83,14 @@ class SelectFileController < ApplicationController
     exact_timestamp = Time.now.to_f.to_s.sub('.', '')
     server_filename = "#{filename_without_extension}_#{exact_timestamp}.pdf"
 
-    File.open("files/#{server_filename}", 'wb', &block)
-    session[:filename] = filename
-    session[:server_filename] = server_filename
+    File.open("files/inputs/#{server_filename}", 'wb', &block)
+    session[:file] = {
+      original_filename: filename,
+      server_filename: server_filename
+    }
   end
 
   class EtsHoraireException < Exception; end
-  class NoFileSpecified < EtsHoraireException; end
   class WrongFileFormat < EtsHoraireException; end
   class InvalidURL < EtsHoraireException; end
 end
