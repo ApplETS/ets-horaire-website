@@ -1,21 +1,14 @@
 # encoding: UTF-8
 
-require 'pp'
-
 class ScheduleController < ApplicationController
   before_filter :ensure_file_present, only: :index
   before_filter :ensure_course_selected, only: :compute
 
   def index
-    p '*' * 100
-    pp params
-
     @filename = session[:file][:original_filename]
     server_filename = session[:file][:server_filename]
 
-    courses = Rails.cache.fetch("courses_for:#{server_filename}") do
-      build_courses_from "files/inputs/#{server_filename}"
-    end
+    courses = build_courses_from("files/inputs/#{server_filename}")
     @courses = courses.collect { |course| course.name }
 
     @days_off = []
