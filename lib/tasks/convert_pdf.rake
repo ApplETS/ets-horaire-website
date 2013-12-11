@@ -4,19 +4,19 @@ namespace :convert_pdf do
   desc 'Convert PDF of courses to a json file'
   task :to_json => :environment do
     folder = ENV['FROM_FOLDER']
-    trimester = ENV['TRIMESTER']
+    folder_path = File.join(Rails.root, folder, '*')
 
-    hash = []
-    Dir.glob("#{folder}/*.pdf") do |pdf|
-      filename = File.basename(pdf, '.pdf')
-      courses = build_courses_from(pdf)
-      hash << {
-        "#{filename}" => Convert.to_hash(courses)
-      }
-    end
+    Dir.glob(folder_path) do |folder|
+      pdf_path = File.join(folder, '*.pdf')
+      hash = []
 
-    File.open("files/courses/#{trimester}.json", 'w') do |file|
-      file.write hash.to_json
+      Dir.glob(pdf_path).each do |pdf|
+        filename = File.basename(pdf, '.pdf')
+        courses = build_courses_from(pdf)
+        hash << { filename => Convert.to_hash(courses) }
+      end
+
+      output_to_json(hash, folder)
     end
   end
 
@@ -28,5 +28,12 @@ namespace :convert_pdf do
     courses = courses_struct.collect { |course_struct| CourseBuilder.build course_struct }
     CourseUtils.cleanup! courses
     courses
+  end
+
+  def output_to_json(hash, folder)
+    trimester = Pathname.new(folder).basename.to_s
+    File.open("files/courses/#{trimester}.json", 'w') do |file|
+      file.write hash.to_json
+    end
   end
 end
