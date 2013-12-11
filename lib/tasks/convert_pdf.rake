@@ -11,9 +11,8 @@ namespace :convert_pdf do
       hash = []
 
       Dir.glob(pdf_path).each do |pdf|
-        filename = File.basename(pdf, '.pdf')
-        courses = build_courses_from(pdf)
-        hash << { filename => Convert.to_hash(courses) }
+        bachelor = build_bachelor_from(pdf)
+        hash << Convert.to_hash(bachelor)
       end
 
       output_to_json(hash, folder)
@@ -22,12 +21,11 @@ namespace :convert_pdf do
 
   private
 
-  def build_courses_from(filename)
+  def build_bachelor_from(filename)
+    bachelor_slug = File.basename(filename, '.pdf')
     courses_stream = PdfStream.from_file(filename)
     courses_struct = StreamCourseBuilder.build_courses_from(courses_stream)
-    courses = courses_struct.collect { |course_struct| CourseBuilder.build course_struct }
-    CourseUtils.cleanup! courses
-    courses
+    BachelorBuilder.build bachelor_slug, courses_struct
   end
 
   def output_to_json(hash, folder)

@@ -2,15 +2,22 @@ require 'json'
 
 class Convert
   class << self
-    def to_hash(courses)
-      courses.collect { |course| serialize_course_from course }
+    def to_hash(bachelor)
+      serialize_bachelor_from bachelor
     end
 
-    def from_hash(courses)
-      courses.collect { |course| deserialize_course_from course }
+    def from_hash(bachelor)
+      deserialize_bachelor_from bachelor
     end
 
     private
+
+    def serialize_bachelor_from(bachelor)
+      {
+        name: bachelor.name,
+        courses: bachelor.courses.collect { |course| serialize_course_from course }
+      }
+    end
 
     def serialize_course_from(course)
       {
@@ -39,6 +46,10 @@ class Convert
           minutes: period.end_time.minutes
         }
       }
+    end
+
+    def deserialize_bachelor_from(bachelor)
+      Bachelor.new bachelor['name'], bachelor['courses'].collect { |course| deserialize_course_from course }
     end
 
     def deserialize_course_from(course)
