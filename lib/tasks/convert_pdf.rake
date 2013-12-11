@@ -30,7 +30,7 @@ namespace :convert_pdf do
 
   def output_to_json(hash, folder)
     trimester = Pathname.new(folder).basename.to_s
-    File.open("files/courses/#{trimester}.json", 'w') do |file|
+    File.open("db/courses/#{trimester}.json", 'w') do |file|
       file.write hash.to_json
     end
   end
