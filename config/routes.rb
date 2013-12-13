@@ -1,8 +1,8 @@
 EtsHoraire::Application.routes.draw do
   root 'select_file#index'
 
-  get 'select_file' => 'select_file#index', as: :select_file
-  post 'select_file' => 'select_file#upload'
-  get 'schedule' => 'schedule#index', as: :schedule
-  post 'schedule' => 'schedule#compute'
+  get 'choisir' => 'select_file#index', as: :select_file
+  post 'choisir' => 'select_file#choose'
+  get 'horaire' => 'schedule#index', as: :schedule
+  post 'horaire' => 'schedule#compute'
 end

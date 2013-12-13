@@ -2,13 +2,13 @@
 
 class BachelorBuilder
   NAMES = {
-    'hor_SEG' => "Enseignements généraux",
-    'hor_CTN' => "Génie de la construction",
-    'hor_ELE' => "Génie électrique",
-    'hor_LOG' => "Génie logiciel",
-    'hor_MEC' => "Génie mécanique",
-    'hor_GOL' => "Génie des opérations et de la logistique",
-    'hor_GPA' => "Génie de la production automatisée",
+    'hor_SEG' => 'Enseignements généraux',
+    'hor_CTN' => 'Génie de la construction',
+    'hor_ELE' => 'Génie électrique',
+    'hor_LOG' => 'Génie logiciel',
+    'hor_MEC' => 'Génie mécanique',
+    'hor_GOL' => 'Génie des opérations et de la logistique',
+    'hor_GPA' => 'Génie de la production automatisée',
     'hor_GTI' => "Génie des technologies de l'information"
   }
 
@@ -17,7 +17,7 @@ class BachelorBuilder
       courses = courses_struct.collect { |course_struct| CourseBuilder.build course_struct }
       CourseUtils.cleanup! courses
 
-      Bachelor.new transform(bachelor_slug), courses
+      Bachelor.new transform(bachelor_slug), bachelor_slug.downcase, courses
     end
 
     private

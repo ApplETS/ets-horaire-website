@@ -1,3 +1,8 @@
+@mixin active-selection
+  &.active
+    border: 1px solid #18bc9c
+    background-color: #18bc9c
+
 nav
   padding-left: 0
 
@@ -13,12 +18,33 @@ nav
 .schedules-url-group
   margin-bottom: 20px
 
-.course
-  display: block
-  float: left
+.course-btn
   margin: 0 5px 5px 0
-  cursor: pointer
-  font-size: 18px
+  padding: 5px
+
+  @include active-selection
+
+#trimester-panel-group
+  .trimester-panel-heading
+    padding: 0
+
+    .panel-title
+      a
+        display: block
+        padding: 10px 15px
+
+  .trimester-panel-body
+    padding: 0
+
+  .bachelor-item
+    padding: 2px 2px 0 2px
+
+    .bachelor-btn
+      display: block
+      width: 100%
+      padding: 5px
+
+      @include active-selection
 
 .filters
   .panel-body
@@ -58,7 +84,7 @@ nav
 
 footer
   overflow: hidden
-  padding: 10px 0
+  margin: 30px 0 10px 0
 
 $screen-sm-min: 768px
 @media (max-width: $screen-sm-min)

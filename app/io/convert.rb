@@ -15,6 +15,7 @@ class Convert
     def serialize_bachelor_from(bachelor)
       {
         name: bachelor.name,
+        slug: bachelor.slug,
         courses: bachelor.courses.collect { |course| serialize_course_from course }
       }
     end
@@ -49,7 +50,7 @@ class Convert
     end
 
     def deserialize_bachelor_from(bachelor)
-      Bachelor.new bachelor['name'], bachelor['courses'].collect { |course| deserialize_course_from course }
+      Bachelor.new bachelor['name'], bachelor['slug'], bachelor['courses'].collect { |course| deserialize_course_from course }
     end
 
     def deserialize_course_from(course)

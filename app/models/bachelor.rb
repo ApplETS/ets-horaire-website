@@ -1,8 +1,9 @@
 class Bachelor
-  attr_reader :name, :courses
+  attr_reader :name, :slug, :courses
 
-  def initialize(name, courses)
+  def initialize(name, slug, courses)
     @name = name
+    @slug = slug
     @courses = courses
   end
 end
