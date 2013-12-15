@@ -4,6 +4,7 @@ namespace :convert_pdf do
 
   desc 'Convert PDF of courses to a json file'
   task :to_json => :environment do
+    @wrote_to_at_least_one_file = false
     folder_path = Rails.root.join('files/pdfs/*.pdf')
 
     groups = {}
@@ -25,17 +26,22 @@ namespace :convert_pdf do
         store_to_json(students_type, :current_students, "#{term}_#{year}")
       end
     end
+
+    write_log_file if @wrote_to_at_least_one_file
   end
 
   private
 
-  def store_to_json(students_type, key, filename)
+  def store_to_json(students_type, key, basename)
+    file_path = Rails.root.join("db/courses/#{basename}.json")
+    return if File.exists?(file_path)
+
     serialized_bachelors = []
     students_type[key].each do |file_struct|
       bachelor = build_bachelor_from(file_struct)
       serialized_bachelors << Convert.to_hash(bachelor)
     end
-    output_to_json(serialized_bachelors, filename) unless serialized_bachelors.empty?
+    output_to_json(serialized_bachelors, file_path) unless serialized_bachelors.empty?
   end
 
   def build_bachelor_from(file_struct)
@@ -44,9 +50,12 @@ namespace :convert_pdf do
     BachelorBuilder.build file_struct, courses_struct
   end
 
-  def output_to_json(hash, filename)
-    File.open(Rails.root.join("db/courses/#{filename}.json"), 'w') do |file|
-      file.write hash.to_json
-    end
+  def output_to_json(hash, file_path)
+    File.open(file_path, 'w') { |file| file.write(hash.to_json) }
+    @wrote_to_at_least_one_file = true
+  end
+
+  def write_log_file
+    File.open(Rails.root.join("db/courses/last_modified.rb"), 'w') { |file| file.write("JSON_FILES_LAST_MODIFIED = #{Time.now.to_i}") }
   end
 end

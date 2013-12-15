@@ -6,12 +6,20 @@ class Database
 
   private_class_method :new
   def initialize
-    @trimesters = fetch_trimesters
-    @sorted_trimesters = sort_trimesters
+    @last_modified = 0
   end
 
   def self.instance
     @instance ||= new
+    @instance.reload
+    @instance
+  end
+
+  def reload
+    return unless files_changed?
+
+    @trimesters = fetch_trimesters
+    @sorted_trimesters = sort_trimesters
   end
 
   def all
@@ -38,6 +46,14 @@ class Database
   end
 
   private
+
+  def files_changed?
+    load Rails.root.join('db/courses/last_modified.rb')
+    return if JSON_FILES_LAST_MODIFIED == @last_modified
+
+    @last_modified = JSON_FILES_LAST_MODIFIED
+    return true
+  end
 
   def fetch_trimesters
     Dir.glob('db/courses/*.json').collect do |trimester_json|
