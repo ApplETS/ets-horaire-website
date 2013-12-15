@@ -1,24 +1,17 @@
 .container
   = flash_messages
   = form_tag(schedule_path, method: :post) do
-    %input.hidden{type: 'text', name: 'trimester', value: @trimester_param}
+    %input.hidden{type: 'text', name: 'trimester', value: @trimester_slug}
+    %input.hidden{type: 'text', name: 'bachelor', value: @bachelor_slug}
     .form-horizontal
       .form-group
-        %label.col-xs-12.col-sm-2.control-label{for: 'trimester-year'} Année
-        .col-xs-12.col-sm-10.controls.form-horizontal
-          %input#trimester-year.form-control{disabled: true, type: 'text', name: 'trimester-year', value: @trimester.year}
-      .form-group
-        %label.col-xs-12.col-sm-2.control-label{for: 'trimester-term'} Période
-        .col-xs-12.col-sm-5.controls.form-horizontal
-          %input#trimester-term.form-control{disabled: true, type: 'text', name: 'trimester-term', value: @trimester.term}
-        .col-xs-12.col-sm-5.pull-right
-          %label.checkbox-inline{for: 'trimester-new-students'}
-            %input#trimester-new-students{disabled: true, type: 'checkbox', name: 'trimester-new-students', checked: @trimester.for_new_students?}
-            Nouveaux étudiants
-      .form-group
-        %label.col-xs-12.col-sm-2.control-label{for: 'bachelor-name'} Baccalauréat
-        .col-xs-12.col-sm-10.controls.form-horizontal
-          %input#bachelor-name.form-control{disabled: true, type: 'text', name: 'bachelor-name', value: @bachelor.name}
+        %label.col-xs-12.col-sm-2.control-label Baccalauréat
+        .col-xs-12.col-sm-7.controls.form-horizontal
+          %p.form-control= "#{@bachelor_name} - #{@trimester_year} #{@trimester_term}"
+        .col-xs-12.col-sm-3
+          .form-control
+            Nouveaux étudiants:
+            %b= (@trimester_is_for_new_students ? 'Oui' : 'Non')
       .form-group
         .controls.pull-right.col-xs-12.col-sm-10
           = link_to root_path, class: 'btn btn-block btn-primary' do
@@ -29,7 +22,7 @@
         %label.col-xs-12.col-sm-2.control-label Cours
         .col-xs-12.col-sm-10.controls
           .input-group.input-group-lg{data: { toggle: 'buttons' }}
-            - @bachelor.courses.each do |course|
+            - @courses.each do |course|
               %label.btn.btn-primary.course-btn{for: "course-#{course.name}", class: (params.try(:[], 'courses').try(:[], course.name) == 'on' ? 'active' : nil)}
                 %input{id: "course-#{course.name}", type: 'checkbox', name: "courses[#{course.name}]", checked: (params.try(:[], 'courses').try(:[], course.name) == 'on')}
                 = course.name
@@ -56,4 +49,4 @@
       %button.btn.btn-block.pull-right.btn-primary
         Soumettre
         %i.glyphicon.glyphicon-share
-%script#day-off-template{type: "text/x-handlebars-template"}= render partial: 'day_off_template'
+%script#day-off-template{type: 'text/x-handlebars-template'}= render partial: 'day_off_template'

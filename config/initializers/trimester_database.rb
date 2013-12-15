@@ -1,1 +1,0 @@
-TrimesterDatabase.instance.load

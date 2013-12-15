@@ -1,17 +1,17 @@
 # encoding: UTF-8
 
-class TrimesterDatabase
+class Database
   ORDERED_TERMS = TrimesterBuilder::TERMS.values
   ORDERED_BACHELORS = BachelorBuilder::NAMES.values
 
   private_class_method :new
-  def self.instance
-    @instance ||= new
-  end
-
-  def load
+  def initialize
     @trimesters = fetch_trimesters
     @sorted_trimesters = sort_trimesters
+  end
+
+  def self.instance
+    @instance ||= new
   end
 
   def all
@@ -22,8 +22,19 @@ class TrimesterDatabase
     @sorted_trimesters
   end
 
-  def find_by(trimester_slug)
+  def find_by_slug(trimester_slug)
     @trimesters.find { |trimester| trimester.slug == trimester_slug }
+  end
+
+  def find_bachelor_by_slug_and_trimester_slug(bachelor_slug, trimester_slug)
+    trimester = @trimesters.find { |trimester| trimester.slug == trimester_slug }
+    return nil if trimester.nil?
+
+    bachelor = trimester.bachelors.find { |bachelor| bachelor.slug == bachelor_slug }
+    return nil if bachelor.nil?
+
+    bachelor.trimester = trimester
+    bachelor
   end
 
   private

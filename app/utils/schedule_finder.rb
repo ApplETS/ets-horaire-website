@@ -1,29 +1,50 @@
 # -*- encoding : utf-8 -*-
 
 class ScheduleFinder
+  NO_LIMIT = ConditionalCombinator::NO_LIMIT
 
-  def self.combinations_for(courses, courses_per_schedule)
+  def initialize(hard_limit = NO_LIMIT)
+    @conditional_combinator = ConditionalCombinator.new(hard_limit)
+  end
+
+  def combinations_for(courses, courses_per_schedule)
+    return [] if courses.empty? || courses_per_schedule == 0 || courses_per_schedule > courses.size
+    return generate_one_schedule_per_group(courses) if courses_per_schedule == 1
+
     group_courses = flatten(courses)
-    ConditionalCombinator.find_combinations(group_courses, courses_per_schedule) do |groups_combinations, group|
-      conflicts_with? groups_combinations, group
+    @conditional_combinator.find_combinations(group_courses, courses_per_schedule) do |groups_combinations, group|
+      does_not_conflicts_with? groups_combinations, group
     end
+  end
+
+  def reached_limit?
+    @conditional_combinator.reached_limit?
   end
 
   private
 
-  def self.flatten(courses)
+  def generate_one_schedule_per_group(courses)
+    schedules = []
+    courses.each do |course|
+      course.groups.each do |group|
+        schedules << [GroupCourse.new(course.name, group.periods, group.nb)]
+      end
+    end
+    schedules
+  end
+
+  def flatten(courses)
     periods = courses.collect do |course|
       course.groups.collect do |group|
-        CourseGroup.new(course.name, group.periods, group.nb)
+        GroupCourse.new(course.name, group.periods, group.nb)
       end
     end
     periods.flatten
   end
 
-  def self.conflicts_with?(groups_combinations, group)
+  def does_not_conflicts_with?(groups_combinations, group)
     groups_combinations.none? do |comparable_group_course|
       comparable_group_course.conflicts?(group)
     end
   end
-
 end

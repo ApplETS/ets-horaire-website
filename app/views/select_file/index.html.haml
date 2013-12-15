@@ -18,7 +18,7 @@
                 - trimester.bachelors.each do |bachelor|
                   %li.list-group-item.bachelor-item.col-xs-12.col-sm-6
                     %label.btn.btn-primary.bachelor-btn{for: "#{trimester.slug}_#{bachelor.slug}"}
-                      %input.hidden{type: 'radio', id: "#{trimester.slug}_#{bachelor.slug}", name: 'trimester', value: "#{trimester.slug}-#{bachelor.slug}"}
+                      %input.hidden{type: 'radio', id: "#{trimester.slug}_#{bachelor.slug}", name: 'year_period', value: "#{trimester.slug}-#{bachelor.slug}"}
                       = bachelor.name
     %footer
       %button.btn.btn-block.btn-primary{type: 'submit'}

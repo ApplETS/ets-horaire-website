@@ -5,7 +5,7 @@ describe ConditionalCombinator do
 
   describe "when providing an always true condition" do
     describe "when finding combinations of 4" do
-      let(:combinations) { ConditionalCombinator::find_combinations([1, 2, 3, 4, 5, 6], 4) { true } }
+      let(:combinations) { subject.find_combinations([1, 2, 3, 4, 5, 6], 4) { true } }
 
       it "should find all possible combinations" do
         combinations.should match_arrays([1, 2, 3, 4], [1, 2, 3, 5], [1, 2, 3, 6], [1, 2, 4, 5], [1, 2, 4, 6], [1, 2, 5, 6], [1, 3, 4, 5], [1, 3, 4, 6], [1, 3, 5, 6], [1, 4, 5, 6], [2, 3, 4, 5], [2, 3, 4, 6], [2, 3, 5, 6], [2, 4, 5, 6], [3, 4, 5, 6])
@@ -13,7 +13,7 @@ describe ConditionalCombinator do
     end
 
     describe "when finding combinations of 2" do
-      let(:combinations) { ConditionalCombinator::find_combinations([1, 2, 3, 4], 2) { true } }
+      let(:combinations) { subject.find_combinations([1, 2, 3, 4], 2) { true } }
 
       it "should find all possible combinations" do
         combinations.should match_arrays([1, 2], [1, 3], [1, 4], [2, 3], [2, 4], [3, 4])
@@ -21,7 +21,7 @@ describe ConditionalCombinator do
     end
 
     describe "when finding combinations of 0" do
-      let(:combinations) { ConditionalCombinator::find_combinations([1, 2, 3, 4], 0) { true } }
+      let(:combinations) { subject.find_combinations([1, 2, 3, 4], 0) { true } }
 
       it "should find no possible combinations" do
         combinations.should be_empty
@@ -30,7 +30,7 @@ describe ConditionalCombinator do
   end
 
   describe "when providing an always false condition" do
-    let(:combinations) { ConditionalCombinator::find_combinations([1, 2, 3, 4], 2) { false } }
+    let(:combinations) { subject.find_combinations([1, 2, 3, 4], 2) { false } }
 
     it "should always return no possible combinations" do
       combinations.should be_empty
@@ -38,7 +38,7 @@ describe ConditionalCombinator do
   end
 
   describe "when providing a condition that specifies that the compared element shouldn't be contained in the elements already combined" do
-    let(:combinations) { ConditionalCombinator::find_combinations([1, 2, 3, 4, 4], 2) { |combination_stack, value| !combination_stack.include?(value) } }
+    let(:combinations) { subject.find_combinations([1, 2, 3, 4, 4], 2) { |combination_stack, value| !combination_stack.include?(value) } }
   
     it "should return all possible combinations with duplicated 4 combinations" do
       combinations.should match_arrays([1, 2], [1, 3], [1, 4], [1, 4], [2, 3], [2, 4], [2, 4], [3, 4], [3, 4])
@@ -155,7 +155,7 @@ end
 private
 
 def find_concrete_objects_combinations(concrete_objects, set_size)
-  ConditionalCombinator::find_combinations(concrete_objects, set_size) do |concrete_objects_stack, concrete_object|
+  subject.find_combinations(concrete_objects, set_size) do |concrete_objects_stack, concrete_object|
     concrete_objects_stack.none? { |comparable_concrete_object| concrete_object.conflicts_with? comparable_concrete_object }
   end
 end

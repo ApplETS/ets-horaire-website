@@ -1,6 +1,6 @@
 # -*- encoding : utf-8 -*-
 
-class CourseGroup < Group
+class GroupCourse < Group
 
   attr_reader :course_name
 
