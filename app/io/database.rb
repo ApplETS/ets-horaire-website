@@ -49,7 +49,7 @@ class Database
 
   def files_changed?
     load Rails.root.join('db/courses/last_modified.rb')
-    return if JSON_FILES_LAST_MODIFIED == @last_modified
+    return false if JSON_FILES_LAST_MODIFIED == @last_modified
 
     @last_modified = JSON_FILES_LAST_MODIFIED
     return true

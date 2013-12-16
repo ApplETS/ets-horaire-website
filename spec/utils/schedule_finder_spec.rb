@@ -134,32 +134,48 @@ describe ScheduleFinder do
         let(:courses) { [course_1, course_2, course_3, course_4] }
         let(:schedules) { subject.combinations_for courses, 0 }
 
-        it 'should find all 9 possibilities' do
+        it 'should find no possibilities' do
           schedules.should be_empty
         end
       end
 
       context 'when specifying 3 courses per schedule' do
-        let(:courses) { [course_2, course_3, course_4] }
-        let(:schedules) { subject.combinations_for courses, 2 }
+        context 'with a possibility of 2' do
+          let(:courses) { [course_2, course_3, course_4] }
+          let(:schedules) { subject.combinations_for courses, 2 }
 
-        it 'should find all 9 possibilities' do
-          schedules.should have_exactly(10).items
+          it 'should find all 9 possibilities' do
+            schedules.should have_exactly(10).items
 
-          schedules.should conceptually_include(group_1_2, group_1_3)
-          schedules.should conceptually_include(group_1_2, group_2_3)
-          schedules.should conceptually_include(group_1_2, group_1_4)
-          schedules.should conceptually_include(group_1_2, group_3_4)
-          schedules.should conceptually_include(group_1_3, group_1_4)
-          schedules.should conceptually_include(group_1_3, group_2_4)
-          schedules.should conceptually_include(group_1_3, group_3_4)
-          schedules.should conceptually_include(group_2_3, group_1_4)
-          schedules.should conceptually_include(group_2_3, group_2_4)
-          schedules.should conceptually_include(group_2_3, group_3_4)
+            schedules.should conceptually_include(group_1_2, group_1_3)
+            schedules.should conceptually_include(group_1_2, group_2_3)
+            schedules.should conceptually_include(group_1_2, group_1_4)
+            schedules.should conceptually_include(group_1_2, group_3_4)
+            schedules.should conceptually_include(group_1_3, group_1_4)
+            schedules.should conceptually_include(group_1_3, group_2_4)
+            schedules.should conceptually_include(group_1_3, group_3_4)
+            schedules.should conceptually_include(group_2_3, group_1_4)
+            schedules.should conceptually_include(group_2_3, group_2_4)
+            schedules.should conceptually_include(group_2_3, group_3_4)
+          end
+        end
+
+        context 'with a possibility of 3' do
+          let(:courses) { [course_2, course_3, course_4] }
+          let(:schedules) { subject.combinations_for courses, 3 }
+
+          it 'should find all 9 possibilities' do
+            schedules.should have_exactly(4).items
+
+            schedules.should conceptually_include(group_1_2, group_1_3, group_1_4)
+            schedules.should conceptually_include(group_1_2, group_1_3, group_3_4)
+            schedules.should conceptually_include(group_1_2, group_2_3, group_1_4)
+            schedules.should conceptually_include(group_1_2, group_2_3, group_3_4)
+          end
         end
       end
 
-      context 'when specifying 1 course per schedule' do
+      context 'for 4 courses' do
         let(:courses) { [course_1, course_2, course_3, course_4] }
 
         context 'for a possiblity of 1' do

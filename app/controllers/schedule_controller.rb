@@ -8,17 +8,23 @@ class ScheduleController < ApplicationController
   before_filter :ensure_output_selected, only: :compute
 
   def index
-    populate_form
+    render_populated_form
   end
 
   def compute
     courses = @bachelor.courses.find_all { |course| params[:courses].keys.include?(course.name) }
-    schedule_finder = ScheduleFinder.new(100)
-    schedules = schedule_finder.combinations_for(courses, 3)
-    flash[:notice] = 'BLA!' if schedule_finder.reached_limit?
+    p courses.collect { |course| course.name }
 
-    p '------------------------------' * 100
-    render text: schedules.size
+    schedule_finder = ScheduleFinder.new(100)
+    schedules = schedule_finder.combinations_for(courses, courses.size)
+
+    if schedules.size == 0
+      flash[:notice] = 'Aucun résultat trouvé. Veuillez essayer une différente combinaison de cours ou restreindres vos critères.'
+      render_populated_form
+    else
+      flash[:notice] = 'Seulement les 100 premiers résultats sont affichés. Veuillez fournir plus de critères pour des résultats optimals.' if schedule_finder.reached_limit?
+      render text: schedules.size
+    end
   end
 
   private
@@ -34,9 +40,10 @@ class ScheduleController < ApplicationController
     redirect_to root_path
   end
 
-  def populate_form
+  def render_populated_form
     populate_form_with_parameters
     populate_form_with_data
+    render 'index'
   end
 
   def populate_form_with_parameters
@@ -81,15 +88,13 @@ class ScheduleController < ApplicationController
     return if params.has_key?(:courses)
 
     flash[:notice] = 'Veuillez sélectionner au minimum un cours!'
-    populate_form
-    render 'index'
+    render_populated_form
   end
 
   def ensure_output_selected
     return if params.has_key?(:output_types)
 
     flash[:notice] = 'Veuillez sélectionner au minimum un type de sortie!'
-    populate_form
-    render 'index'
+    render_populated_form
   end
 end

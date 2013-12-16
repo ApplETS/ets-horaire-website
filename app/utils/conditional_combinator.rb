@@ -31,17 +31,17 @@ class ConditionalCombinator
 
   def loop_through(from_index, to_index, combination_stack, block)
     if to_index == @values.size - 1
-      iterate_while_adding(to_index, combination_stack, from_index, block) do |combination_stack|
+      iterate_while_adding(from_index, to_index, combination_stack, block) do |combination_stack|
         @combinations << combination_stack if combination_stack.size == @set_size
       end
     else
-      iterate_while_adding(to_index, combination_stack, from_index, block) do |combination_stack, index|
+      iterate_while_adding(from_index, to_index, combination_stack, block) do |combination_stack, index|
         loop_through(from_index + index + 1, to_index + 1, combination_stack, block)
       end
     end
   end
 
-  def iterate_while_adding(to_index, combination_stack, from_index, block)
+  def iterate_while_adding(from_index, to_index, combination_stack, block)
     @values[from_index..to_index].each_with_index do |value, index|
       break if reached_limit?
 
