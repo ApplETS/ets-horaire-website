@@ -1,9 +1,12 @@
+require_relative '../helpers/printing_helper'
 require 'json'
 
+include PrintingHelper
 namespace :convert_pdf do
-
   desc 'Convert PDF of courses to a json file'
   task :to_json => :environment do
+    print_title 'Convert PDF of courses to a json file'
+
     @wrote_to_at_least_one_file = false
     folder_path = Rails.root.join('files/pdfs/*.pdf')
 
@@ -27,7 +30,11 @@ namespace :convert_pdf do
       end
     end
 
-    write_log_file if @wrote_to_at_least_one_file
+    if @wrote_to_at_least_one_file
+      write_log_file
+    else
+      puts '- Nothing to convert!'
+    end
   end
 
   private
@@ -51,6 +58,7 @@ namespace :convert_pdf do
   end
 
   def output_to_json(hash, file_path)
+    puts "- Writing '#{file_path}'"
     File.open(file_path, 'w') { |file| file.write(hash.to_json) }
     @wrote_to_at_least_one_file = true
   end

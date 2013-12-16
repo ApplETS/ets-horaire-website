@@ -1,7 +1,8 @@
 # -*- encoding : utf-8 -*-
-
+require_relative '../helpers/printing_helper'
 require 'ostruct'
 
+include PrintingHelper
 namespace :download_and_store do
   ETSMTL = 'http://etsmtl.ca'
   WEBPAGE = "#{ETSMTL}/horaires-bac"
@@ -14,6 +15,8 @@ namespace :download_and_store do
 
   desc 'Download PDFs from etsmtl.ca, store them and convert them to JSON for easy use'
   task :pdfs_from_etsmtl => :environment do
+    print_title 'Downloading PDFs from etsmtl.ca'
+
     download_pdf_webpage
     html_page = read_file_as_html
 
@@ -29,7 +32,8 @@ namespace :download_and_store do
 
   def download_pdf_webpage
     FileUtils.rm(FILE_PATH) if File.exist?(FILE_PATH)
-    IO.popen("wget #{WEBPAGE} -O #{FILE_PATH}") {}
+    puts "- Downloading '#{WEBPAGE}' to '#{FILE_PATH}'"
+    IO.popen("wget -qO- #{WEBPAGE} -O #{FILE_PATH}") {}
   end
 
   def read_file_as_html
@@ -88,6 +92,8 @@ namespace :download_and_store do
     new_filename = "#{term.year}_#{term.slug}_#{program}#{new_student_column ? '_nouveaux' : ''}.pdf"
     filename_path = Rails.root.join('files/pdfs/', new_filename)
 
-    IO.popen("wget #{href} -O #{filename_path}") {} unless File.exist?(filename_path)
+    return if File.exist?(filename_path)
+    puts "- Downloading '#{href}' to '#{filename_path}'"
+    IO.popen("wget -qO- #{href} -O #{filename_path}") {}
   end
 end
