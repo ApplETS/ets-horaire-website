@@ -29,6 +29,7 @@ GEM
     atomic (1.1.14)
     builder (3.1.4)
     chronic (0.10.2)
+    chunky_png (1.2.7)
     coffee-rails (4.0.1)
       coffee-script (>= 2.2.0)
       railties (>= 4.0.0, < 5.0)
@@ -36,9 +37,14 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.6.3)
+    compass (0.12.2)
+      chunky_png (~> 1.2)
+      fssm (>= 0.2.7)
+      sass (~> 3.1)
     diff-lcs (1.2.5)
     erubis (2.7.0)
     execjs (2.0.2)
+    fssm (0.2.9)
     haml (4.0.4)
       tilt
     haml-rails (0.5.2)
@@ -132,6 +138,7 @@ PLATFORMS
 
 DEPENDENCIES
   coffee-rails
+  compass
   haml-rails
   hpricot
   jquery-rails
