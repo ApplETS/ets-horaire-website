@@ -1,8 +1,13 @@
 # -*- encoding : utf-8 -*-
 
-class ListSchedulePrinter
+class ListSchedulePrinter< Printer
 
-  def self.output(schedules, output_filename)
+  def initialize
+    @name = 'Liste simple'
+    @slug = 'simple_list'
+  end
+
+  def output(schedules, output_filename)
     File.open(output_filename, 'w') do |file|
       schedules.each do |groups|
         file.write 58.times.collect { "*" }.join + "\n"
@@ -25,16 +30,16 @@ class ListSchedulePrinter
 
   private
 
-  def self.output_period(period)
+  def output_period(period)
     "#{spacify(period.type)}#{spacify(weekday period)}#{period.start_time.to_s} - #{period.end_time.to_s}\n"
   end
 
-  def self.spacify(text = "")
+  def spacify(text = "")
     spaces = (15 - text.length).times.collect { " " }.join
     "#{text}#{spaces}"
   end
 
-  def self.weekday(period)
+  def weekday(period)
     period.weekday.fr.capitalize
   end
 

@@ -2,13 +2,8 @@
 
 require 'digest/sha1'
 
-class ScheduleController < ApplicationController
+class SelectCoursesController < ApplicationController
   RESULTS_LIMIT = 100
-  OUTPUTS = {
-    'simple-list' => ListSchedulePrinter,
-    'ascii-calendar' => CalendarSchedulePrinter,
-    'html-calendar' => HtmlSchedulePrinter
-  }
 
   before_filter :ensure_trimester_and_bachelor_present_and_valid
   before_filter :ensure_course_selected, only: :compute
@@ -47,16 +42,16 @@ class ScheduleController < ApplicationController
 
     Dir.mkdir(output_directory)
     params['output_types'].keys.each do |output_type|
-      klass = OUTPUTS[output_type]
       destination = File.join(output_directory, output_type)
-      klass.send(:output, schedules, destination)
+      printer = Printer.find_by_slug(output_type)
+      printer.output(schedules, destination) unless printer.nil?
     end
-    return hash
+    hash
   end
 
   def ensure_trimester_and_bachelor_present_and_valid
-    redirect_back_to_selection unless params.has_key?(:trimester) || params.has_key?(:bachelor)
-    @bachelor = Database.instance.find_bachelor_by_slug_and_trimester_slug(params[:bachelor], params[:trimester])
+    redirect_back_to_selection unless params.has_key?(:trimestre) || params.has_key?(:baccalaureat)
+    @bachelor = Database.instance.find_bachelor_by_slug_and_trimester_slug(params[:baccalaureat], params[:trimestre])
     return redirect_back_to_selection if @bachelor.nil?
   end
 
@@ -116,10 +111,6 @@ class ScheduleController < ApplicationController
   end
 
   def populate_outputs
-    @output_types = [
-      OpenStruct.new(source: "simple_list", name: "Liste simple", slug: "simple-list"),
-      OpenStruct.new(source: "ascii_calendar", name: "Calendrier ASCII", slug: "ascii-calendar"),
-      OpenStruct.new(source: "html_calendar", name: "Calendrier HTML", slug: "html-calendar")
-    ]
+    @output_types = Printer.all
   end
 end

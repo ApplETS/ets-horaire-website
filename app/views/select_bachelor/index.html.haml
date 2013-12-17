@@ -4,7 +4,7 @@
     %p Planifiez facilement et rapidement votre prochain horaire
 .container
   = flash_messages
-  = form_tag(select_file_path, method: :post, enctype: 'multipart/form-data') do
+  = form_tag(select_bachelor_path, method: :post, enctype: 'multipart/form-data') do
     #trimester-panel-group.panel-group{data: { toggle: 'buttons' }}
       - @trimesters.each_with_index do |trimester, index|
         .panel.panel-default

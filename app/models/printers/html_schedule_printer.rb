@@ -1,10 +1,15 @@
 # -*- encoding : utf-8 -*-
 
-require "haml"
+require 'haml'
 
-class HtmlSchedulePrinter
+class HtmlSchedulePrinter< Printer
 
-  def self.output(schedules, output_folder)
+  def initialize
+    @name = 'Calendrier HTML'
+    @slug = 'html_calendar'
+  end
+
+  def output(schedules, output_folder)
     html = nil
     css = WebpageBuilder.css
     html_schedules = WebpageBuilder.html(schedules)
@@ -23,7 +28,7 @@ class HtmlSchedulePrinter
 
   private
 
-  def self.open_template(&block)
+  def open_template(&block)
     File.open(File.join(File.dirname(__FILE__), "./html/ressources/output_template.html.haml"), "r", &block)
   end
 

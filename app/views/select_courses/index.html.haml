@@ -1,8 +1,8 @@
 .container
   = flash_messages
-  = form_tag(schedule_path, method: :post) do
-    %input.hidden{type: 'text', name: 'trimester', value: @trimester_slug}
-    %input.hidden{type: 'text', name: 'bachelor', value: @bachelor_slug}
+  = form_tag(select_courses_path, method: :post) do
+    %input.hidden{type: 'text', name: 'trimestre', value: @trimester_slug}
+    %input.hidden{type: 'text', name: 'baccalaureat', value: @bachelor_slug}
     .form-horizontal
       .form-group
         %label.col-xs-12.col-sm-2.control-label Baccalauréat

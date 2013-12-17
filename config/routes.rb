@@ -1,8 +1,9 @@
 EtsHoraire::Application.routes.draw do
-  root 'select_file#index'
+  root 'select_bachelor#index'
 
-  get 'choisir' => 'select_file#index', as: :select_file
-  post 'choisir' => 'select_file#choose'
-  get 'horaire' => 'schedule#index', as: :schedule
-  post 'horaire' => 'schedule#compute'
+  get 'baccalaureats' => 'select_bachelor#index', as: :select_bachelor
+  post 'baccalaureats' => 'select_bachelor#choose'
+  get 'choix_de_cours' => 'select_courses#index', as: :select_courses
+  post 'choix_de_cours' => 'select_courses#compute'
+  get 'resultats' => 'output#index', as: :output
 end

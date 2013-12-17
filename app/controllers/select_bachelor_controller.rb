@@ -1,6 +1,6 @@
 # encoding: UTF-8
 
-class SelectFileController < ApplicationController
+class SelectBachelorController < ApplicationController
   before_filter :ensure_year_period_selected, only: :choose
 
   def index
@@ -9,7 +9,7 @@ class SelectFileController < ApplicationController
 
   def choose
     trimester_slug, bachelor_slug = params[:year_period].split('-')
-    redirect_to schedule_path(trimester: trimester_slug, bachelor: bachelor_slug)
+    redirect_to select_courses_path(trimestre: trimester_slug, baccalaureat: bachelor_slug)
   end
 
   private

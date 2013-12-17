@@ -1,0 +1,7 @@
+.container
+  = flash_messages
+  .panel.panel-default.outputs
+    .panel-heading Sorties
+    .panel-body
+      %ul.list-group.output-list
+        = render partial: 'output', collection: @outputs
