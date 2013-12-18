@@ -12,6 +12,7 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require turbolinks
 //= require handlebars-v1.1.2
+//= require raphael-min
 //= require select_courses/day-off-templating
+//= require output/arc-results

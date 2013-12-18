@@ -1,7 +1,19 @@
+- content_for :pre_javascript do
+  :coffeescript
+    window.RESULTS_VALUE = #{@schedules.size}
 .container
   %h1 Résultats
   = flash_messages
   .form-horizontal
+    .form-group
+      .col-xs-12.col-sm-10.pull-right
+        #results
+          #results-canvas
+          .results-description
+            .caption.result-caption
+              Nombre de combinaisons:
+              = @schedules.size
+            .caption.total-caption Nombre de combinaisons maximales: 100
     = render partial: 'shared/bachelor_choice_resume'
     .form-group
       %label.col-xs-12.col-sm-2.control-label Cours sélectionnés
