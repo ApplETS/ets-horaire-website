@@ -17,7 +17,7 @@ describe CalendarSchedulePrinter do
   end
 
   describe "when printing any schedule" do
-    let(:schedule) { [] }
+    let(:select_courses) { [] }
 
     it "should print the header containing the days and print the hours on the side (from 8:00 to 23:00)" do
       stream.should_receive(:write).once.with /08:00|................|................|................|................|................|\n/
@@ -42,7 +42,7 @@ describe CalendarSchedulePrinter do
   describe "when printing a schedule with a GIA400 course, in group 2, from 8:00 to 11:00, on monday" do
     let(:course) { Period.new(Weekday.en("monday"), "Cours", WeekdayTime.new(Weekday.en("monday"), 8, 00), WeekdayTime.new(Weekday.en("monday"), 11, 00)) }
     let(:group) { CourseGroupStruct.new "GIA400", 2, [course] }
-    let(:schedule) { [group] }
+    let(:select_courses) { [group] }
 
     it "should only print the course on the schedule" do
       stream.should_receive(:write).once.with "08:00|00--------------|                |                |                |                |\n"
@@ -67,7 +67,7 @@ describe CalendarSchedulePrinter do
   describe "when printing a schedule with a LOG120 labcourse, in group 3, from 11:10 to 16:17, on thursday" do
     let(:course) { Period.new(Weekday.en("thursday"), "Labo", WeekdayTime.new(Weekday.en("thursday"), 11, 10), WeekdayTime.new(Weekday.en("thursday"), 16, 17)) }
     let(:group) { CourseGroupStruct.new "LOG120", 3, [course] }
-    let(:schedule) { [group] }
+    let(:select_courses) { [group] }
 
     it "should only print the course on the schedule" do
       stream.should_receive(:write).once.with "08:00|                |                |                |                |                |\n"
@@ -107,7 +107,7 @@ describe CalendarSchedulePrinter do
     let(:course_2_4) { Period.new(Weekday.en("tuesday"), "TP/Labo", WeekdayTime.new(Weekday.en("tuesday"), 18, 00), WeekdayTime.new(Weekday.en("tuesday"), 20, 00)) }
     let(:group_4) { CourseGroupStruct.new "LOG619", 1, [course_1_4, course_2_4] }
 
-    let(:schedule) { [group_1, group_2, group_3, group_4] }
+    let(:select_courses) { [group_1, group_2, group_3, group_4] }
 
     it "should only print the course on the schedule" do
       stream.should_receive(:write).once.with "08:00|                |45--------------|                |30--------------|                |\n"
@@ -132,7 +132,7 @@ describe CalendarSchedulePrinter do
   after(:each) do
     stream.should_receive(:write).once.with "     --------------------------------------------------------------------------------------\n"
     stream.should_receive(:write).once.with "\n"
-    CalendarSchedulePrinter.output [schedule], "output_file"
+    subject.output [schedule], "output_file"
   end
 
 end

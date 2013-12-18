@@ -7,4 +7,15 @@ class Bachelor
     @slug = slug
     @courses = courses
   end
+
+  def self.find_by_slug_and_trimester_slug(bachelor_slug, trimester_slug)
+    trimester = TrimesterDatabase.instance.all.find { |trimester| trimester.slug == trimester_slug }
+    return nil if trimester.nil?
+
+    bachelor = trimester.bachelors.find { |bachelor| bachelor.slug == bachelor_slug }
+    return nil if bachelor.nil?
+
+    bachelor.trimester = trimester
+    bachelor
+  end
 end

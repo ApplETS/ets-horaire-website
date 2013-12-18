@@ -1,8 +1,0 @@
-%li.list-group-item
-  .media.output-type
-    = image_tag "output_types/#{output_type.slug}.jpg", class: 'media-object pull-left'
-    .media-body
-      %h4.media-heading= output_type.name
-      .checkbox
-        %label{for: output_type.slug}
-          %input{id: output_type.slug, type: 'checkbox', value: 'true', name: "output_types[#{output_type.slug}]", checked: params.try(:[], 'output_types').try(:[], output_type.slug)} Activé

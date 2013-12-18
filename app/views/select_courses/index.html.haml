@@ -4,14 +4,7 @@
     %input.hidden{type: 'text', name: 'trimestre', value: @trimester_slug}
     %input.hidden{type: 'text', name: 'baccalaureat', value: @bachelor_slug}
     .form-horizontal
-      .form-group
-        %label.col-xs-12.col-sm-2.control-label Baccalauréat
-        .col-xs-12.col-sm-7.controls.form-horizontal
-          %p.form-control= "#{@bachelor_name} - #{@trimester_year} #{@trimester_term}"
-        .col-xs-12.col-sm-3
-          .form-control
-            Nouveaux étudiants:
-            %b= (@trimester_is_for_new_students ? 'Oui' : 'Non')
+      = render partial: 'shared/bachelor_choice_resume'
       .form-group
         .controls.pull-right.col-xs-12.col-sm-10
           = link_to root_path, class: 'btn btn-block btn-primary' do
@@ -40,11 +33,6 @@
                 %a.btn.btn-primary.btn-block.add-period
                   Ajouter un congé
                   %i.glyphicon.glyphicon-plus
-    .panel.panel-default.outputs
-      .panel-heading Sorties
-      .panel-body
-        %ul.list-group.output-list
-          = render partial: 'output_type', collection: @output_types
     %footer
       %button.btn.btn-block.pull-right.btn-primary
         Soumettre

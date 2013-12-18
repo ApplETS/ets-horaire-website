@@ -13,36 +13,37 @@ class CalendarSchedulePrinter < Printer
   FRIDAY = 5760
 
   def initialize
-    @name = 'Calendrier HTML'
-    @slug = 'ascii_calendar'
+    @name = 'Calendrier ASCII'
+    @slug = 'calendrier_ascii'
+    @content_type = 'text/plain'
   end
 
-  def output(schedules, output_filename)
-    File.open(output_filename, "w") do |stream|
-      schedules.each do |schedule|
-        stream.write "*******************************************************************************************\n"
-        stream.write "*******************************************************************************************\n\n"
-        print schedule, stream
-        stream.write "\n"
-      end
+  def output(schedules)
+    @output = ''
+    schedules.each do |schedule|
+      @output << "*******************************************************************************************\r\n"
+      @output << "*******************************************************************************************\r\n\r\n"
+      print schedule
+      @output << "\r\n"
     end
+    @output
   end
 
   private
 
-  def print(schedule, stream)
-    stream.write "     #{FULL_SCHEDULE_LINE}\n"
-    stream.write "     |#{align_left "Lundi"}|#{align_left "Mardi"}|#{align_left "Mercredi"}|#{align_left "Jeudi"}|#{align_left "Vendredi"}|\n"
-    stream.write "     #{FULL_SCHEDULE_LINE}\n"
+  def print(schedule)
+    @output << "     #{FULL_SCHEDULE_LINE}\r\n"
+    @output << "     |#{align_left "Lundi"}|#{align_left "Mardi"}|#{align_left "Mercredi"}|#{align_left "Jeudi"}|#{align_left "Vendredi"}|\r\n"
+    @output << "     #{FULL_SCHEDULE_LINE}\r\n"
     (8..23).each do |hour|
-      stream.write print_line(hour, schedule)
+      @output << print_line(hour, schedule)
     end
-    stream.write "     #{FULL_SCHEDULE_LINE}\n"
+    @output << "     #{FULL_SCHEDULE_LINE}\r\n"
   end
 
   def print_line(hour, schedule)
     hour_zerofilled = hour.to_s.rjust(2, "0")
-    "#{hour_zerofilled}:00|#{print_column MONDAY, hour, schedule}|#{print_column TUESDAY, hour, schedule}|#{print_column WEDNESDAY, hour, schedule}|#{print_column THURSDAY, hour, schedule}|#{print_column FRIDAY, hour, schedule}|\n"
+    "#{hour_zerofilled}:00|#{print_column MONDAY, hour, schedule}|#{print_column TUESDAY, hour, schedule}|#{print_column WEDNESDAY, hour, schedule}|#{print_column THURSDAY, hour, schedule}|#{print_column FRIDAY, hour, schedule}|\r\n"
   end
 
   def print_column(weekday, hour, schedule)

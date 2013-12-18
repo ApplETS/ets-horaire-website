@@ -17,12 +17,12 @@ namespace :download_and_store do
   task :pdfs_from_etsmtl => :environment do
     print_title 'Downloading PDFs from etsmtl.ca'
 
-    download_pdf_webpage
+    #download_pdf_webpage
     html_page = read_file_as_html
 
     for_each_table_in(html_page) do |table, term, new_students_columns|
       for_each_cell_in(table, new_students_columns) do |cell, new_student_column|
-        link = (cell/'a').first
+        link = (cell/'a:nth-child(1)').first
         download(link, term, new_student_column) unless link.nil?
       end
     end
@@ -94,6 +94,6 @@ namespace :download_and_store do
 
     return if File.exist?(filename_path)
     puts "- Downloading '#{href}' to '#{filename_path}'"
-    IO.popen("wget -qO- #{href} -O #{filename_path}") {}
+    IO.popen("wget -qO- -4 #{href} -O #{filename_path}") {}
   end
 end

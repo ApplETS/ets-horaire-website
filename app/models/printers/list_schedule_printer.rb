@@ -1,37 +1,38 @@
 # -*- encoding : utf-8 -*-
 
-class ListSchedulePrinter< Printer
+class ListSchedulePrinter < Printer
 
   def initialize
     @name = 'Liste simple'
-    @slug = 'simple_list'
+    @slug = 'liste_simple'
+    @content_type = 'text/plain'
   end
 
-  def output(schedules, output_filename)
-    File.open(output_filename, 'w') do |file|
-      schedules.each do |groups|
-        file.write 58.times.collect { "*" }.join + "\n"
-        file.write 58.times.collect { "*" }.join + "\n"
-        file.write "\n"
+  def output(schedules)
+    output = ''
+    schedules.each do |groups|
+      output << 58.times.collect { "*" }.join + "\r\n"
+      output << 58.times.collect { "*" }.join + "\r\n"
+      output << "\n"
 
-        groups.each do |group|
-          file.write "#{group.course_name}\n"
-          file.write 58.times.collect { "-" }.join + "\n"
-          group_zerofilled = group.nb.to_s.rjust(2, "0")
-          file.write "#{spacify(group_zerofilled)}#{output_period(group.periods[0])}"
-          group.periods[1..-1].each do |period|
-            file.write "#{spacify}#{output_period(period)}"
-          end
-          file.write "\n"
+      groups.each do |group|
+        output << "#{group.course_name}\r\n"
+        output << 58.times.collect { "-" }.join + "\r\n"
+        group_zerofilled = group.nb.to_s.rjust(2, "0")
+        output << "#{spacify(group_zerofilled)}#{output_period(group.periods[0])}"
+        group.periods[1..-1].each do |period|
+          output << "#{spacify}#{output_period(period)}"
         end
+        output << "\r\n"
       end
     end
+    output
   end
 
   private
 
   def output_period(period)
-    "#{spacify(period.type)}#{spacify(weekday period)}#{period.start_time.to_s} - #{period.end_time.to_s}\n"
+    "#{spacify(period.type)}#{spacify(weekday period)}#{period.start_time.to_s} - #{period.end_time.to_s}\r\n"
   end
 
   def spacify(text = "")

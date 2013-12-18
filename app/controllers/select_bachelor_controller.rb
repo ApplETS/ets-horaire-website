@@ -4,7 +4,7 @@ class SelectBachelorController < ApplicationController
   before_filter :ensure_year_period_selected, only: :choose
 
   def index
-    @trimesters = Database.instance.sorted
+    render_trimesters
   end
 
   def choose
@@ -16,7 +16,13 @@ class SelectBachelorController < ApplicationController
 
   def ensure_year_period_selected
     return if params.has_key?(:year_period)
-    flash[:notice] = 'Veuillez choisir un baccalauréat dans un trimester.'
+
+    flash[:notice] = 'Veuillez choisir un baccalauréat.'
+    render_trimesters
+  end
+
+  def render_trimesters
+    @trimesters = TrimesterDatabase.instance.sorted
     render 'index'
   end
 end

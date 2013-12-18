@@ -9,7 +9,7 @@ class TrimesterBuilder
 
   class << self
     def build(trimester_slug, serialized_bachelors)
-      bachelors = serialized_bachelors.collect { |serialized_bachelor| Convert.from_hash(serialized_bachelor) }
+      bachelors = serialized_bachelors.collect { |serialized_bachelor| Deserialize.bachelor_from(serialized_bachelor) }
       parts = trimester_slug.split('_')
       Trimester.new extract_year_from(parts), extract_term_from(parts) , trimester_slug, bachelors, for_new_students?(parts)
     end

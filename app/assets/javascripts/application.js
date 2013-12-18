@@ -14,5 +14,4 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require handlebars-v1.1.2
-//= require select_file/toggle-radiobuttons
-//= require schedule/initialize-schedule
+//= require select_courses/day-off-templating

@@ -1,5 +1,5 @@
 $ ->
-  return unless $('body#schedule').length
+  return unless $('body#select_courses').length
 
   initializeDayOffBehavior()
 

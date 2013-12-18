@@ -1,6 +1,6 @@
 # encoding: UTF-8
 
-class Database
+class TrimesterDatabase
   ORDERED_TERMS = TrimesterBuilder::TERMS.values
   ORDERED_BACHELORS = BachelorBuilder::NAMES.values
 
@@ -30,25 +30,14 @@ class Database
     @sorted_trimesters
   end
 
-  def find_by_slug(trimester_slug)
-    @trimesters.find { |trimester| trimester.slug == trimester_slug }
-  end
-
-  def find_bachelor_by_slug_and_trimester_slug(bachelor_slug, trimester_slug)
-    trimester = @trimesters.find { |trimester| trimester.slug == trimester_slug }
-    return nil if trimester.nil?
-
-    bachelor = trimester.bachelors.find { |bachelor| bachelor.slug == bachelor_slug }
-    return nil if bachelor.nil?
-
-    bachelor.trimester = trimester
-    bachelor
-  end
-
   private
 
+  def database_folder_appended_with(file)
+    Rails.root.join 'db/courses', Rails.env, file
+  end
+
   def files_changed?
-    load Rails.root.join('db/courses/last_modified.rb')
+    load database_folder_appended_with('last_modified.rb')
     return false if JSON_FILES_LAST_MODIFIED == @last_modified
 
     @last_modified = JSON_FILES_LAST_MODIFIED
@@ -56,7 +45,7 @@ class Database
   end
 
   def fetch_trimesters
-    Dir.glob('db/courses/*.json').collect do |trimester_json|
+    Dir.glob(database_folder_appended_with('*.json')).collect do |trimester_json|
       trimester_slug = File.basename(trimester_json, '.json')
       file_content = File.open(trimester_json).read
       serialized_bachelors = JSON.parse(file_content)

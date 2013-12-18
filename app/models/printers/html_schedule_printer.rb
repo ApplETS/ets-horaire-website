@@ -6,7 +6,8 @@ class HtmlSchedulePrinter< Printer
 
   def initialize
     @name = 'Calendrier HTML'
-    @slug = 'html_calendar'
+    @slug = 'calendrier_html'
+    @content_type = 'text/html'
   end
 
   def output(schedules, output_folder)

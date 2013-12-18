@@ -1,5 +1,5 @@
 class Printer
-  attr_reader :name, :slug
+  attr_reader :name, :slug, :content_type
 
   class << self
     def all

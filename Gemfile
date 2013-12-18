@@ -15,7 +15,7 @@ gem 'whenever', require: false
 group :test do
   gem 'rspec-rails'
   gem 'capybara'
-  gem 'cucumber-rails'
+  gem 'cucumber-rails', require: false
   gem 'selenium-webdriver'
 end
 
