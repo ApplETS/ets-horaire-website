@@ -15,6 +15,10 @@ class OutputController < ApplicationController
     @trimester_is_for_new_students = @results_data['trimester_is_for_new_students']
     @bachelor_name = @results_data['bachelor_name']
     @selected_courses = @results_data['selected_courses']
+    @nb_of_courses = @results_data['nb_of_courses']
+    @days_off = @results_data['days_off']
+    @trimester_slug = @results_data['trimester_slug']
+    @bachelor_slug = @results_data['bachelor_slug']
   end
 
   def result

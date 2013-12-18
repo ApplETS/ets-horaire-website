@@ -5,6 +5,7 @@ class ConditionalCombinator
 
   def initialize(hard_limit = NO_LIMIT)
     @hard_limit = hard_limit
+    @combinations = []
   end
 
   def find_combinations(values, set_size, &block)

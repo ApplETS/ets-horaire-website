@@ -1,5 +1,41 @@
 .container
+  %h1 Résultats
   = flash_messages
+  .form-horizontal
+    = render partial: 'shared/bachelor_choice_resume'
+    .form-group
+      %label.col-xs-12.col-sm-2.control-label Cours sélectionnés
+      .col-xs-12.col-sm-10
+        - @selected_courses.each do |selected_course|
+          %label.btn.btn-primary.course-btn.disabled= selected_course
+    .form-group
+      %label.col-xs-12.col-sm-2.control-label Nombres de cours
+      .col-xs-12.col-sm-10
+        %input.form-control{readonly: true, value: @nb_of_courses}
+    .form-group
+      %label.col-xs-12.col-sm-2.control-label Congés
+      .col-xs-12.col-sm-10
+        - if @days_off.empty?
+          %input.form-control{readonly: true, value: 'Aucun'}
+        - else
+          %table.table
+            %thead
+              %tr
+                %th Jour
+                %th Début
+                %th Fin
+            %tbody
+              - @days_off.each do |day_off|
+                %tr
+                  %td= Weekday.new(day_off['weekday'].to_i).fr.capitalize
+                  %td= "#{day_off['from-time']}h00"
+                  %td= "#{day_off['to-time']}h00"
+
+    .form-group
+      .controls.pull-right.col-xs-12.col-sm-10
+        = link_to select_courses_path(trimestre: @trimester_slug, baccalaureat: @bachelor_slug), class: 'btn btn-block btn-primary' do
+          %i.glyphicon.glyphicon-chevron-left
+          Choisir de nouveau
   .panel.panel-default.outputs
     .panel-heading Sorties
     .panel-body

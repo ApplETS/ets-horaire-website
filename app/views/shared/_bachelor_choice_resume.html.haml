@@ -1,6 +1,6 @@
 .form-group
   %label.col-xs-12.col-sm-2.control-label Baccalauréat
   .col-xs-12.col-sm-10
-    %input.form-control{disabled: true, value: @bachelor_name}
-    %input.form-control{disabled: true, value: "#{@trimester_year} #{@trimester_term}"}
-    %input.form-control{disabled: true, value: "Nouveaux Étudiants: #{(@trimester_is_for_new_students ? 'Oui' : 'Non')}"}
+    %input.form-control{readonly: true, value: @bachelor_name}
+    %input.form-control{readonly: true, value: "#{@trimester_year} #{@trimester_term}"}
+    %input.form-control{readonly: true, value: "Nouveaux Étudiants: #{(@trimester_is_for_new_students ? 'Oui' : 'Non')}"}

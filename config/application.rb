@@ -22,6 +22,7 @@ module EtsHoraire
 
     config.autoload_paths += %W(
       #{config.root}/app/builders
+      #{config.root}/app/filters
       #{config.root}/app/io
       #{config.root}/app/models/printers
       #{config.root}/app/models/printers/html

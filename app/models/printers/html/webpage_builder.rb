@@ -14,7 +14,7 @@ class WebpageBuilder
     stylesheet_context = StylesheetContext.new(weekdays_en, HOURS)
     open("stylesheet.css.sass.erb") do |erb|
       sass = ERB.new(erb.read).result(stylesheet_context.get_binding)
-      Sass::Engine.new(sass, Compass.configuration.to_sass_engine_options).render
+      Sass::Engine.new(sass, Compass.configuration.to_sass_engine_options.merge!({style: :compressed})).render
     end
   end
 

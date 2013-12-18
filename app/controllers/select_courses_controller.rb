@@ -8,15 +8,18 @@ class SelectCoursesController < ApplicationController
 
   before_filter :ensure_trimester_and_bachelor_present_and_valid
   before_filter :ensure_course_selected, only: :compute
+  before_filter :ensure_nb_of_course_specified, only: :compute
 
   def index
     render_populated_form
   end
 
   def compute
-    courses = @bachelor.courses.find_all { |course| params[:courses].keys.include?(course.name) }
+    courses = @bachelor.courses.find_all { |course| @courses.include?(course.name) }
+
     schedule_finder = ScheduleFinder.new(RESULTS_LIMIT)
-    schedules = schedule_finder.combinations_for(courses, 2)
+    schedules = schedule_finder.combinations_for(courses, @nb_of_courses)
+    schedules = DaysOffFilter.scan(schedules, params['filters']['day-off']) if params['filters'].has_key?('day-off')
 
     return render_no_results_found if schedules.empty?
     fulfill_output_flow(schedule_finder, schedules)
@@ -43,8 +46,12 @@ class SelectCoursesController < ApplicationController
         trimester_term: @bachelor.trimester.term,
         trimester_is_for_new_students: @bachelor.trimester.for_new_students?,
         bachelor_name: @bachelor.name,
-        selected_courses: params[:courses].keys,
-        serialized_schedules: serialized_schedules
+        selected_courses: @courses,
+        nb_of_courses: @nb_of_courses,
+        days_off: params['filters']['day-off'] || [],
+        serialized_schedules: serialized_schedules,
+        trimester_slug: @bachelor.trimester.slug,
+        bachelor_slug: @bachelor.slug
     }.to_json
     hash
   end
@@ -56,9 +63,18 @@ class SelectCoursesController < ApplicationController
   end
 
   def ensure_course_selected
-    return if params.has_key?(:courses)
+    @courses = params[:courses].try(:keys)
+    return unless @courses.nil?
 
     flash[:notice] = 'Veuillez sélectionner au minimum un cours!'
+    render_populated_form
+  end
+
+  def ensure_nb_of_course_specified
+    @nb_of_courses = params[:filters]['number-of-courses'].to_i
+    return if @nb_of_courses.present? && @nb_of_courses <= @courses.size && @nb_of_courses > 0
+
+    flash[:notice] = 'Veuillez spécifier un nombre de cours valide!'
     render_populated_form
   end
 
@@ -92,9 +108,5 @@ class SelectCoursesController < ApplicationController
           to_time_value: params['filters']['day-off'][index]['to-time'].to_i
       )
     end
-
-    @simple_filters = [
-        OpenStruct.new(name: "Nombre de cours", slug: "number-of-courses")
-    ]
   end
 end
