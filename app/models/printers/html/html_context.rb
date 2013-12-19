@@ -2,10 +2,11 @@
 
 class HtmlContext
 
-  def initialize(weekdays, hours, schedule)
+  def initialize(weekdays, hours, schedule, index)
     @weekdays = weekdays
     @hours = hours
     @schedule = schedule
+    @index = index
   end
 
   private

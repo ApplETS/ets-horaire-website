@@ -5,10 +5,13 @@ $row-height: <%= ROW_HEIGHT %>px
 $period-padding: <%= PERIOD_PADDING %>px
 $period-width: $column-width - $period-padding * 2 - 10px
 
+fieldset
+  display: block
+  margin: 25px
+  float: left
+
 .weekly-calendar
   position: relative
-  float: left
-  margin: 25px
 
   table.backdrop
     th, td

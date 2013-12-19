@@ -1,6 +1,7 @@
 # -*- encoding : utf-8 -*-
 
 class CalendarSchedulePrinter < Printer
+  HEADING_WIDTH = 91
   COLUMN_WIDTH = 16
   NB_COLUMNS = 5
   FULL_COLUMN_SPACE = COLUMN_WIDTH.times.collect { " " }.join
@@ -20,9 +21,9 @@ class CalendarSchedulePrinter < Printer
 
   def output(schedules)
     @output = ''
-    schedules.each do |schedule|
-      @output << "*******************************************************************************************\r\n"
-      @output << "*******************************************************************************************\r\n\r\n"
+    schedules.each_with_index do |schedule, index|
+      @output << "#{fill_heading(index + 1)}\r\n"
+      @output << "#{fill_heading}\r\n\r\n"
       print schedule
       @output << "\r\n"
     end
@@ -30,6 +31,13 @@ class CalendarSchedulePrinter < Printer
   end
 
   private
+
+  def fill_heading(text = '')
+    text = text.to_s
+    text << ' ' unless text.empty?
+    filling = (HEADING_WIDTH - text.length).times.collect { '*' }.join
+    "#{text}#{filling}"
+  end
 
   def print(schedule)
     @output << "     #{FULL_SCHEDULE_LINE}\r\n"

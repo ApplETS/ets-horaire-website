@@ -21,8 +21,8 @@ class WebpageBuilder
   def self.html(schedules)
     open("schedule.html.haml") do |haml|
       template = haml.read
-      html = process(schedules).collect do |schedule|
-        html_context = HtmlContext.new(weekdays_fr, HOURS, schedule)
+      html = process(schedules).each_with_index.collect do |schedule, index|
+        html_context = HtmlContext.new(weekdays_fr, HOURS, schedule, index + 1)
         Haml::Engine.new(template).render(html_context)
       end
       html.join

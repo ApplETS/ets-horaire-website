@@ -1,27 +1,29 @@
-%div.weekly-calendar
-  %table.backdrop
-    %thead
-      %tr
-        %th.hour
-        - @weekdays.each do |weekday|
-          %th= weekday
-    %tbody
-      - @hours.each do |hour|
-        %tr.hour
-          %td= hour_string_with(hour)
-          - @weekdays.each do
-            %td.empty
-        - unless last? hour
-          %tr.half-hour
-            %td
+%fieldset
+  %legend= @index
+  %div.weekly-calendar
+    %table.backdrop
+      %thead
+        %tr
+          %th.hour
+          - @weekdays.each do |weekday|
+            %th= weekday
+      %tbody
+        - @hours.each do |hour|
+          %tr.hour
+            %td= hour_string_with(hour)
             - @weekdays.each do
               %td.empty
-  .schedule
-    - @schedule.each do |weekday|
-      %div{class: weekday_classes_for(weekday)}
-        - weekday.periods.each do |period|
-          %div{class: period_classes_for(period)}
-            .hour= format_time_of(period)
-            .title
-              .course= period.course
-              .type= period.type
+          - unless last? hour
+            %tr.half-hour
+              %td
+              - @weekdays.each do
+                %td.empty
+    .schedule
+      - @schedule.each do |weekday|
+        %div{class: weekday_classes_for(weekday)}
+          - weekday.periods.each do |period|
+            %div{class: period_classes_for(period)}
+              .hour= format_time_of(period)
+              .title
+                .course= period.course
+                .type= period.type
