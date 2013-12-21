@@ -12,11 +12,21 @@ gem 'turbolinks'
 gem 'hpricot'
 gem 'whenever', require: false
 
+group :development do
+  gem 'capistrano'
+  gem 'capistrano-rails'
+  gem 'capistrano-rvm'
+end
+
 group :test do
   gem 'rspec-rails'
   gem 'capybara'
   gem 'cucumber-rails', require: false
   gem 'selenium-webdriver'
+end
+
+group :production do
+  gem 'unicorn'
 end
 
 group :doc do
