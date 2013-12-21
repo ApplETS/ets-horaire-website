@@ -1,15 +1,17 @@
 set :application, 'ets-horaire'
 set :deploy_to, '/var/www/ets-horaire.krystosterone.com'
 set :deploy_via, :remote_cache
+set :linked_dirs, %w{log tmp/pids tmp/cache}
 set :ssh_options, {
     forward_agent: true,
     port: 2244
 }
+set :use_sudo, false
 
 set :log_level, :debug
 
 set :scm, 'git'
-set :repo_url, 'https://github.com/Krystosterone/ets-horaire.git'
+set :repo_url, 'https://github.com/Krystosterone/ets-horaire-website.git'
 set :branch, 'master'
 
 set :keep_releases, 5
@@ -19,15 +21,22 @@ namespace :deploy do
     desc "#{command} unicorn server"
     task command do
       on roles(:app), except: { no_release: true } do
-        run "/etc/init.d/unicorn_ets-horaire #{command}"
+        execute "/etc/init.d/unicorn_ets-horaire #{command}"
       end
     end
   end
 
   task :setup_config do
     on roles(:app) do
-      sudo "ln -nfs #{current_path}/config/nginx.conf /etc/nginx/sites-enabled/ets-horaire.krystosterone.com"
-      sudo "ln -nfs #{current_path}/config/unicorn_init.sh /etc/init.d/unicorn_ets-horaire"
+      execute "ln -nfs #{current_path}/config/nginx.conf /opt/nginx/sites-enabled/ets-horaire.krystosterone.com"
+      execute "ln -nfs #{current_path}/config/unicorn_init.sh /etc/init.d/unicorn_ets-horaire"
+    end
+  end
+  before 'deploy:publishing', 'deploy:setup_config'
+
+  task :setup_folders do
+    on roles(:app) do
+      rake 'create:folder_structure'
     end
   end
   before 'deploy:publishing', 'deploy:setup_config'
