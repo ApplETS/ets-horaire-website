@@ -1,16 +1,15 @@
 set :application, 'ets-horaire'
 set :deploy_to, '/var/www/ets-horaire.krystosterone.com'
 set :deploy_via, :remote_cache
-set :use_sudo, false
 set :ssh_options, {
     forward_agent: true,
     port: 2244
 }
 
-set :log_level, :info
+set :log_level, :debug
 
 set :scm, 'git'
-set :repository, 'git@github.com/Krystosterone/ets-horaire.git'
+set :repo_url, 'https://github.com/Krystosterone/ets-horaire.git'
 set :branch, 'master'
 
 set :keep_releases, 5

@@ -186,6 +186,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  bundler
   capistrano
   capistrano-rails
   capistrano-rvm
