@@ -38,8 +38,8 @@
                 %a.btn.btn-primary.btn-block.add-period
                   Ajouter un congé
                   %i.glyphicon.glyphicon-plus
-    %footer
-      %button.btn.btn-block.pull-right.btn-primary
-        Soumettre
-        %i.glyphicon.glyphicon-share
-%script#day-off-template{type: 'text/x-handlebars-template'}= render partial: 'day_off_template'
+    %button.btn.btn-block.pull-right.btn-primary
+      Soumettre
+      %i.glyphicon.glyphicon-share
+- content_for :post_html do
+  %script#day-off-template{type: 'text/x-handlebars-template'}= render partial: 'day_off_template'
