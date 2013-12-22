@@ -1,8 +1,9 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    actionmailer (0.6.1)
-      actionpack (>= 0.9.5)
+    actionmailer (4.0.2)
+      actionpack (= 4.0.2)
+      mail (~> 2.5.4)
     actionpack (4.0.2)
       activesupport (= 4.0.2)
       builder (~> 3.1.0)
@@ -37,8 +38,9 @@ GEM
     capistrano-rails (1.1.0)
       capistrano (>= 3.0.0)
       capistrano-bundler (>= 1.0.0)
-    capistrano-rvm (0.0.3)
-      capistrano
+    capistrano-rvm (0.1.0)
+      capistrano (~> 3.0)
+      sshkit (~> 1.2.0)
     capybara (2.2.0)
       mime-types (>= 1.16)
       nokogiri (>= 1.3.3)
@@ -66,10 +68,11 @@ GEM
       gherkin (~> 2.12)
       multi_json (>= 1.7.5, < 2.0)
       multi_test (>= 0.0.2)
-    cucumber-rails (1.3.0)
+    cucumber-rails (1.4.0)
       capybara (>= 1.1.2)
-      cucumber (>= 1.1.8)
+      cucumber (>= 1.2.0)
       nokogiri (>= 1.5.0)
+      rails (>= 3.0.0)
     diff-lcs (1.2.5)
     erubis (2.7.0)
     execjs (2.0.2)
@@ -92,7 +95,10 @@ GEM
       thor (>= 0.14, < 2.0)
     json (1.8.1)
     kgio (2.8.1)
-    mime-types (2.0)
+    mail (2.5.4)
+      mime-types (~> 1.16)
+      treetop (~> 1.4.8)
+    mime-types (1.25.1)
     mini_portile (0.5.2)
     minitest (4.7.5)
     multi_json (1.8.2)
@@ -102,14 +108,18 @@ GEM
     net-ssh (2.7.0)
     nokogiri (1.6.1)
       mini_portile (~> 0.5.0)
+    polyglot (0.3.3)
     rack (1.5.2)
     rack-test (0.6.2)
       rack (>= 1.0)
-    rails (0.9.5)
-      actionmailer (>= 0.6.1)
-      actionpack (>= 1.4.0)
-      activerecord (>= 1.6.0)
-      rake (>= 0.4.15)
+    rails (4.0.2)
+      actionmailer (= 4.0.2)
+      actionpack (= 4.0.2)
+      activerecord (= 4.0.2)
+      activesupport (= 4.0.2)
+      bundler (>= 1.3.0, < 2.0)
+      railties (= 4.0.2)
+      sprockets-rails (~> 2.0.0)
     railties (4.0.2)
       actionpack (= 4.0.2)
       activesupport (= 4.0.2)
@@ -154,7 +164,7 @@ GEM
       activesupport (>= 3.0)
       sprockets (~> 2.8)
     sqlite3 (1.3.8)
-    sshkit (1.3.0)
+    sshkit (1.2.0)
       net-scp (>= 1.1.2)
       net-ssh
       term-ansicolor
@@ -165,6 +175,9 @@ GEM
       atomic
     tilt (1.4.1)
     tins (0.13.1)
+    treetop (1.4.15)
+      polyglot
+      polyglot (>= 0.3.1)
     turbolinks (2.1.0)
       coffee-rails
     tzinfo (0.3.38)
@@ -197,7 +210,7 @@ DEPENDENCIES
   haml-rails
   hpricot
   jquery-rails
-  rails
+  rails (~> 4.0.2)
   rspec-rails
   sass-rails
   sdoc
