@@ -5,8 +5,6 @@ namespace :create do
   FOLDERS = %W(
     db/courses
     tmp/files
-    files/inputs
-    files/outputs
     files/pdfs
   )
 

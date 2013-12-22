@@ -14,8 +14,8 @@ set -e
 TIMEOUT=${TIMEOUT-60}
 APP_ROOT=/var/www/ets-horaire.krystosterone.com/current
 PID=$APP_ROOT/tmp/pids/unicorn.pid
-CMD="cd $APP_ROOT; bundle exec unicorn -D -c $APP_ROOT/config/unicorn.rb -E production"
-AS_USER=username
+CMD="/bin/bash -l -c 'cd $APP_ROOT && rvm ruby-1.9.3-p484@ets-horaire && bundle exec unicorn -D -c $APP_ROOT/config/unicorn.rb -E production'"
+AS_USER=deploy
 set -u
 
 OLD_PIN="$PID.oldbin"
