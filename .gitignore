@@ -1,3 +1,10 @@
 .idea
 log
 tmp
+public/assets
+files
+db/*.sqlite3
+db/courses/development
+db/courses/staging
+db/courses/production
+.rspec
