@@ -96,7 +96,7 @@ namespace :deploy do
 
       system "rm #{File.join(Dir.pwd, 'public/assets.tar.bz2')}"
       system "rm #{File.join(Dir.pwd, 'files/pdfs/pdfs.tar.bz2')}"
-      system "rm #{File.join(Dir.pwd, "db/courses/#{fetch(:stage)}/courses.tar.bz2")}"
+      system "rm -rf #{File.join(Dir.pwd, "db/courses/#{fetch(:stage)}")}"
 
       execute "/bin/bash -l -c 'cd #{release_path} && rvm #{fetch(:rvm_ruby_version)} && RAILS_ENV=#{fetch(:stage)} bundle exec rake create:folder_structure'"
 
