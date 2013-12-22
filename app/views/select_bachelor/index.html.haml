@@ -20,7 +20,6 @@
                     %label.btn.btn-primary.bachelor-btn{for: "#{trimester.slug}_#{bachelor.slug}"}
                       %input.hidden{type: 'radio', id: "#{trimester.slug}_#{bachelor.slug}", name: 'year_period', value: "#{trimester.slug}-#{bachelor.slug}"}
                       = bachelor.name
-    %footer
-      %button.btn.btn-block.btn-primary{type: 'submit'}
-        Soumettre
-        %i.glyphicon.glyphicon-share
+    %button.btn.btn-block.btn-primary{type: 'submit'}
+      Soumettre
+      %i.glyphicon.glyphicon-share

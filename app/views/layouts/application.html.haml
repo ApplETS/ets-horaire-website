@@ -18,3 +18,5 @@
         .navbar-header
           = link_to "Calculateur d'horaire", root_path, class: 'navbar-brand'
     = yield
+    = yield :post_html
+    = render partial: 'shared/footer'
