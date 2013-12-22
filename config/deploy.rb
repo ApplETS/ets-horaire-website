@@ -48,6 +48,18 @@ namespace :deploy do
   end
   before 'bundler:install', 'deploy:create_rvm_gemset'
 
+  task :create_rvm_files do
+    on roles(:app) do
+      within release_path do
+        with rails_env: fetch(:stage) do
+          execute "echo \"#{fetch(:ruby_version)}\" > .ruby-version"
+          execute "echo \"#{fetch(:ruby_gemset)}\" > .ruby-gemset"
+        end
+      end
+    end
+  end
+  before 'bundler:install', 'deploy:create_rvm_files'
+
   task :bundle_install_to_system do
     on roles(:app) do
       with rails_env: fetch(:stage) do

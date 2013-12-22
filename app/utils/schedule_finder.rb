@@ -13,7 +13,7 @@ class ScheduleFinder
 
     group_courses = flatten(courses)
     @conditional_combinator.find_combinations(group_courses, courses_per_schedule) do |groups_combinations, group|
-      does_not_conflicts_with? groups_combinations, group
+      does_not_conflicts_with?(groups_combinations, group) && (block_given? ? yield(groups_combinations, group) : true)
     end
   end
 
