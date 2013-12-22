@@ -18,8 +18,11 @@ class SelectCoursesController < ApplicationController
     courses = @bachelor.courses.find_all { |course| @courses.include?(course.name) }
 
     schedule_finder = ScheduleFinder.new(RESULTS_LIMIT)
-    schedules = schedule_finder.combinations_for(courses, @nb_of_courses)
-    schedules = DaysOffFilter.scan(schedules, params['filters']['day-off']) if params['filters'].has_key?('day-off')
+    leaves = params['filters']['day-off'].collect { |leave| LeaveBuilder.build(leave) } if params['filters'].has_key?('day-off')
+    leaves ||= []
+    schedules = schedule_finder.combinations_for(courses, @nb_of_courses) do |groups_combinations, group|
+      LeavesFilter.scan(group, leaves)
+    end
 
     return render_no_results_found if schedules.empty?
     fulfill_output_flow(schedule_finder, schedules)
@@ -28,7 +31,7 @@ class SelectCoursesController < ApplicationController
   private
 
   def render_no_results_found
-    flash[:notice] = 'Aucun résultat trouvé. Veuillez essayer une différente combinaison de cours ou restreindres vos critères.'
+    flash[:notice] = 'Aucun résultat trouvé. Veuillez essayer une différente combinaison de cours ou restreindre vos critères.'
     render_populated_form
   end
 
