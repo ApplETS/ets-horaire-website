@@ -1,6 +1,6 @@
 .container
-  %h1 Choix de cours
   = flash_messages
+  %h1 Choix de cours
   = form_tag(select_courses_path, method: :post) do
     %input.hidden{type: 'text', name: 'trimestre', value: @trimester_slug}
     %input.hidden{type: 'text', name: 'baccalaureat', value: @bachelor_slug}
