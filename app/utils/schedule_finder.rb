@@ -8,9 +8,6 @@ class ScheduleFinder
   end
 
   def combinations_for(courses, courses_per_schedule)
-    return [] if courses.empty? || courses_per_schedule == 0 || courses_per_schedule > courses.size
-    return generate_one_schedule_per_group(courses) if courses_per_schedule == 1
-
     group_courses = flatten(courses)
     @conditional_combinator.find_combinations(group_courses, courses_per_schedule) do |groups_combinations, group|
       does_not_conflicts_with?(groups_combinations, group) && (block_given? ? yield(groups_combinations, group) : true)

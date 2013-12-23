@@ -10,7 +10,7 @@ class ConditionalCombinator
 
   def find_combinations(values, set_size, &block)
     return [] if values.empty? || set_size == 0 || set_size > values.size
-    return collect_in_individual_arrays(values) if set_size == 1
+    return collect_in_individual_arrays(values, block) if set_size == 1
 
     @set_size = set_size
     @values = values
@@ -26,8 +26,12 @@ class ConditionalCombinator
 
   private
 
-  def collect_in_individual_arrays(values)
-    values.collect { |value| [value] }
+  def collect_in_individual_arrays(values, block)
+    combinations = []
+    values.each do |value|
+      combinations << [value] if block.call([], value)
+    end
+    combinations
   end
 
   def loop_through(from_index, to_index, combination_stack, block)
