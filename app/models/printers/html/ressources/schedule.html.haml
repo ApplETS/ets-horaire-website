@@ -25,5 +25,8 @@
             %div{class: period_classes_for(period)}
               .hour= format_time_of(period)
               .title
-                .course= period.course
-                .type= period.type
+                - if period.duration >= 120
+                  .course= period.course
+                  .type= period.type
+                - else
+                  .course= "#{period.course} | #{period.type}"
