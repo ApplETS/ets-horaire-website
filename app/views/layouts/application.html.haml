@@ -1,7 +1,7 @@
 <!doctype html>
 %html
   %head
-    %title Planificateur d'horaire pour l'ÉTS
+    %title Générateur d'horaire pour l'ÉTS
     %meta{:content => "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no", :name => "viewport"}
     %link{:href => "//netdna.bootstrapcdn.com/bootswatch/3.0.1/flatly/bootstrap.min.css", :rel => "stylesheet"}
     = stylesheet_link_tag 'application', media: "all"
@@ -13,10 +13,7 @@
 
     = csrf_meta_tags
   %body{id: params[:controller]}
-    %nav.navbar.navbar-default
-      .container
-        .navbar-header
-          = link_to "Calculateur d'horaire", root_path, class: 'navbar-brand'
+    = render partial: 'shared/header'
     = yield
     = yield :post_html
     = render partial: 'shared/footer'

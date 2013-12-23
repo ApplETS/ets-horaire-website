@@ -124,7 +124,7 @@ namespace :deploy do
       execute "/bin/bash -l -c 'cd #{release_path} && rvm #{fetch(:rvm_ruby_version)} && bundle exec whenever --update-crontab'"
     end
   end
-  after :updated, 'deploy:run_rake_tasks'
+  after :updated, 'deploy:update_whenever'
 
   desc 'Restart Nginx'
   task :restart_nginx do
