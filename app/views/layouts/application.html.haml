@@ -13,7 +13,8 @@
 
     = csrf_meta_tags
   %body{id: params[:controller]}
-    = render partial: 'shared/header'
-    = yield
-    = yield :post_html
+    #content-wrapper
+      = render partial: 'shared/header'
+      = yield
     = render partial: 'shared/footer'
+    = yield :post_html
