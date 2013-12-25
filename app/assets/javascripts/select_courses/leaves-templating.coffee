@@ -1,20 +1,17 @@
 $ ->
   return unless $('body#select_courses').length
 
-  initializeDayOffBehavior()
-
-initializeDayOffBehavior = ->
-  $(".day-off-list").find('.day-off-row').each (index, element) ->
+  $(".leaves-list").find('.leave-row').each (index, element) ->
     removeRowOnButtonClickIn $(element)
 
-  source = $("#day-off-template").html()
+  source = $("#leave-template").html()
   template = Handlebars.compile(source)
 
-  $(".day-off-list .btn.add-period").click ->
+  $(".leaves-list .btn.add-period").click ->
     addPeriodButton = $(this)
     addPeriodButton.before template()
 
-    addedRow = $(".day-off-list").find('.day-off-row:last')
+    addedRow = $(".leaves-list").find('.leave-row:last')
     removeRowOnButtonClickIn addedRow
 
 removeRowOnButtonClickIn = (row) -> row.find(".btn.remove-period").click -> row.remove()

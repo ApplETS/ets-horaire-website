@@ -5,7 +5,7 @@ require 'json'
 class OutputController < ApplicationController
   before_filter :ensure_key_present
   before_filter :ensure_key_valid
-  before_filter :ensure_ouput_exists, only: :result
+  before_filter :ensure_output_exists, only: :result
 
   def index
     @outputs = Printer.all
@@ -16,7 +16,7 @@ class OutputController < ApplicationController
     @bachelor_name = @results_data['bachelor_name']
     @selected_courses = @results_data['selected_courses']
     @nb_of_courses = @results_data['nb_of_courses']
-    @days_off = @results_data['days_off']
+    @leaves = @results_data['leaves']
     @trimester_slug = @results_data['trimester_slug']
     @bachelor_slug = @results_data['bachelor_slug']
   end
@@ -46,7 +46,7 @@ class OutputController < ApplicationController
     redirect_to root_path
   end
 
-  def ensure_ouput_exists
+  def ensure_output_exists
     @printer = Printer.find_by_slug(params[:output_type])
     return unless @printer.nil?
 

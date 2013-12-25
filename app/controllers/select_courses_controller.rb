@@ -18,8 +18,7 @@ class SelectCoursesController < ApplicationController
     courses = @bachelor.courses.find_all { |course| @courses.include?(course.name) }
 
     schedule_finder = ScheduleFinder.new(RESULTS_LIMIT)
-    leaves = params['filters']['day-off'].collect { |leave| LeaveBuilder.build(leave) } if params['filters'].has_key?('day-off')
-    leaves ||= []
+    leaves = build_leaves_as_periods
     schedules = schedule_finder.combinations_for(courses, @nb_of_courses) do |groups_combinations, group|
       LeavesFilter.scan(group, leaves)
     end
@@ -29,6 +28,11 @@ class SelectCoursesController < ApplicationController
   end
 
   private
+
+  def build_leaves_as_periods
+    return [] unless params['filters'].has_key?('leaves')
+    params['filters']['leaves'].collect { |leave| LeaveBuilder.build(leave) }
+  end
 
   def render_no_results_found
     flash[:notice] = 'Aucun résultat trouvé. Veuillez essayer une différente combinaison de cours ou restreindre vos critères.'
@@ -51,7 +55,7 @@ class SelectCoursesController < ApplicationController
         bachelor_name: @bachelor.name,
         selected_courses: @courses,
         nb_of_courses: @nb_of_courses,
-        days_off: params['filters']['day-off'] || [],
+        leaves: params['filters']['leaves'] || [],
         serialized_schedules: serialized_schedules,
         trimester_slug: @bachelor.trimester.slug,
         bachelor_slug: @bachelor.slug
@@ -103,12 +107,12 @@ class SelectCoursesController < ApplicationController
   end
 
   def populate_form_with_data
-    @days_off = []
-    (params.try(:[], 'filters').try(:[], 'day-off') || []).size.times do |index|
-      @days_off << OpenStruct.new(
-          weekday_value: params['filters']['day-off'][index]['weekday'].to_i,
-          from_time_value: params['filters']['day-off'][index]['from-time'].to_i,
-          to_time_value: params['filters']['day-off'][index]['to-time'].to_i
+    @leaves = []
+    (params.try(:[], 'filters').try(:[], 'leaves') || []).size.times do |index|
+      @leaves << OpenStruct.new(
+          weekday_value: params['filters']['leaves'][index]['weekday'].to_i,
+          from_time_value: params['filters']['leaves'][index]['from-time'].to_i,
+          to_time_value: params['filters']['leaves'][index]['to-time'].to_i
       )
     end
   end

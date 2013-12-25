@@ -1,0 +1,19 @@
+.row.leave-row
+  .col-xs-12.col-sm-3
+    %select.form-control{name: "filters[leaves][][weekday]"}
+      - %w(Lundi Mardi Mercredi Jeudi Vendredi).each_with_index do |weekday, index|
+        %option{value: index, selected: (defined?(leave) ? (leave.weekday_value == index) : false)}= weekday
+  .col-xs-5.col-sm-4
+    .input-group
+      %span.input-group-addon De
+      %select.form-control{name: "filters[leaves][][from-time]"}
+        - (0..23).each_with_index do |hour, index|
+          %option{value: index, selected: (defined?(leave) ? (leave.from_time_value == index) : false)}= "#{hour}h"
+  .col-xs-5.col-sm-4
+    .input-group
+      %span.input-group-addon À
+      %select.form-control{name: "filters[leaves][][to-time]"}
+        - (0..23).each_with_index do |hour, index|
+          %option{value: index, selected: (defined?(leave) ? (leave.to_time_value == index) : (hour == 23))}= "#{hour}h"
+  .col-xs-2.col-sm-1
+    %a.btn.btn-block.btn-primary.remove-period -
