@@ -1,10 +1,5 @@
 $footer-height: 72px
 
-@mixin active-selection
-  &.active
-    border: 1px solid #18bc9c
-    background-color: #18bc9c
-
 html, body
   height: 100%
 
@@ -47,7 +42,10 @@ nav
 .course-btn
   margin: 0 5px 5px 0
   padding: 5px
-  @include active-selection
+
+  &.active
+    border: 1px solid #18bc9c
+    background-color: #18bc9c
 
 #trimester-panel-group
   margin-bottom: 20px
@@ -71,8 +69,6 @@ nav
       display: block
       width: 100%
       padding: 5px
-
-      @include active-selection
 
 .filters
   .panel-body

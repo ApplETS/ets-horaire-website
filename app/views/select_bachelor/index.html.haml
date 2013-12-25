@@ -5,21 +5,16 @@
 .container
   = flash_messages
   = form_tag(select_bachelor_path, method: :post, enctype: 'multipart/form-data') do
-    #trimester-panel-group.panel-group{data: { toggle: 'buttons' }}
+    #trimester-panel-group.panel-group
       - @trimesters.each_with_index do |trimester, index|
         .panel.panel-default
           .panel-heading.trimester-panel-heading
             .panel-title
               %a{href: "##{trimester.slug}-panel-collapse", data: {toggle: 'collapse', parent: '#trimester-panel-group'}}
-                = "#{trimester.year} - #{trimester.term} #{(trimester.for_new_students? ? '(Nouveaux étudiants)' : '')}"
+                = "#{trimester.term} #{trimester.year} #{(trimester.for_new_students? ? '(Nouveaux étudiants)' : '')}"
           .panel-collapse.collapse{id: "#{trimester.slug}-panel-collapse", class: (index == 0 ? 'in' : nil)}
             .panel-body.trimester-panel-body
               %ul.list-group
                 - trimester.bachelors.each do |bachelor|
                   %li.list-group-item.bachelor-item.col-xs-12.col-sm-6
-                    %label.btn.btn-primary.bachelor-btn{for: "#{trimester.slug}_#{bachelor.slug}"}
-                      %input.hidden{type: 'radio', id: "#{trimester.slug}_#{bachelor.slug}", name: 'year_period', value: "#{trimester.slug}-#{bachelor.slug}"}
-                      = bachelor.name
-    %button.btn.btn-block.btn-primary{type: 'submit'}
-      Soumettre
-      %i.glyphicon.glyphicon-share
+                    = link_to bachelor.name, select_courses_path(trimestre: trimester.slug, baccalaureat: bachelor.slug), class: 'btn btn-primary bachelor-btn'
