@@ -29,12 +29,12 @@
             %label.control-label{for: "number-of-courses-activated"} Nombre de cours
           .filter-body
             %input.form-control{id: "number-of-courses", type: "number", name: "filters[number-of-courses]", value: params.try(:[], 'filters').try(:[], 'number-of-courses')}
-        .filter.days-off-filter
-          %h2.filter-heading Journées de congées
+        .filter.leaves-filter
+          %h2.filter-heading Périodes de congés
           .filter-body
-            .day-off-list
+            .leaves-list
               .row
-                = render partial: 'day_off_template', collection: @days_off
+                = render partial: 'leave', collection: @leaves
                 %a.btn.btn-primary.btn-block.add-period
                   Ajouter un congé
                   %i.glyphicon.glyphicon-plus
@@ -42,4 +42,4 @@
       Soumettre
       %i.glyphicon.glyphicon-share
 - content_for :post_html do
-  %script#day-off-template{type: 'text/x-handlebars-template'}= render partial: 'day_off_template'
+  %script#leave-template{type: 'text/x-handlebars-template'}= render partial: 'leave'

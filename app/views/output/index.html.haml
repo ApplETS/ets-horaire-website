@@ -27,7 +27,7 @@
     .form-group
       %label.col-xs-12.col-sm-2.control-label Congés
       .col-xs-12.col-sm-10
-        - if @days_off.empty?
+        - if @leaves.empty?
           %input.form-control{readonly: true, value: 'Aucun'}
         - else
           %table.table
@@ -37,11 +37,11 @@
                 %th Début
                 %th Fin
             %tbody
-              - @days_off.each do |day_off|
+              - @leaves.each do |leave|
                 %tr
-                  %td= Weekday.new(day_off['weekday'].to_i).fr.capitalize
-                  %td= "#{day_off['from-time']}h00"
-                  %td= "#{day_off['to-time']}h00"
+                  %td= Weekday.new(leave['weekday'].to_i).fr.capitalize
+                  %td= "#{leave['from-time']}h00"
+                  %td= "#{leave['to-time']}h00"
 
     .form-group
       .controls.pull-right.col-xs-12.col-sm-10
