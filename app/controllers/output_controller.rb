@@ -19,6 +19,7 @@ class OutputController < ApplicationController
     @leaves = @results_data['leaves']
     @trimester_slug = @results_data['trimester_slug']
     @bachelor_slug = @results_data['bachelor_slug']
+    @results_limit = SelectCoursesController::RESULTS_LIMIT
   end
 
   def result
