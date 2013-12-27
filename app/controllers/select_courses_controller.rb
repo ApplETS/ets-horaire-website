@@ -5,10 +5,11 @@ require 'json'
 
 class SelectCoursesController < ApplicationController
   RESULTS_LIMIT = 100
+  COURSES_RANGE = (1..5)
 
   before_filter :ensure_trimester_and_bachelor_present_and_valid
   before_filter :ensure_course_selected, only: :compute
-  before_filter :ensure_nb_of_course_specified, only: :compute
+  before_filter :ensure_nb_of_courses_within_limit, only: :compute
 
   def index
     render_populated_form
@@ -77,12 +78,16 @@ class SelectCoursesController < ApplicationController
     render_populated_form
   end
 
-  def ensure_nb_of_course_specified
+  def ensure_nb_of_courses_within_limit
     @nb_of_courses = params[:filters]['number-of-courses'].to_i
-    return if @nb_of_courses.present? && @nb_of_courses <= @courses.size && @nb_of_courses > 0
+    return if nb_of_courses_within_limit?
 
     flash[:notice] = 'Veuillez spécifier un nombre de cours valide!'
     render_populated_form
+  end
+
+  def nb_of_courses_within_limit?
+    @nb_of_courses.present? && @nb_of_courses <= @courses.size && COURSES_RANGE.include?(@nb_of_courses)
   end
 
   def redirect_back_to_selection
@@ -107,6 +112,7 @@ class SelectCoursesController < ApplicationController
   end
 
   def populate_form_with_data
+    @courses_range = COURSES_RANGE
     @leaves = []
     (params.try(:[], 'filters').try(:[], 'leaves') || []).size.times do |index|
       @leaves << OpenStruct.new(

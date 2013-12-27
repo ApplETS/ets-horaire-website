@@ -6,6 +6,11 @@
     %input.hidden{type: 'text', name: 'baccalaureat', value: @bachelor_slug}
     .form-horizontal
       = render partial: 'shared/bachelor_choice_resume'
+      .form-group
+        .controls.pull-right.col-xs-12.col-sm-10
+          = link_to root_path, class: 'btn btn-block btn-primary' do
+            %i.glyphicon.glyphicon-chevron-left
+            Choisir de nouveau
       %hr
       .form-group
         %label.col-xs-12.col-sm-2.control-label Cours
@@ -15,11 +20,6 @@
               %label.btn.btn-primary.course-btn{for: "course-#{course.name}", class: (params.try(:[], 'courses').try(:[], course.name) == 'on' ? 'active' : nil)}
                 %input{id: "course-#{course.name}", type: 'checkbox', name: "courses[#{course.name}]", checked: (params.try(:[], 'courses').try(:[], course.name) == 'on')}
                 = course.name
-      .form-group
-        .controls.pull-right.col-xs-12.col-sm-10
-          = link_to root_path, class: 'btn btn-block btn-primary' do
-            %i.glyphicon.glyphicon-chevron-left
-            Choisir de nouveau
       %hr.visible-xs
     .panel.panel-default.filters
       .panel-heading Filtres
@@ -28,7 +28,11 @@
           %h2.filter-heading
             %label.control-label{for: "number-of-courses-activated"} Nombre de cours
           .filter-body
-            %input.form-control{id: "number-of-courses", type: "number", name: "filters[number-of-courses]", value: params.try(:[], 'filters').try(:[], 'number-of-courses')}
+            .btn-group.btn-group-justified{data: { toggle: 'buttons' }}
+              - @courses_range.each do |index|
+                %label.btn.btn-primary{for: "number-of-courses-#{index}", class: (params.try(:[], 'filters').try(:[], 'number-of-courses') == "#{index}" ? 'active' : nil)}
+                  %input{id: "number-of-courses-#{index}", type: 'radio', name: "filters[number-of-courses]", value: index, checked: (params.try(:[], 'filters').try(:[], 'number-of-courses') == "#{index}")}
+                  = index
         .filter.leaves-filter
           %h2.filter-heading Périodes de congés
           .filter-body

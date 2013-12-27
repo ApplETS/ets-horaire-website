@@ -3,7 +3,7 @@ class Printer
 
   class << self
     def all
-      @@printers ||= [ListSchedulePrinter.new, HtmlSchedulePrinter.new, CalendarSchedulePrinter.new]
+      @@printers ||= [HtmlSchedulePrinter.new, CalendarSchedulePrinter.new, ListSchedulePrinter.new]
     end
 
     def find_by_slug(value)
