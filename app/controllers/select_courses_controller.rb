@@ -5,6 +5,7 @@ require 'json'
 
 class SelectCoursesController < ApplicationController
   RESULTS_LIMIT = 100
+  HOURS_TO_EXPIRY = 24
   COURSES_RANGE = (1..5)
 
   before_filter :ensure_trimester_and_bachelor_present_and_valid
@@ -42,6 +43,7 @@ class SelectCoursesController < ApplicationController
 
   def fulfill_output_flow(schedule_finder, schedules)
     flash[:notice] = "Seulement les #{RESULTS_LIMIT} premiers résultats sont affichés. Veuillez fournir plus de critères pour des résultats optimals." if schedule_finder.reached_limit?
+    flash[:alert] = "Vos combinaisons vont être sauvegardés pour #{HOURS_TO_EXPIRY} heures."
     hash = store_results_of(schedules)
     redirect_to output_path(cle: hash)
   end
@@ -60,7 +62,7 @@ class SelectCoursesController < ApplicationController
         serialized_schedules: serialized_schedules,
         trimester_slug: @bachelor.trimester.slug,
         bachelor_slug: @bachelor.slug
-    }.to_json
+    }.to_json, expires_in: HOURS_TO_EXPIRY.hours
     hash
   end
 
