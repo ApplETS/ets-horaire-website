@@ -1,7 +1,14 @@
 # -*- encoding : utf-8 -*-
 
 class StylesheetContext
-
+  PERIODS_COLORS = %w(
+    rgb(90,167,157)
+    rgb(49,90,119)
+    rgb(43,58,101)
+    rgb(210,73,82)
+    rgb(151,190,126)
+    rgb(231,223,154)
+  )
   COLUMN_WIDTH = 150
   ROW_HEIGHT = 15
   PERIOD_PADDING = 5
@@ -16,6 +23,19 @@ class StylesheetContext
   end
 
   private
+
+  def period_colors
+    colors = PERIODS_COLORS.each_with_index.collect do |color, index|
+      indent("&.period-#{index + 1}\n", 4.times) +
+        indent("background-color: #{color}\n", 5.times) +
+        indent("@if lightness(#{color}) > lightness(#aaaaaa)\n", 5.times) +
+          indent("color: #4a4a4a\n", 6.times) +
+        indent("@else\n", 5.times) +
+          indent("color: #fafafa\n", 6.times) +
+        indent("@include box-shadow(0 3px 0 darken(#{color}, 10%))\n", 5.times)
+    end
+    colors.flatten.join
+  end
 
   def weekday_classes
     styles = @weekdays.each_with_index.collect do |weekday, index|
