@@ -81,7 +81,7 @@ class SelectCoursesController < ApplicationController
   end
 
   def ensure_nb_of_courses_within_limit
-    @nb_of_courses = params[:filters]['number-of-courses'].to_i
+    @nb_of_courses = (params.try(:[], 'filters').try(:[], 'number-of-courses') || '').to_i
     return if nb_of_courses_within_limit?
 
     flash[:notice] = 'Veuillez spécifier un nombre de cours valide!'
