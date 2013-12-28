@@ -1,7 +1,5 @@
 # -*- encoding : utf-8 -*-
 
-require "erb"
-require "compass"
 require "haml"
 
 class WebpageBuilder
@@ -11,11 +9,7 @@ class WebpageBuilder
   PeriodStruct = Struct.new(:css_class, :start_time, :end_time, :duration, :course, :type)
 
   def self.css
-    stylesheet_context = StylesheetContext.new(weekdays_en, HOURS)
-    open("stylesheet.css.sass.erb") do |erb|
-      sass = ERB.new(erb.read).result(stylesheet_context.get_binding)
-      Sass::Engine.new(sass, Compass.configuration.to_sass_engine_options.merge!({style: :compressed})).render
-    end
+    open('stylesheet.compiled.css').read
   end
 
   def self.html(schedules)
@@ -33,10 +27,6 @@ class WebpageBuilder
 
   def self.open(ressource_name, &block)
     File.open(File.join(File.dirname(__FILE__), "./ressources/#{ressource_name}"), "r", &block)
-  end
-
-  def self.weekdays_en
-    Weekday::LANGUAGES[:EN].first(5)
   end
 
   def self.weekdays_fr
