@@ -1,6 +1,6 @@
 # -*- encoding : utf-8 -*-
 
-class CalendarSchedulePrinter < Printer
+class AsciiCalendarPrinter < Printer
   HEADING_WIDTH = 91
   COLUMN_WIDTH = 16
   NB_COLUMNS = 5
@@ -15,8 +15,7 @@ class CalendarSchedulePrinter < Printer
 
   def initialize
     @name = 'Calendrier ASCII'
-    @slug = 'calendrier_ascii'
-    @content_type = 'text/plain'
+    @slug = 'ascii_calendar'
   end
 
   def output(schedules)
@@ -28,6 +27,10 @@ class CalendarSchedulePrinter < Printer
       @output << "\r\n"
     end
     @output
+  end
+
+  def path(key)
+    ascii_calendar_path(format: :txt, cle: key)
   end
 
   private

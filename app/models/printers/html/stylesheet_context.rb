@@ -12,17 +12,17 @@ class StylesheetContext
   COLUMN_WIDTH = 150
   ROW_HEIGHT = 15
   PERIOD_PADDING = 5
-
-  def initialize(weekdays, hours)
-    @weekdays = weekdays
-    @hours = hours
-  end
+  HOURS = (8..23)
 
   def get_binding
     binding
   end
 
   private
+
+  def weekdays
+    @weekdays ||= Weekday::LANGUAGES[:EN].first(5)
+  end
 
   def period_colors
     colors = PERIODS_COLORS.each_with_index.collect do |color, index|
@@ -38,7 +38,7 @@ class StylesheetContext
   end
 
   def weekday_classes
-    styles = @weekdays.each_with_index.collect do |weekday, index|
+    styles = weekdays.each_with_index.collect do |weekday, index|
       indent("&.#{weekday}", 3.times) +
           indent("  left: #{COLUMN_WIDTH * index}px", 3.times)
     end
@@ -50,7 +50,7 @@ class StylesheetContext
   end
 
   def from_classes
-    styles = @hours.each_with_index.collect do |hour, index|
+    styles = HOURS.each_with_index.collect do |hour, index|
       hour_zerofilled = zerofill(hour)
       foreach_quarter.collect do |nb|
         indent("&.from-#{hour_zerofilled}#{zerofill nb * 15}", 4.times) +
@@ -61,7 +61,7 @@ class StylesheetContext
   end
 
   def duration_classes
-    styles = @hours.each_with_index.collect do |hour, index|
+    styles = HOURS.each_with_index.collect do |hour, index|
       hour_zerofilled = zerofill(index)
       foreach_quarter.collect do |nb|
         indent("&.duration-#{hour_zerofilled}#{zerofill nb * 15}", 4.times) +

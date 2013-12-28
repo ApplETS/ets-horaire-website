@@ -1,9 +1,11 @@
 class Printer
-  attr_reader :name, :slug, :content_type
+  include Rails.application.routes.url_helpers
+
+  attr_reader :name, :slug
 
   class << self
     def all
-      @@printers ||= [HtmlSchedulePrinter.new, CalendarSchedulePrinter.new, ListSchedulePrinter.new]
+      @@printers ||= [HtmlSchedulePrinter.new, AsciiCalendarPrinter.new, SimpleListPrinter.new]
     end
 
     def find_by_slug(value)

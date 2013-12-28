@@ -1,12 +1,11 @@
 # -*- encoding : utf-8 -*-
 
-class ListSchedulePrinter < Printer
+class SimpleListPrinter < Printer
   HEADING_WIDTH = 58
 
   def initialize
-    @name = 'Liste simple'
-    @slug = 'liste_simple'
-    @content_type = 'text/plain'
+    @name = 'Liste Simple'
+    @slug = 'simple_list'
   end
 
   def output(schedules)
@@ -27,6 +26,10 @@ class ListSchedulePrinter < Printer
       end
     end
     output
+  end
+
+  def path(key)
+    simple_list_path(format: :txt, cle: key)
   end
 
   private

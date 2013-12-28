@@ -1,5 +1,5 @@
 %fieldset
-  %legend= @index
+  %legend= schedule_counter + 1
   %div.weekly-calendar
     %table.backdrop
       %thead
@@ -19,7 +19,7 @@
               - @weekdays.each do
                 %td.empty
     .schedule
-      - @schedule.each do |weekday|
+      - schedule.each do |weekday|
         %div{class: weekday_classes_for(weekday)}
           - weekday.periods.each do |period|
             %div{class: period_classes_for(period)}

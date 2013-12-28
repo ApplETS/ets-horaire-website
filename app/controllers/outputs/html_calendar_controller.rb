@@ -1,41 +1,23 @@
 # -*- encoding : utf-8 -*-
 
-require "haml"
-
-class WebpageBuilder
+class HtmlCalendarController < BaseOutputController
   HOURS = (8..23)
-
   WeekdayStruct = Struct.new(:name, :periods)
   PeriodStruct = Struct.new(:css_class, :start_time, :end_time, :duration, :course, :type)
 
-  def self.css
-    open('stylesheet.compiled.css').read
-  end
+  layout 'html_calendar'
 
-  def self.html(schedules)
-    open("schedule.html.haml") do |haml|
-      template = haml.read
-      html = process(schedules).each_with_index.collect do |schedule, index|
-        html_context = HtmlContext.new(weekdays_fr, HOURS, schedule, index + 1)
-        Haml::Engine.new(template).render(html_context)
-      end
-      html.join
-    end
+  def index
+    convert_schedules
+    @weekdays = weekdays
+    @hours = HOURS
   end
 
   private
 
-  def self.open(ressource_name, &block)
-    File.open(File.join(File.dirname(__FILE__), "./ressources/#{ressource_name}"), "r", &block)
-  end
-
-  def self.weekdays_fr
-    Weekday::LANGUAGES[:FR].first(5).collect { |weekday| weekday.capitalize }
-  end
-
-  def self.process(schedules)
+  def convert_schedules
     html_schedules = []
-    schedules.each do |schedule|
+    @schedules.each do |schedule|
       weekdays = []
       schedule.each_with_index do |course_group, index|
         course_group.periods.each do |period|
@@ -51,7 +33,10 @@ class WebpageBuilder
       end
       html_schedules << weekdays
     end
-    html_schedules
+    @schedules = html_schedules
   end
 
+  def weekdays
+    Weekday::LANGUAGES[:FR].first(5).collect { |weekday| weekday.capitalize }
+  end
 end
