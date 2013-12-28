@@ -1,15 +1,4 @@
-# -*- encoding : utf-8 -*-
-
-class HtmlContext
-
-  def initialize(weekdays, hours, schedule, index)
-    @weekdays = weekdays
-    @hours = hours
-    @schedule = schedule
-    @index = index
-  end
-
-  private
+module HtmlCalendarHelper
 
   def hour_string_with(hour)
     "#{zerofill hour}:00"

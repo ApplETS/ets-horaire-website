@@ -1,7 +1,7 @@
 # -*- encoding : utf-8 -*-
 require 'spec_helper'
 
-describe CalendarSchedulePrinter do
+describe AsciiCalendarPrinter do
   CourseGroupStruct = Struct.new(:course_name, :nb, :periods)
 
   let(:stream) { double("Stream") }
