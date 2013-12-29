@@ -1,0 +1,391 @@
+@import "compass"
+
+$column-width: 150px
+$row-height: 15px
+$period-padding: 5px
+$period-width: $column-width - $period-padding * 2 - 10px
+
+fieldset
+  display: block
+  margin: 25px
+  float: left
+
+.weekly-calendar
+  position: relative
+
+  table.backdrop
+    th, td
+      padding: 0
+
+    th
+      width: $column-width
+      height: 20px
+
+    th.hour
+      width: 50px
+
+    tbody
+      tr
+        height: $row-height
+        font-size: 12px
+
+      tr.hour
+        border-top: 1px solid #808080
+
+      tr.half-hour
+        border-top: 1px dashed #d3d3d3
+
+  .schedule
+    position: absolute
+    top: 20px
+    left: 50px
+
+    .weekday
+      position: absolute
+      top: 0
+      left: 0
+
+      &.monday
+        left: 0px
+      &.tuesday
+        left: 150px
+      &.wednesday
+        left: 300px
+      &.thursday
+        left: 450px
+      &.friday
+        left: 600px
+
+
+      .period
+        position: absolute
+        top: 0px
+        width: $period-width
+        padding: $period-padding
+        @include border-radius(5px)
+
+        &.period-1
+          background-color: rgb(90,167,157)
+          @if lightness(rgb(90,167,157)) > lightness(#aaaaaa)
+            color: #4a4a4a
+          @else
+            color: #fafafa
+          @include box-shadow(0 2px 0 darken(rgb(90,167,157), 10%))
+        &.period-2
+          background-color: rgb(49,90,119)
+          @if lightness(rgb(49,90,119)) > lightness(#aaaaaa)
+            color: #4a4a4a
+          @else
+            color: #fafafa
+          @include box-shadow(0 2px 0 darken(rgb(49,90,119), 10%))
+        &.period-3
+          background-color: rgb(43,58,101)
+          @if lightness(rgb(43,58,101)) > lightness(#aaaaaa)
+            color: #4a4a4a
+          @else
+            color: #fafafa
+          @include box-shadow(0 2px 0 darken(rgb(43,58,101), 10%))
+        &.period-4
+          background-color: rgb(210,73,82)
+          @if lightness(rgb(210,73,82)) > lightness(#aaaaaa)
+            color: #4a4a4a
+          @else
+            color: #fafafa
+          @include box-shadow(0 2px 0 darken(rgb(210,73,82), 10%))
+        &.period-5
+          background-color: rgb(151,190,126)
+          @if lightness(rgb(151,190,126)) > lightness(#aaaaaa)
+            color: #4a4a4a
+          @else
+            color: #fafafa
+          @include box-shadow(0 2px 0 darken(rgb(151,190,126), 10%))
+        &.period-6
+          background-color: rgb(231,223,154)
+          @if lightness(rgb(231,223,154)) > lightness(#aaaaaa)
+            color: #4a4a4a
+          @else
+            color: #fafafa
+          @include box-shadow(0 2px 0 darken(rgb(231,223,154), 10%))
+
+
+        &.from-0800
+          top: 0px
+        &.from-0815
+          top: 7px
+        &.from-0830
+          top: 15px
+        &.from-0845
+          top: 22px
+        &.from-0900
+          top: 30px
+        &.from-0915
+          top: 37px
+        &.from-0930
+          top: 45px
+        &.from-0945
+          top: 52px
+        &.from-1000
+          top: 60px
+        &.from-1015
+          top: 67px
+        &.from-1030
+          top: 75px
+        &.from-1045
+          top: 82px
+        &.from-1100
+          top: 90px
+        &.from-1115
+          top: 97px
+        &.from-1130
+          top: 105px
+        &.from-1145
+          top: 112px
+        &.from-1200
+          top: 120px
+        &.from-1215
+          top: 127px
+        &.from-1230
+          top: 135px
+        &.from-1245
+          top: 142px
+        &.from-1300
+          top: 150px
+        &.from-1315
+          top: 157px
+        &.from-1330
+          top: 165px
+        &.from-1345
+          top: 172px
+        &.from-1400
+          top: 180px
+        &.from-1415
+          top: 187px
+        &.from-1430
+          top: 195px
+        &.from-1445
+          top: 202px
+        &.from-1500
+          top: 210px
+        &.from-1515
+          top: 217px
+        &.from-1530
+          top: 225px
+        &.from-1545
+          top: 232px
+        &.from-1600
+          top: 240px
+        &.from-1615
+          top: 247px
+        &.from-1630
+          top: 255px
+        &.from-1645
+          top: 262px
+        &.from-1700
+          top: 270px
+        &.from-1715
+          top: 277px
+        &.from-1730
+          top: 285px
+        &.from-1745
+          top: 292px
+        &.from-1800
+          top: 300px
+        &.from-1815
+          top: 307px
+        &.from-1830
+          top: 315px
+        &.from-1845
+          top: 322px
+        &.from-1900
+          top: 330px
+        &.from-1915
+          top: 337px
+        &.from-1930
+          top: 345px
+        &.from-1945
+          top: 352px
+        &.from-2000
+          top: 360px
+        &.from-2015
+          top: 367px
+        &.from-2030
+          top: 375px
+        &.from-2045
+          top: 382px
+        &.from-2100
+          top: 390px
+        &.from-2115
+          top: 397px
+        &.from-2130
+          top: 405px
+        &.from-2145
+          top: 412px
+        &.from-2200
+          top: 420px
+        &.from-2215
+          top: 427px
+        &.from-2230
+          top: 435px
+        &.from-2245
+          top: 442px
+        &.from-2300
+          top: 450px
+        &.from-2315
+          top: 457px
+        &.from-2330
+          top: 465px
+        &.from-2345
+          top: 472px
+
+        &.duration-0000
+          height: -12px
+        &.duration-0015
+          height: -5px
+        &.duration-0030
+          height: 3px
+        &.duration-0045
+          height: 10px
+        &.duration-0100
+          height: 18px
+        &.duration-0115
+          height: 25px
+        &.duration-0130
+          height: 33px
+        &.duration-0145
+          height: 40px
+        &.duration-0200
+          height: 48px
+        &.duration-0215
+          height: 55px
+        &.duration-0230
+          height: 63px
+        &.duration-0245
+          height: 70px
+        &.duration-0300
+          height: 78px
+        &.duration-0315
+          height: 85px
+        &.duration-0330
+          height: 93px
+        &.duration-0345
+          height: 100px
+        &.duration-0400
+          height: 108px
+        &.duration-0415
+          height: 115px
+        &.duration-0430
+          height: 123px
+        &.duration-0445
+          height: 130px
+        &.duration-0500
+          height: 138px
+        &.duration-0515
+          height: 145px
+        &.duration-0530
+          height: 153px
+        &.duration-0545
+          height: 160px
+        &.duration-0600
+          height: 168px
+        &.duration-0615
+          height: 175px
+        &.duration-0630
+          height: 183px
+        &.duration-0645
+          height: 190px
+        &.duration-0700
+          height: 198px
+        &.duration-0715
+          height: 205px
+        &.duration-0730
+          height: 213px
+        &.duration-0745
+          height: 220px
+        &.duration-0800
+          height: 228px
+        &.duration-0815
+          height: 235px
+        &.duration-0830
+          height: 243px
+        &.duration-0845
+          height: 250px
+        &.duration-0900
+          height: 258px
+        &.duration-0915
+          height: 265px
+        &.duration-0930
+          height: 273px
+        &.duration-0945
+          height: 280px
+        &.duration-1000
+          height: 288px
+        &.duration-1015
+          height: 295px
+        &.duration-1030
+          height: 303px
+        &.duration-1045
+          height: 310px
+        &.duration-1100
+          height: 318px
+        &.duration-1115
+          height: 325px
+        &.duration-1130
+          height: 333px
+        &.duration-1145
+          height: 340px
+        &.duration-1200
+          height: 348px
+        &.duration-1215
+          height: 355px
+        &.duration-1230
+          height: 363px
+        &.duration-1245
+          height: 370px
+        &.duration-1300
+          height: 378px
+        &.duration-1315
+          height: 385px
+        &.duration-1330
+          height: 393px
+        &.duration-1345
+          height: 400px
+        &.duration-1400
+          height: 408px
+        &.duration-1415
+          height: 415px
+        &.duration-1430
+          height: 423px
+        &.duration-1445
+          height: 430px
+        &.duration-1500
+          height: 438px
+        &.duration-1515
+          height: 445px
+        &.duration-1530
+          height: 453px
+        &.duration-1545
+          height: 460px
+
+
+        .hour
+          margin-bottom: 5px
+          font-size: 12px
+          font-weight: bold
+
+        .title
+          .course
+            font-size: 14px
+          .type
+            font-size: 12px
+
+        &.duration-0100
+          height: 26px
+          padding: 2px 5px
+
+          .hour
+            margin-bottom: 0
+            font-size: 10px
+
+          .title
+            .course
+              font-size: 12px

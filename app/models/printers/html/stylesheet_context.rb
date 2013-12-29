@@ -12,6 +12,7 @@ class StylesheetContext
   COLUMN_WIDTH = 150
   ROW_HEIGHT = 15
   PERIOD_PADDING = 5
+  SHADOW_HEIGHT = 2
   HOURS = (8..23)
 
   def get_binding
@@ -32,7 +33,7 @@ class StylesheetContext
           indent('color: #4a4a4a', 6.times) +
         indent('@else', 5.times) +
           indent('color: #fafafa', 6.times) +
-        indent("@include box-shadow(0 3px 0 darken(#{color}, 10%))", 5.times)
+        indent("@include box-shadow(0 #{SHADOW_HEIGHT}px 0 darken(#{color}, 10%))", 5.times)
     end
     colors.flatten.join
   end
@@ -40,7 +41,7 @@ class StylesheetContext
   def weekday_classes
     styles = weekdays.each_with_index.collect do |weekday, index|
       indent("&.#{weekday}", 3.times) +
-          indent("  left: #{COLUMN_WIDTH * index}px", 3.times)
+      indent("  left: #{COLUMN_WIDTH * index}px", 3.times)
     end
     styles.flatten.join
   end
@@ -65,7 +66,7 @@ class StylesheetContext
       hour_zerofilled = zerofill(index)
       foreach_quarter.collect do |nb|
         indent("&.duration-#{hour_zerofilled}#{zerofill nb * 15}", 4.times) +
-            indent("  height: #{index * ROW_HEIGHT * 2 + nb * ROW_HEIGHT / 2 - PERIOD_PADDING * 2}px", 4.times)
+        indent("  height: #{index * ROW_HEIGHT * 2 + nb * ROW_HEIGHT / 2 - PERIOD_PADDING * 2 - SHADOW_HEIGHT}px", 4.times)
       end
     end
     styles.flatten.join

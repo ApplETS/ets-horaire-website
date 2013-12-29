@@ -1,5 +1,5 @@
-%li.list-group-item
-  .media.output-type
+%li.list-group-item.output-type-item
+  = link_to output.path(@key), target: '_blank', class: 'media output-type' do
     = image_tag "output_types/#{output.slug}.jpg", class: 'media-object pull-left'
     .media-body
-      %h4.media-heading= link_to output.name, output.path(@key), target: '_blank'
+      %h4.media-heading= output.name
