@@ -1,5 +1,8 @@
 .container
   = flash_messages
+  %ol.breadcrumb
+    %li= link_to 'Choix du baccalauréat', root_path
+    %li.active Choix de cours
   %h1 Choix de cours
   = form_tag(select_courses_path, method: :post) do
     %input.hidden{type: 'text', name: 'trimestre', value: @trimester_slug}
