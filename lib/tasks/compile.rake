@@ -11,11 +11,10 @@ namespace :compile do
     stylesheet_context = StylesheetContext.new
     css = open_css_template do |erb|
       puts '- Compiling template'
-      sass = ERB.new(erb.read).result(stylesheet_context.get_binding)
-      Sass::Engine.new(sass, Compass.configuration.to_sass_engine_options.merge!({style: :compressed})).render
+      ERB.new(erb.read).result(stylesheet_context.get_binding)
     end
 
-    destination_css = Rails.root.join('app/assets/stylesheets/html_calendar/style.compiled.css')
+    destination_css = Rails.root.join('app/assets/stylesheets/html_calendar/style.compiled.sass')
     puts "- Writing to #{destination_css}"
     File.open(destination_css, 'w') do |file|
       file.write css
