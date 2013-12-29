@@ -30,6 +30,8 @@ namespace :deploy do
   desc 'Make sure local git is in sync with remote.'
   task :check_revision do
     on roles(:web) do
+      set :previous_release, release_path
+
       unless `git rev-parse HEAD` == `git rev-parse origin/master`
         puts 'WARNING: HEAD is not the same as origin/master'
         puts 'Run `git push` to sync changes.'
@@ -121,7 +123,8 @@ namespace :deploy do
 
   task :update_whenever do
     on roles(:app) do
-      execute "/bin/bash -l -c 'cd #{release_path} && rvm #{fetch(:rvm_ruby_version)} && bundle exec whenever --update-crontab'"
+      execute("/bin/bash -l -c 'cd #{fetch(:previous_release)} && rvm #{fetch(:rvm_ruby_version)} && RAILS_ENV=#{fetch(:stage)} bundle exec whenever --clear-crontab'")
+      execute "/bin/bash -l -c 'cd #{release_path} && rvm #{fetch(:rvm_ruby_version)} && RAILS_ENV=#{fetch(:stage)} bundle exec whenever --update-crontab'"
     end
   end
   after :updated, 'deploy:update_whenever'
