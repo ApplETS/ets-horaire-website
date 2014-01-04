@@ -1,6 +1,7 @@
-STROKE_WIDTH = 25
+TOTAL_STROKE_WIDTH = 25
+RESULTS_STROKE_WIDTH = 30
 TOTAL_RADIUS = 70
-RESULTS_RADIUS = 40
+RESULTS_RADIUS = 30
 CANVAS_SIZE = 170
 totalArc = undefined
 resultsArc = undefined
@@ -22,13 +23,13 @@ $ ->
     path: path
 
   totalArc = canvas.path().attr(
-    stroke: "#1e2a36"
-    "stroke-width": STROKE_WIDTH
+    stroke: "#df7335"
+    "stroke-width": TOTAL_STROKE_WIDTH
     arc: [CANVAS_SIZE / 2, CANVAS_SIZE / 2, 0, 100, TOTAL_RADIUS]
   )
   resultsArc = canvas.path().attr(
-    stroke: "#18bc9c"
-    "stroke-width": STROKE_WIDTH
+    stroke: "#e89b6e"
+    "stroke-width": RESULTS_STROKE_WIDTH
     arc: [CANVAS_SIZE / 2, CANVAS_SIZE / 2, 0, 100, RESULTS_RADIUS]
   )
 

@@ -24,7 +24,7 @@
                 %input{id: "course-#{course.name}", type: 'checkbox', name: "courses[#{course.name}]", checked: (params.try(:[], 'courses').try(:[], course.name) == 'on')}
                 = course.name
       %hr.visible-xs
-    .panel.panel-default.filters
+    .panel.panel-default.filters-panel
       .panel-heading Filtres
       .panel-body
         .filter

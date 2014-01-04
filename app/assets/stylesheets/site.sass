@@ -1,7 +1,72 @@
+@import url(//fonts.googleapis.com/css?family=Roboto+Slab:400,100,700)
+
+$primary-background-color: transparentize(white, 0.75)
+
+$font-family-base: 'Roboto Slab', sans-serif
+$text-color: white
+
+$link-color: darken(saturate(#b55e5e, 20%), 15%)
+$link-hover-color: darken(saturate(#b55e5e, 20%), 5%)
+
+$btn-primary-bg: transparentize(white, 0.65)
+$btn-primary-border: #d67f4d
+
+$input-group-addon-bg: transparentize(lighten(#000, 93.5%), 0.45)
+$border-radius-base: 0
+
+$input-color: #555555
+$input-border: transparentize(white, 0.35)
+$input-border-radius: 0
+$input-border-focus: #804242
+$input-bg: transparentize(lighten(#000, 93.5%), 0.65)
+$input-bg-disabled: transparentize(lighten(#000, 93.5%), 0.45)
+
+$list-group-bg: transparent
+
+$breadcrumb-bg: $primary-background-color
+$breadcrumb-color: #555555
+$breadcrumb-active-color: #555555
+
+$jumbotron-bg: $primary-background-color
+
+$navbar-default-bg: $primary-background-color
+$navbar-default-brand-color: $link-color
+$navbar-default-brand-hover-color: $link-hover-color
+
+$panel-bg: transparent
+$panel-default-text: white
+$panel-border-radius: 0
+$panel-default-heading-bg: $primary-background-color
+
+$alert-success-text: #3c763d
+$alert-success-bg: transparentize(#dff0d8, 0.25)
+$alert-success-border: darken(adjust-hue(#dff0d8, -10), 20%)
+
+$alert-info-text: #31708f
+$alert-info-bg: transparentize(#d9edf7, 0.25)
+$alert-info-border: darken(adjust-hue(#d9edf7, -10), 20%)
+
+$alert-warning-text: #8a6d3b
+$alert-warning-bg: transparentize(#fcf8e3, 0.25)
+$alert-warning-border: darken(adjust-hue(#fcf8e3, -10), 20%)
+
+$alert-danger-text: #a94442
+$alert-danger-bg: transparentize(#f2dede, 0.25)
+$alert-danger-border: darken(adjust-hue(#f2dede, -10), 20%)
+
+@import 'bootstrap'
 @import 'compass'
 
 html, body
   height: 100%
+
+body
+  background-repeat: no-repeat
+  background-attachment: fixed
+  background-color: rgb(224,108,117)
+  @include filter-gradient(#e06c75, #1a0f00, horizontal)
+  @include background-image(linear-gradient(left top,  rgb(224,108,117) 0%,rgb(26,15,0) 100%))
+
 
 #content-wrapper
   min-height: 100%
@@ -9,14 +74,87 @@ html, body
   margin: 0 auto (-92px)
   padding: 0 0 92px
 
-.navbar-brand
-  .glyphicon
-    margin-right: 10px
+.alert
+  border: 0
+  border-left: 10px solid transparent
+
+  &.alert-success
+    border-left-color: $alert-success-border
+
+  &.alert-info
+    border-left-color: $alert-info-border
+
+  &.alert-warning
+    border-left-color: $alert-warning-border
+
+  &.alert-danger
+    border-left-color: $alert-danger-border
+
+.navbar
+  border: 0
+  @include border-radius(0)
+
+  .navbar-brand
+    .glyphicon
+      margin-right: 10px
+
+.panel-default > .panel-heading + .panel-collapse .panel-body
+  border-top: none
+
+.panel
+  border: 0
+
+  .panel-heading
+    border: 0
+
+  .panel-body
+    border: 1px solid $primary-background-color
+    border-top: none
+
+.breadcrumb
+  @include border-radius(0)
+
+.input-group-addon
+  border: 0
+
+.list-group-item
+  border: 0
+  border-top: 1px solid $primary-background-color
+
+  &:first-child
+    border: 0
+
+.form-control
+  color: #555555
+  border: 0
+
+  &:focus
+    border: 0
+    @include box-shadow(none)
+
+.btn-group
+  .btn
+    border: 0
+    border-left: 1px solid gray
+
+    &:first-child
+      border: 0
 
 .btn
-  &.btn-primary.active
-    border: 1px solid #18bc9c
-    background-color: #18bc9c
+  border: 0
+  border-left: 5px solid $btn-primary-border
+  @include border-radius(0)
+  @include border-top-left-radius(5px)
+  @include border-bottom-right-radius(5px)
+
+  &:hover, &:focus, &:active, &.active
+    border-color: lighten($btn-primary-border, 0.5)
+    background-color: transparentize(white, 0.3)
+    color: lighten(black, 50%)
+    @include box-shadow(none)
+
+  &.active
+    @include box-shadow(inset 0 3px 5px rgba(0, 0, 0, 0.125))
 
   .glyphicon
     margin: 0 10px
@@ -33,13 +171,15 @@ html, body
   .results-description
     .caption
       margin: 3px 0
-      font-weight: bold
+      font-weight: 500
 
       &.result-caption
-        color: #18bc9c
+        color: lighten(saturate($btn-primary-border, 10%), 10%)
+        @include text-shadow(1px 1px 0 darken(saturate($btn-primary-border, 10%), 30%))
 
       &.total-caption
-        color: #1e2a36
+        color: darken(saturate($btn-primary-border, 10%), 3%)
+        @include text-shadow(1px 1px 0 darken(saturate($btn-primary-border, 10%), 37%))
 
 .schedules-url-group
   margin-bottom: 20px
@@ -74,7 +214,7 @@ html, body
         width: 100%
         padding: 5px
 
-.filters
+.filters-panel
   .panel-body
     padding-top: 0
 
@@ -107,6 +247,7 @@ html, body
       margin: 0
 
       .output-type-item
+        background-color: transparentize(white, 0.85)
         padding: 0
 
         .output-type
@@ -116,19 +257,19 @@ html, body
           img
             border-width: 2px
             border-style: solid
-            border-color: #dce4ec
+            border-color: $input-border
             @include border-radius(5px)
             @include transition(border-color ease-in-out .15s)
 
           &:hover
             img
-              border-color: #18bc9c
+              border-color: $link-color
 
 footer
   height: 72px
   margin-top: 20px
   padding: 10px 0
-  background-color: #ecf0f1
+  background-color: $navbar-default-bg
 
   .row
     margin: 5px 0
