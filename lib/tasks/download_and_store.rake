@@ -28,6 +28,23 @@ namespace :download_and_store do
     end
   end
 
+  desc 'Download PDFs from an URL that will be scanned for schedules'
+  task :pdfs_from_url => :environment do
+    url = ENV['FROM_URL']
+    prefix = ENV['WITH_PREFIX']
+    suffix = ENV['AND_SUFFIX']
+
+    bachelor_names = BachelorBuilder::NAMES.keys
+    bachelor_names.each do |bachelor_name|
+      new_filename = "#{prefix}_#{bachelor_name}#{suffix.nil? || suffix.empty? ? '' : "_#{suffix}"}.pdf"
+      filename_path = Rails.root.join('files/pdfs/', new_filename)
+      return if File.exist?(filename_path)
+
+      file_url = File.join(url, "hor_#{bachelor_name.upcase}.pdf")
+      wget file_url, filename_path
+    end
+  end
+
   private
 
   def download_pdf_webpage
