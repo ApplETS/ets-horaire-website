@@ -13,6 +13,7 @@
 
     = csrf_meta_tags
   %body{id: params[:controller]}
+    = render partial: 'shared/user_voice_widget'
     #content-wrapper
       = render partial: 'shared/header'
       = yield
