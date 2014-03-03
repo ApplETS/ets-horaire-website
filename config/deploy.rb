@@ -1,7 +1,7 @@
 set :application, 'ets-horaire'
 set :deploy_to, '/var/www/ets-horaire.krystosterone.com'
 set :deploy_via, :remote_cache
-set :linked_dirs, %w{log tmp files/pdfs db/courses/production public/assets}
+set :linked_dirs, %w{log tmp files/pdfs db/courses/production}
 set :ssh_options, {
     forward_agent: true,
     port: 2244
@@ -104,7 +104,7 @@ namespace :deploy do
       system "cd #{File.join(Dir.pwd, 'files/pdfs')} && tar -jcf pdfs.tar.bz2 *"
       system "cd #{File.join(Dir.pwd, "db/courses/#{fetch(:stage)}")} && tar -jcf courses.tar.bz2 *"
 
-      upload! File.join(Dir.pwd, 'public/assets.tar.bz2'), shared_path.join('public')
+      upload! File.join(Dir.pwd, 'public/assets.tar.bz2'), release_path.join('public')
       upload! File.join(Dir.pwd, 'files/pdfs/pdfs.tar.bz2'), shared_path.join('files/pdfs')
       upload! File.join(Dir.pwd, "db/courses/#{fetch(:stage)}/courses.tar.bz2"), shared_path.join("db/courses/#{fetch(:stage)}")
 
@@ -114,7 +114,7 @@ namespace :deploy do
 
       execute "/bin/bash -l -c 'cd #{release_path} && rvm #{fetch(:rvm_ruby_version)} && RAILS_ENV=#{fetch(:stage)} bundle exec rake create:folder_structure'"
 
-      execute "cd #{shared_path.join('public')} && tar -jxf assets.tar.bz2 && rm assets.tar.bz2"
+      execute "cd #{release_path.join('public')} && tar -jxf assets.tar.bz2 && rm assets.tar.bz2"
       execute "cd #{shared_path.join('files/pdfs')} && tar -jxf pdfs.tar.bz2 && rm pdfs.tar.bz2"
       execute "cd #{shared_path.join("db/courses/#{fetch(:stage)}")} && tar -jxf courses.tar.bz2 && rm courses.tar.bz2"
     end
@@ -123,7 +123,7 @@ namespace :deploy do
 
   task :update_whenever do
     on roles(:app) do
-      execute("/bin/bash -l -c 'cd #{fetch(:previous_release)} && rvm #{fetch(:rvm_ruby_version)} && RAILS_ENV=#{fetch(:stage)} bundle exec whenever --clear-crontab'")
+      execute "/bin/bash -l -c 'cd #{fetch(:previous_release)} && rvm #{fetch(:rvm_ruby_version)} && RAILS_ENV=#{fetch(:stage)} bundle exec whenever --clear-crontab'"
       execute "/bin/bash -l -c 'cd #{release_path} && rvm #{fetch(:rvm_ruby_version)} && RAILS_ENV=#{fetch(:stage)} bundle exec whenever --update-crontab'"
     end
   end
