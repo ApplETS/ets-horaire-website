@@ -1,0 +1,133 @@
+@import "compass"
+
+$column-width: 150px
+$row-height: 15px
+$period-padding: 5px
+$period-width: $column-width - $period-padding * 2 - 10px
+$period-colors: rgb(90,167,157), rgb(49,90,119), rgb(43,58,101), rgb(210,73,82), rgb(151,190,126), rgb(231,223,154)
+$weekdays: monday, tuesday, wednesday, thursday, friday
+$from-hour: 8
+$to-hour: 23
+$period-shadow-height: 2px
+
+@function pow($b, $n)
+  $f: $b
+  @while $n > 1
+    $f: $f * $b
+    $n: $n - 1
+  @return $f
+
+@function zerofill($i, $n)
+  $f: pow(10, $n - 1)
+  $out: null
+
+  @while $f >= 1
+    $out: $out#{floor($i / $f)}
+    $i: $i - floor($i / $f) * $f
+    $f: $f / 10
+  @return $out
+
+fieldset
+  display: block
+  margin: 25px
+  float: left
+
+.weekly-calendar
+  position: relative
+
+  table.backdrop
+    th, td
+      padding: 0
+
+    th
+      width: $column-width
+      height: 20px
+
+    th.hour
+      width: 50px
+
+    tbody
+      tr
+        height: $row-height
+        font-size: 12px
+
+      tr.hour
+        border-top: 1px solid #808080
+
+      tr.half-hour
+        border-top: 1px dashed #d3d3d3
+
+  .schedule
+    position: absolute
+    top: 20px
+    left: 50px
+
+    .weekday
+      position: absolute
+      top: 0
+      left: 0
+
+      @for $index from 0 to length($weekdays)
+        $weekday: nth($weekdays, $index + 1)
+
+        &.#{$weekday}
+          left: ($index * $column-width)
+
+      .period
+        position: absolute
+        top: 0px
+        width: $period-width
+        padding: $period-padding
+        @include border-radius(5px)
+
+        @for $index from 0 to length($period-colors)
+          $period-color: nth($period-colors, $index + 1)
+
+          &.period-#{$index + 1}
+            background-color: $period-color
+            @if lightness($period-color) > lightness(#aaaaaa)
+              color: #4a4a4a
+            @else
+              color: #fafafa
+            @include box-shadow(0 $period-shadow-height 0 darken($period-color, 10%))
+
+        @for $index-hour from 0 to ($to-hour + 1 - $from-hour)
+          @for $quarter-nb from 0 to 4
+            $minutes: $quarter-nb * 15
+            $hour-zerofilled: zerofill($from-hour + $index-hour, 1)
+            $minutes-zerofilled: zerofill($minutes, 1)
+
+            &.from-#{$hour-zerofilled}#{$minutes-zerofilled}
+              top: $index-hour * $row-height * 2 + $quarter-nb * $row-height / 2
+
+        @for $index-hour from 0 to ($to-hour + 1 - $from-hour)
+          @for $quarter-nb from 0 to 4
+            $minutes: $quarter-nb * 15
+            $hour-zerofilled: zerofill($index-hour, 1)
+            $minutes-zerofilled: zerofill($minutes, 1)
+
+            &.duration-#{$hour-zerofilled}#{$minutes-zerofilled}
+              height: $index-hour * $row-height * 2 + $quarter-nb * $row-height / 2 - $period-padding * 2 - $period-shadow-height
+
+        .hour
+          margin-bottom: 5px
+          font-size: 12px
+          font-weight: bold
+
+        .title
+          .course
+            font-size: 14px
+          .type
+            font-size: 12px
+
+        &.duration-0100
+          height: 26px
+          padding: 2px 5px
+
+          .hour
+            margin-bottom: 0
+            font-size: 10px
+
+          .title
+            .course
+              font-size: 12px
