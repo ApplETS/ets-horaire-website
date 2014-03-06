@@ -233,13 +233,13 @@ describe ScheduleFinder do
         end
       end
 
-      describe 'when applying a filter' do
+      describe 'when applying a additional comparator' do
         let(:courses) { [course_1, course_2, course_3, course_4] }
 
-        describe 'with a filter that always returns false' do
+        describe 'with a comparator that always returns false' do
           subject do
             ScheduleFinder.build do |c|
-              c.filter { false }
+              c.additional_comparator { false }
             end
           end
 
@@ -249,7 +249,7 @@ describe ScheduleFinder do
         describe 'when group with number 3 are filtered out' do
           subject do
             ScheduleFinder.build do |c|
-              c.filter do |groups_combinations, group|
+              c.additional_comparator do |groups_combinations, group|
                 group.nb != 3
               end
             end

@@ -22,8 +22,8 @@ class SelectCoursesController < ApplicationController
     leaves = build_leaves_as_periods
     schedule_finder = ScheduleFinder.build do |c|
       c.hard_limit = RESULTS_LIMIT
-      c.filter do |groups_combinations, group|
-        LeavesFilter.scan(group, leaves)
+      c.additional_comparator do |groups_combinations, group|
+        LeavesFilter.valid?(group, leaves)
       end
     end
     schedules = schedule_finder.combinations_for(courses, @nb_of_courses)
