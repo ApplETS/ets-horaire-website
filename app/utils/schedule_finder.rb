@@ -16,6 +16,7 @@ class ScheduleFinder
       c.comparator do |groups_combinations, group|
         does_not_conflicts_with?(groups_combinations, group) && additional_comparator.call(groups_combinations, group)
       end
+      c.filter &configuration.get_filter
     end
   end
 
@@ -29,16 +30,6 @@ class ScheduleFinder
   end
 
   private
-
-  def generate_one_schedule_per_group(courses)
-    schedules = []
-    courses.each do |course|
-      course.groups.each do |group|
-        schedules << [GroupCourse.new(course.name, group.periods, group.nb)]
-      end
-    end
-    schedules
-  end
 
   def flatten(courses)
     periods = courses.collect do |course|
@@ -62,14 +53,18 @@ class ScheduleFinder
     def initialize
       @hard_limit = NO_LIMIT
       @additional_comparator = Proc.new { true }
+      @filter = Proc.new { true }
     end
 
-    def get_additional_comparator
-      @additional_comparator
-    end
+    def get_additional_comparator; @additional_comparator; end
+    def get_filter; @filter; end
 
     def additional_comparator(&block)
       @additional_comparator = block
+    end
+
+    def filter(&block)
+      @filter = block
     end
   end
 end
