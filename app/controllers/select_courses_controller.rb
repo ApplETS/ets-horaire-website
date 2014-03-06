@@ -19,11 +19,14 @@ class SelectCoursesController < ApplicationController
   def compute
     courses = @bachelor.courses.find_all { |course| @courses.include?(course.name) }
 
-    schedule_finder = ScheduleFinder.new(RESULTS_LIMIT)
     leaves = build_leaves_as_periods
-    schedules = schedule_finder.combinations_for(courses, @nb_of_courses) do |groups_combinations, group|
-      LeavesFilter.scan(group, leaves)
+    schedule_finder = ScheduleFinder.build do |c|
+      c.hard_limit = RESULTS_LIMIT
+      c.filter do |groups_combinations, group|
+        LeavesFilter.scan(group, leaves)
+      end
     end
+    schedules = schedule_finder.combinations_for(courses, @nb_of_courses)
 
     return render_no_results_found if schedules.empty?
     fulfill_output_flow(schedule_finder, schedules)
