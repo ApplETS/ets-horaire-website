@@ -175,11 +175,58 @@ describe ConditionalCombinator do
       end
     end
   end
+
+  describe "when providing concrete objects with a filter" do
+    subject do
+      ConditionalCombinator.build do |c|
+        c.comparator do |concrete_objects_stack, concrete_object|
+          concrete_objects_stack.none? { |comparable_concrete_object| concrete_object.conflicts_with? comparable_concrete_object }
+        end
+        c.filter do |concrete_objects_stack|
+          concrete_objects_stack.none? { |concrete_object| concrete_object.id == 3 }
+        end
+      end
+    end
+
+    describe "when providing a set of 5 concrete objects" do
+      let(:concrete_object_1) { ConcreteObject.new 1 }
+      let(:concrete_object_2) { ConcreteObject.new 2 }
+      let(:concrete_object_3) { ConcreteObject.new 3 }
+      let(:concrete_object_4) { ConcreteObject.new 4 }
+      let(:concrete_object_5) { ConcreteObject.new 5 }
+      let(:concrete_objects) { [concrete_object_1, concrete_object_2, concrete_object_3, concrete_object_4, concrete_object_5] }
+
+      before(:each) do
+        concrete_object_1.conflicts_with concrete_object_3
+        concrete_object_3.conflicts_with concrete_object_1
+
+        concrete_object_2.conflicts_with concrete_object_5
+        concrete_object_5.conflicts_with concrete_object_2
+      end
+
+      it "should find all possible combinations of 2" do
+        subject.find_combinations(concrete_objects, 2).should match_arrays \
+        [concrete_object_1, concrete_object_2],
+        [concrete_object_1, concrete_object_4],
+        [concrete_object_1, concrete_object_5],
+        [concrete_object_2, concrete_object_4],
+        [concrete_object_4, concrete_object_5]
+      end
+
+      it "should find all possible combinations of 3" do
+        subject.find_combinations(concrete_objects, 3).should match_arrays \
+        [concrete_object_1, concrete_object_2, concrete_object_4],
+        [concrete_object_1, concrete_object_4, concrete_object_5]
+      end
+    end
+  end
 end
 
 private
 
 class ConcreteObject
+  attr_reader :id
+
   def initialize(id)
     @id = id
     @conflicting_objects = []
@@ -191,9 +238,5 @@ class ConcreteObject
 
   def conflicts_with?(concrete_object)
     @conflicting_objects.any? { |conflicting_object| conflicting_object == concrete_object }
-  end
-
-  def inspect
-    @id
   end
 end
