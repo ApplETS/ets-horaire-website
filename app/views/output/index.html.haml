@@ -14,23 +14,21 @@
         #results
           #results-canvas
           .results-description
-            .caption.result-caption
-              Nombre de combinaisons:
-              = @schedules.size
+            .caption.result-caption= "Nombre de combinaisons: #{@schedules.size}"
             .caption.total-caption= "Nombre de combinaisons permises: #{@results_limit}"
     = render partial: 'shared/bachelor_choice_resume'
     .form-group
       %label.col-xs-12.col-sm-2.control-label Cours sélectionnés
-      .col-xs-12.col-sm-10
+      .courses-list.col-xs-12.col-sm-10
         - @selected_courses.each do |selected_course|
           %label.btn.btn-primary.course-btn.disabled= selected_course
     .form-group
       %label.col-xs-12.col-sm-2.control-label Nombres de cours
       .col-xs-12.col-sm-10
-        %input.form-control{readonly: true, value: @nb_of_courses}
+        %input.number-of-courses.form-control{readonly: true, value: @nb_of_courses}
     .form-group
       %label.col-xs-12.col-sm-2.control-label Congés
-      .col-xs-12.col-sm-10
+      .col-xs-12.col-sm-10.leaves
         - if @leaves.empty?
           %input.form-control{readonly: true, value: 'Aucun'}
         - else

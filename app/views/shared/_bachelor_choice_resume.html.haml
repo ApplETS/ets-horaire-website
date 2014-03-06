@@ -1,6 +1,6 @@
 .form-group
   %label.col-xs-12.col-sm-2.control-label Baccalauréat
-  .col-xs-12.col-sm-10
+  .bachelor-choice-resume.col-xs-12.col-sm-10
     %input.form-control{readonly: true, value: @bachelor_name}
     %input.form-control{readonly: true, value: "#{@trimester_term} #{@trimester_year}"}
     %input.form-control{readonly: true, value: "Nouveaux Étudiants: #{(@trimester_is_for_new_students ? 'Oui' : 'Non')}"}
