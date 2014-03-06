@@ -4,7 +4,7 @@
     %li= link_to 'Choix du baccalauréat', root_path
     %li.active Choix de cours
   %h1 Choix de cours
-  = form_tag(select_courses_path, method: :post) do
+  = form_tag(select_courses_path, method: :post, class: 'courses_choice') do
     %input.hidden{type: 'text', name: 'trimestre', value: @trimester_slug}
     %input.hidden{type: 'text', name: 'baccalaureat', value: @bachelor_slug}
     .form-horizontal
@@ -18,7 +18,7 @@
       .form-group
         %label.col-xs-12.col-sm-2.control-label Cours
         .col-xs-12.col-sm-10.controls
-          .input-group.input-group-lg{data: { toggle: 'buttons' }}
+          .courses-list.input-group.input-group-lg{data: { toggle: 'buttons' }}
             - @courses.each do |course|
               %label.btn.btn-primary.course-btn{for: "course-#{course.name}", class: (params.try(:[], 'courses').try(:[], course.name) == 'on' ? 'active' : nil)}
                 %input{id: "course-#{course.name}", type: 'checkbox', name: "courses[#{course.name}]", checked: (params.try(:[], 'courses').try(:[], course.name) == 'on')}
@@ -31,7 +31,7 @@
           %h2.filter-heading
             %label.control-label{for: "number-of-courses-activated"} Nombre de cours
           .filter-body
-            .btn-group.btn-group-justified{data: { toggle: 'buttons' }}
+            .number-of-courses-selection.btn-group.btn-group-justified{data: { toggle: 'buttons' }}
               - @courses_range.each do |index|
                 %label.btn.btn-primary{for: "number-of-courses-#{index}", class: (params.try(:[], 'filters').try(:[], 'number-of-courses') == "#{index}" ? 'active' : nil)}
                   %input{id: "number-of-courses-#{index}", type: 'radio', name: "filters[number-of-courses]", value: index, checked: (params.try(:[], 'filters').try(:[], 'number-of-courses') == "#{index}")}
