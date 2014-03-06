@@ -1,17 +1,27 @@
 # -*- encoding : utf-8 -*-
 
 class ScheduleFinder
-  NO_LIMIT = ConditionalCombinator::NO_LIMIT
+  def self.build
+    configuration = Configuration.new
+    yield(configuration) if block_given?
+    new configuration
+  end
 
-  def initialize(hard_limit = NO_LIMIT)
-    @conditional_combinator = ConditionalCombinator.new(hard_limit)
+  private_class_method :new
+  def initialize(configuration)
+    filter = configuration.get_filter
+
+    @conditional_combinator = ConditionalCombinator.build do |c|
+      c.hard_limit = configuration.hard_limit
+      c.comparator do |groups_combinations, group|
+        does_not_conflicts_with?(groups_combinations, group) && filter.call(groups_combinations, group)
+      end
+    end
   end
 
   def combinations_for(courses, courses_per_schedule)
     group_courses = flatten(courses)
-    @conditional_combinator.find_combinations(group_courses, courses_per_schedule) do |groups_combinations, group|
-      does_not_conflicts_with?(groups_combinations, group) && (block_given? ? yield(groups_combinations, group) : true)
-    end
+    @conditional_combinator.find_combinations(group_courses, courses_per_schedule)
   end
 
   def reached_limit?
@@ -42,6 +52,24 @@ class ScheduleFinder
   def does_not_conflicts_with?(groups_combinations, group)
     groups_combinations.none? do |comparable_group_course|
       comparable_group_course.conflicts?(group)
+    end
+  end
+
+  class Configuration
+    NO_LIMIT = ConditionalCombinator::Configuration::NO_LIMIT
+    attr_accessor :hard_limit
+
+    def initialize
+      @hard_limit = NO_LIMIT
+      @filter = Proc.new { true }
+    end
+
+    def get_filter
+      @filter
+    end
+
+    def filter(&block)
+      @filter = block
     end
   end
 end
