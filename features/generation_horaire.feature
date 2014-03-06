@@ -10,7 +10,8 @@ Fonctionnalité: Génération d'horaire
     Et j'ai spécifié LOG210, LOG240, LOG540, LOG645 et LOG720 comme cours qui m'intéressent
     Et je spécifie comme contrainte les combinaisons de 5 cours seulement
     Lorsque je soumets mon choix
-    Alors il devrait n'y avoir que 2 résultats possibles
+    Alors je suis sur la page des résultats
+    Et il devrait n'y avoir que 2 résultats possibles
     Et une mention de Génie logiciel à la session d’Automne 2013
     Et une mention des cours sélectionnés: LOG210, LOG240, LOG540, LOG645 et LOG720
     Et une mention de la contrainte de 5 cours, sans aucun congé
