@@ -52,9 +52,8 @@ class SelectCoursesController < ApplicationController
   end
 
   def store_results_of(schedules)
-    serialized_schedules = Serialize.schedules_from(schedules)
     hash = SecureRandom.uuid
-    Rails.cache.write hash, {
+    Rails.cache.write hash, ResultsCache.new({
         trimester_year: @bachelor.trimester.year,
         trimester_term: @bachelor.trimester.term,
         trimester_is_for_new_students: @bachelor.trimester.for_new_students?,
@@ -62,10 +61,10 @@ class SelectCoursesController < ApplicationController
         selected_courses: @courses,
         nb_of_courses: @nb_of_courses,
         leaves: params['filters']['leaves'] || [],
-        serialized_schedules: serialized_schedules,
+        schedules: schedules,
         trimester_slug: @bachelor.trimester.slug,
         bachelor_slug: @bachelor.slug
-    }.to_json, expires_in: HOURS_TO_EXPIRY.hours
+    }), expires_in: HOURS_TO_EXPIRY.hours
     hash
   end
 
