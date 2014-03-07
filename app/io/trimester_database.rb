@@ -4,6 +4,10 @@ class TrimesterDatabase
   ORDERED_TERMS = TrimesterBuilder::TERMS.values
   ORDERED_BACHELORS = BachelorBuilder::NAMES.values
 
+  class << self
+    attr_accessor :json_files_last_modified
+  end
+
   private_class_method :new
   def initialize
     @last_modified = 0
@@ -38,9 +42,9 @@ class TrimesterDatabase
 
   def files_changed?
     load database_folder_appended_with('last_modified.rb')
-    return false if JSON_FILES_LAST_MODIFIED == @last_modified
+    return false if @json_files_last_modified == @last_modified
 
-    @last_modified = JSON_FILES_LAST_MODIFIED
+    @last_modified = @json_files_last_modified
     return true
   end
 
