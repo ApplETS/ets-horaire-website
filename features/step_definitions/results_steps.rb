@@ -6,11 +6,11 @@ Alors(/^il devrait n'y avoir que (\d+) résultats possibles$/) do |nb_results|
   end
 end
 
-Alors(/^une mention de (.*) à la session d’(.*)$/) do |bachelor, session|
+Alors(/^il devrait y avoir une mention de (.*) à la session d’(.*)$/) do |bachelor, session|
   should_have_resume_containing(bachelor, session)
 end
 
-Alors(/^une mention des cours sélectionnés: (.*)$/) do |string_of_courses|
+Alors(/^il devrait y avoir une mention des cours sélectionnés: (.*)$/) do |string_of_courses|
   courses = string_of_courses.split(/\s*[, ]\s*|\s*et\s*/).reject(&:empty?)
   within '.courses-list' do
     courses.each do |course|
@@ -19,9 +19,27 @@ Alors(/^une mention des cours sélectionnés: (.*)$/) do |string_of_courses|
   end
 end
 
-Alors(/^une mention de la contrainte de (\d+) cours, sans aucun congé$/) do |nb_courses|
+Alors(/^il devrait y avoir une mention de la contrainte de (\d+) cours(.*)$/) do |nb_courses, leave_condition|
   expect(page).to have_selector("input.number-of-courses[value='#{nb_courses}']")
-  expect(page).to have_selector(".leaves input[value='Aucun']")
+  expect(page).to have_selector(".leaves input[value='Aucun']") if leave_condition == ', sans aucun congé'
+end
+
+Alors(/^il devrait y avoir des mentions pour les congés:$/) do |leaves|
+  within '.leaves table' do
+    leaves.hashes.each do |leave|
+      all('tbody tr').any? do |leave_row|
+        begin
+          leave_row.find('td', text: leave['Jour'])
+          leave_row.find('td', text: "#{leave['Début']}00")
+          leave_row.find('td', text: "#{leave['Fin']}00")
+
+          true
+        rescue Capybara::ElementNotFound
+          false
+        end
+      end
+    end
+  end
 end
 
 Lorsque(/^je sélectionne le (.*)$/) do |output_type|

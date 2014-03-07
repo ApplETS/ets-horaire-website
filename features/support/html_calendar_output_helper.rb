@@ -14,11 +14,19 @@ module HtmlCalendarOutputHelper
       weekday = WEEKDAYS[result["Jour"].downcase]
       periods = page.all(".schedule-#{result["Numéro d'horaire"]} .schedule .weekday.#{weekday} .period")
 
-      periods.any? do |period|
-        period.all('.hour', text: result['Période']).size == 1 &&
-        period.all('.title .course', text: "#{result['Cours']}-#{result['Groupe']}").size == 1 &&
-        period.all('.title .type', text: result['Type']).size == 1
+      has_period = periods.any? do |period|
+        begin
+          period.find('.hour', text: result['Période'])
+          period.find('.title .course', text: "#{result['Cours']}-#{result['Groupe']}")
+          period.find('.title .type', text: result['Type'])
+
+          true
+        rescue Capybara::ElementNotFound
+          false
+        end
       end
+
+      expect(has_period).to be_true
     end
   end
 end
