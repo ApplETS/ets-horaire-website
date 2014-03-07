@@ -72,6 +72,6 @@ namespace :convert_pdfs do
   end
 
   def write_log_file
-    File.open(database_folder_appended_with('last_modified.rb'), 'w') { |file| file.write("JSON_FILES_LAST_MODIFIED = #{Time.now.to_i}") }
+    File.open(database_folder_appended_with('last_modified.rb'), 'w') { |file| file.write("TrimesterDatabase.json_files_last_modified = #{Time.now.to_i}") }
   end
 end
