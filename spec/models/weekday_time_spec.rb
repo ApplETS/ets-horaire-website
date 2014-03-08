@@ -8,7 +8,7 @@ describe WeekdayTime do
     let(:time) { WeekdayTime.new(tuesday, 14, 35) }
 
     specify { time.weekday.should == tuesday }
-    specify { time.to_s.should == "14:35" }
+    specify { time.to_s.should == "14h35" }
     specify { time.hour.should == 14 }
     specify { time.minutes.should == 35 }
     specify { time.to_weekday_i.should == 875 }

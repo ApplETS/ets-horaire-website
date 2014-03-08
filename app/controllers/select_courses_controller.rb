@@ -13,17 +13,17 @@ class SelectCoursesController < ApplicationController
   before_filter :ensure_nb_of_courses_within_limit, only: :compute
 
   def index
-    render_populated_form
+    render_new_form
   end
 
   def compute
     courses = @bachelor.courses.find_all { |course| @courses.include?(course.name) }
 
-    leaves = build_leaves
+    @leaves = LeavesBuilder.build(params['filters']['leaves'])
     schedule_finder = ScheduleFinder.build do |c|
       c.hard_limit = RESULTS_LIMIT
       c.additional_comparator do |groups_combinations, group|
-        LeavesFilter.valid?(group, leaves)
+        LeavesFilter.valid?(group, @leaves)
       end
     end
     schedules = schedule_finder.combinations_for(courses, @nb_of_courses)
@@ -33,11 +33,6 @@ class SelectCoursesController < ApplicationController
   end
 
   private
-
-  def build_leaves
-    return [] unless params['filters'].has_key?('leaves')
-    params['filters']['leaves'].collect { |leave| LeaveBuilder.build(leave) }
-  end
 
   def render_no_results_found
     flash[:notice] = 'Aucun résultat trouvé. Veuillez essayer une différente combinaison de cours ou restreindre vos critères.'
@@ -60,7 +55,7 @@ class SelectCoursesController < ApplicationController
         bachelor_name: @bachelor.name,
         selected_courses: @courses,
         nb_of_courses: @nb_of_courses,
-        leaves: params['filters']['leaves'] || [],
+        leaves: @leaves,
         schedules: schedules,
         trimester_slug: @bachelor.trimester.slug,
         bachelor_slug: @bachelor.slug
@@ -99,6 +94,11 @@ class SelectCoursesController < ApplicationController
     redirect_to root_path
   end
 
+  def render_new_form
+    populate_form_with_parameters
+    render 'index'
+  end
+
   def render_populated_form
     populate_form_with_parameters
     populate_form_with_data
@@ -113,17 +113,11 @@ class SelectCoursesController < ApplicationController
     @trimester_is_for_new_students = @bachelor.trimester.for_new_students?
     @bachelor_name = @bachelor.name
     @courses = @bachelor.courses
+    @courses_range = COURSES_RANGE
+    @leaves = []
   end
 
   def populate_form_with_data
-    @courses_range = COURSES_RANGE
-    @leaves = []
-    (params.try(:[], 'filters').try(:[], 'leaves') || []).size.times do |index|
-      @leaves << OpenStruct.new(
-          weekday_value: params['filters']['leaves'][index]['weekday'].to_i,
-          from_time_value: params['filters']['leaves'][index]['from-time'].to_i,
-          to_time_value: params['filters']['leaves'][index]['to-time'].to_i
-      )
-    end
+    @leaves = LeavesBuilder.build(params['filters']['leaves'])
   end
 end
