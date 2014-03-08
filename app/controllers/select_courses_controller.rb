@@ -19,7 +19,7 @@ class SelectCoursesController < ApplicationController
   def compute
     courses = @bachelor.courses.find_all { |course| @courses.include?(course.name) }
 
-    leaves = build_leaves_as_periods
+    leaves = build_leaves
     schedule_finder = ScheduleFinder.build do |c|
       c.hard_limit = RESULTS_LIMIT
       c.additional_comparator do |groups_combinations, group|
@@ -34,7 +34,7 @@ class SelectCoursesController < ApplicationController
 
   private
 
-  def build_leaves_as_periods
+  def build_leaves
     return [] unless params['filters'].has_key?('leaves')
     params['filters']['leaves'].collect { |leave| LeaveBuilder.build(leave) }
   end
