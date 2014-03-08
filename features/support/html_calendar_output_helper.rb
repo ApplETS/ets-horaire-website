@@ -26,7 +26,7 @@ module HtmlCalendarOutputHelper
         end
       end
 
-      expect(has_period).to be_true
+      fail("Result: #{result} not found") unless has_period
     end
   end
 end

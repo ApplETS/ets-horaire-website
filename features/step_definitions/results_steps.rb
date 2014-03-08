@@ -27,7 +27,7 @@ end
 Alors(/^il devrait y avoir des mentions pour les congés:$/) do |leaves|
   within '.leaves table' do
     leaves.hashes.each do |leave|
-      all('tbody tr').any? do |leave_row|
+      has_leave = all('tbody tr').any? do |leave_row|
         begin
           leave_row.find('td', text: leave['Jour'])
           leave_row.find('td', text: "#{leave['Début']}00")
@@ -38,6 +38,7 @@ Alors(/^il devrait y avoir des mentions pour les congés:$/) do |leaves|
           false
         end
       end
+      fail "Leave: #{leave} not found" unless has_leave
     end
   end
 end
