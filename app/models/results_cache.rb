@@ -5,7 +5,7 @@ class ResultsCache
 
   def initialize(values = {})
     values.each_pair do |key, value|
-      self.send "#{key}=", value
+      instance_variable_set :"@#{key}", value
     end
   end
 end
