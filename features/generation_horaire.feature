@@ -67,7 +67,7 @@ Fonctionnalité: Génération d'horaire
       | Jour     | Début | Fin |
       | Lundi    | 0h    | 23h |
       | Mercredi | 0h    | 23h |
-      | Vendredi | 17h   | 23h |
+      | Vendredi | 16h   | 23h |
     Lorsque je sélectionne le Calendrier HTML
     Alors je devrais voir apparaitre:
       | Numéro d'horaire | Jour     | Période       | Cours  | Groupe | Type      |
