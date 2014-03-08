@@ -41,9 +41,9 @@
             %tbody
               - @leaves.each do |leave|
                 %tr
-                  %td= Weekday.new(leave['weekday'].to_i).fr.capitalize
-                  %td= "#{leave['from-time']}h00"
-                  %td= "#{leave['to-time']}h00"
+                  %td= leave.weekday.fr.capitalize
+                  %td= leave.start_time.to_s
+                  %td= leave.end_time.to_s
 
     .form-group
       .controls.pull-right.col-xs-12.col-sm-10

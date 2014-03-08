@@ -24,7 +24,7 @@ class WeekdayTime
   end
 
   def to_s
-    "#{zerofill @hour}:#{zerofill @minutes}"
+    "#{zerofill @hour}h#{zerofill @minutes}"
   end
 
   private

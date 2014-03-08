@@ -30,8 +30,8 @@ Alors(/^il devrait y avoir des mentions pour les congés:$/) do |leaves|
       has_leave = all('tbody tr').any? do |leave_row|
         begin
           leave_row.find('td', text: leave['Jour'])
-          leave_row.find('td', text: "#{leave['Début']}00")
-          leave_row.find('td', text: "#{leave['Fin']}00")
+          leave_row.find('td', text: leave['Début'])
+          leave_row.find('td', text: leave['Fin'])
 
           true
         rescue Capybara::ElementNotFound
