@@ -18,7 +18,7 @@ class SelectCoursesController < ApplicationController
   def compute
     courses = @bachelor.courses.find_all { |course| @courses.include?(course.name) }
 
-    @leaves = LeavesBuilder.build(params['filters']['leaves'])
+    @leaves = LeavesBuilder.build(params.try(:[], 'filters').try(:[], 'leaves'))
     schedule_finder = ScheduleFinder.build do |c|
       c.additional_comparator do |groups_combinations, group|
         LeavesFilter.valid?(group, @leaves)
@@ -76,7 +76,7 @@ class SelectCoursesController < ApplicationController
   end
 
   def ensure_nb_of_courses_within_limit
-    @nb_of_courses = (params.try(:[], 'filters').try(:[], 'number-of-courses') || '').to_i
+    @nb_of_courses = (params['number-of-courses'] || '').to_i
     return if nb_of_courses_within_limit?
 
     flash[:notice] = 'Veuillez spécifier un nombre de cours valide!'
@@ -116,6 +116,6 @@ class SelectCoursesController < ApplicationController
   end
 
   def populate_form_with_data
-    @leaves = LeavesBuilder.build(params['filters']['leaves'])
+    @leaves = LeavesBuilder.build(params.try(:[], 'filters').try(:[], 'leaves'))
   end
 end
