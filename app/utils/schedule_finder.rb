@@ -1,6 +1,8 @@
 # -*- encoding : utf-8 -*-
 
 class ScheduleFinder
+  RESULTS_LIMIT = 100
+
   def self.build
     configuration = Configuration.new
     yield(configuration) if block_given?
@@ -12,11 +14,11 @@ class ScheduleFinder
     additional_comparator = configuration.get_additional_comparator
 
     @conditional_combinator = ConditionalCombinator.build do |c|
-      c.hard_limit = configuration.hard_limit
+      c.hard_limit = RESULTS_LIMIT
       c.comparator do |groups_combinations, group|
         does_not_conflicts_with?(groups_combinations, group) && additional_comparator.call(groups_combinations, group)
       end
-      c.filter &configuration.get_filter
+      c.shovel_filter &configuration.get_shovel_filter
     end
   end
 
@@ -47,24 +49,20 @@ class ScheduleFinder
   end
 
   class Configuration
-    NO_LIMIT = ConditionalCombinator::Configuration::NO_LIMIT
-    attr_accessor :hard_limit
-
     def initialize
-      @hard_limit = NO_LIMIT
       @additional_comparator = Proc.new { true }
-      @filter = Proc.new { true }
+      @shovel_filter = Proc.new { true }
     end
 
     def get_additional_comparator; @additional_comparator; end
-    def get_filter; @filter; end
+    def get_shovel_filter; @shovel_filter; end
 
     def additional_comparator(&block)
       @additional_comparator = block
     end
 
-    def filter(&block)
-      @filter = block
+    def shovel_filter(&block)
+      @shovel_filter = block
     end
   end
 end

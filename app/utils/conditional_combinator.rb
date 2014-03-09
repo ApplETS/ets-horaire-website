@@ -8,7 +8,7 @@ class ConditionalCombinator
   private_class_method :new
   def initialize(configuration)
     @comparator = configuration.get_comparator
-    @filter = configuration.get_filter
+    @shovel_filter = configuration.get_shovel_filter
     @hard_limit = configuration.hard_limit
     @combinations = []
   end
@@ -62,7 +62,7 @@ class ConditionalCombinator
   end
 
   def add_to_combinations?(combination_stack)
-    combination_stack.size == @set_size && @filter.call(combination_stack)
+    combination_stack.size == @set_size && @shovel_filter.call(combination_stack)
   end
 
   class Configuration
@@ -71,18 +71,18 @@ class ConditionalCombinator
 
     def initialize
       @hard_limit = NO_LIMIT
-      @filter = Proc.new { true }
+      @shovel_filter = Proc.new { true }
     end
 
-    def get_filter; @filter; end
+    def get_shovel_filter; @shovel_filter; end
     def get_comparator; @comparator; end
 
     def comparator(&block)
       @comparator = block
     end
 
-    def filter(&block)
-      @filter = block
+    def shovel_filter(&block)
+      @shovel_filter = block
     end
   end
 end
