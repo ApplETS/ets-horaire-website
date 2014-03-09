@@ -8,12 +8,12 @@
       %span.input-group-addon De
       %select.form-control{name: "filters[leaves][][from-time]"}
         - (0..23).each do |hour|
-          %option{value: hour, selected: (defined?(leave) ? (leave.start_time.hour == hour) : false)}= "#{hour < 10 ? '0' : ''}#{hour}h00"
+          %option{value: hour, selected: (defined?(leave) ? (leave.start_time.hour == hour) : false)}= "#{sprintf('%02d', hour)}h00"
   .col-xs-5.col-sm-4
     .input-group
       %span.input-group-addon À
       %select.form-control{name: "filters[leaves][][to-time]"}
         - (0..23).each do |hour|
-          %option{value: hour, selected: (defined?(leave) ? (leave.end_time.hour == hour) : (hour == 23))}= "#{hour < 10 ? '0' : ''}#{hour}h00"
+          %option{value: hour, selected: (defined?(leave) ? (leave.end_time.hour == hour) : (hour == 23))}= "#{sprintf('%02d', hour)}h00"
   .col-xs-2.col-sm-1
     %a.btn.btn-block.btn-primary.remove-period -

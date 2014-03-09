@@ -27,25 +27,10 @@
     .panel.panel-default.filters
       .panel-heading Filtres
       .panel-body
-        .filter
-          %h2.filter-heading
-            %label.control-label{for: "number-of-courses-activated"} Nombre de cours
-          .filter-body
-            .number-of-courses-selection.btn-group.btn-group-justified{data: { toggle: 'buttons' }}
-              - @courses_range.each do |index|
-                %label.btn.btn-primary{for: "number-of-courses-#{index}", class: (params.try(:[], 'filters').try(:[], 'number-of-courses') == "#{index}" ? 'active' : nil)}
-                  %input{id: "number-of-courses-#{index}", type: 'radio', name: "filters[number-of-courses]", value: index, checked: (params.try(:[], 'filters').try(:[], 'number-of-courses') == "#{index}")}
-                  = index
-        .filter.leaves-filter
-          %h2.filter-heading Périodes de congés
-          .filter-body
-            .leaves-list.row
-              = render partial: 'leave', collection: @leaves
-              %a.btn.btn-primary.btn-block.add-period
-                Ajouter un congé
-                %i.glyphicon.glyphicon-plus
+        = render partial: 'select_courses/filters/number_of_courses'
+        = render partial: 'select_courses/filters/leaves'
     %button.btn.btn-block.pull-right.btn-primary
       Soumettre
       %i.glyphicon.glyphicon-share
 - content_for :post_html do
-  %script#leave-template{type: 'text/x-handlebars-template'}= render partial: 'leave'
+  %script#leave-template{type: 'text/x-handlebars-template'}= render partial: 'select_courses/filters/leave'

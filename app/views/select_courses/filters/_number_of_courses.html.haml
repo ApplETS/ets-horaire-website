@@ -1,0 +1,8 @@
+.filter
+  %h2.filter-heading Nombre de cours
+  .filter-body
+    .number-of-courses-selection.btn-group.btn-group-justified{data: { toggle: 'buttons' }}
+      - @courses_range.each do |index|
+        %label.btn.btn-primary{for: "number-of-courses-#{index}", class: (params.try(:[], 'filters').try(:[], 'number-of-courses') == "#{index}" ? 'active' : nil)}
+          %input{id: "number-of-courses-#{index}", type: 'radio', name: "filters[number-of-courses]", value: index, checked: (params.try(:[], 'filters').try(:[], 'number-of-courses') == "#{index}")}
+          = index
