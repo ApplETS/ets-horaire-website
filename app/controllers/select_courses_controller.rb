@@ -4,7 +4,6 @@ require 'digest/sha1'
 require 'json'
 
 class SelectCoursesController < ApplicationController
-  RESULTS_LIMIT = 100
   HOURS_TO_EXPIRY = 24
   COURSES_RANGE = (1..5)
 
@@ -21,7 +20,6 @@ class SelectCoursesController < ApplicationController
 
     @leaves = LeavesBuilder.build(params['filters']['leaves'])
     schedule_finder = ScheduleFinder.build do |c|
-      c.hard_limit = RESULTS_LIMIT
       c.additional_comparator do |groups_combinations, group|
         LeavesFilter.valid?(group, @leaves)
       end
@@ -40,7 +38,7 @@ class SelectCoursesController < ApplicationController
   end
 
   def fulfill_output_flow(schedule_finder, schedules)
-    flash[:notice] = "Seulement les #{RESULTS_LIMIT} premiers résultats sont affichés. Veuillez fournir plus de critères pour des résultats optimals." if schedule_finder.reached_limit?
+    flash[:notice] = "Seulement les #{ScheduleFinder::RESULTS_LIMIT} premiers résultats sont affichés. Veuillez fournir plus de critères pour des résultats optimals." if schedule_finder.reached_limit?
     flash[:alert] = "Vos combinaisons vont être sauvegardés pour #{HOURS_TO_EXPIRY} heures."
     hash = store_results_of(schedules)
     redirect_to output_path(cle: hash)

@@ -182,7 +182,7 @@ describe ConditionalCombinator do
         c.comparator do |concrete_objects_stack, concrete_object|
           concrete_objects_stack.none? { |comparable_concrete_object| concrete_object.conflicts_with? comparable_concrete_object }
         end
-        c.filter do |concrete_objects_stack|
+        c.shovel_filter do |concrete_objects_stack|
           concrete_objects_stack.none? { |concrete_object| concrete_object.id == 3 }
         end
       end
