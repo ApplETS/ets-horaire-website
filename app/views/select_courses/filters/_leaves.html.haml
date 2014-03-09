@@ -2,7 +2,7 @@
   %h2.filter-heading Périodes de congés
   .filter-body
     .leaves-list.row
-      = render partial: 'select_courses/filters/leave', collection: @leaves
+      = render partial: 'select_courses/filters/leave_row', collection: @leaves
       %a.btn.btn-primary.btn-block.add-period
         Ajouter un congé
         %i.glyphicon.glyphicon-plus

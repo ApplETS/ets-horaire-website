@@ -14,23 +14,30 @@
           = link_to root_path, class: 'btn btn-block btn-primary' do
             %i.glyphicon.glyphicon-chevron-left
             Choisir de nouveau
-      %hr
-      .form-group
-        %label.col-xs-12.col-sm-2.control-label Cours
-        .col-xs-12.col-sm-10.controls
-          .courses-list.input-group.input-group-lg{data: { toggle: 'buttons' }}
-            - @courses.each do |course|
-              %label.btn.btn-primary.course-btn{for: "course-#{course.name}", class: (params.try(:[], 'courses').try(:[], course.name) == 'on' ? 'active' : nil)}
-                %input{id: "course-#{course.name}", type: 'checkbox', name: "courses[#{course.name}]", checked: (params.try(:[], 'courses').try(:[], course.name) == 'on')}
-                = course.name
-      %hr.visible-xs
+      .panel.panel-default.parameters
+        .panel-heading Paramètres
+        .panel-body
+          %h2 Nombre de cours par horaire
+          .number-of-courses-selection.btn-group.btn-group-justified{data: { toggle: 'buttons' }}
+            - @courses_range.each do |index|
+              %label.btn.btn-primary{for: "number-of-courses-#{index}", class: (params.try(:[], 'number-of-courses') == index.to_s ? 'active' : nil)}
+                %input{id: "number-of-courses-#{index}", type: 'radio', name: "number-of-courses", value: index, checked: (params.try(:[], 'number-of-courses') == index.to_s)}
+                = index
+          %hr
+          .form-group
+            %label.col-xs-12.col-sm-2.control-label Cours
+            .col-xs-12.col-sm-10.controls
+              .courses-list.input-group.input-group-lg{data: { toggle: 'buttons' }}
+                - @courses.each do |course|
+                  %label.btn.btn-primary.course-btn{for: "course-#{course.name}", class: (params.try(:[], 'courses').try(:[], course.name) == 'on' ? 'active' : nil)}
+                    %input{id: "course-#{course.name}", type: 'checkbox', name: "courses[#{course.name}]", checked: (params.try(:[], 'courses').try(:[], course.name) == 'on')}
+                    = course.name
     .panel.panel-default.filters
       .panel-heading Filtres
       .panel-body
-        = render partial: 'select_courses/filters/number_of_courses'
         = render partial: 'select_courses/filters/leaves'
     %button.btn.btn-block.pull-right.btn-primary
       Soumettre
       %i.glyphicon.glyphicon-share
 - content_for :post_html do
-  %script#leave-template{type: 'text/x-handlebars-template'}= render partial: 'select_courses/filters/leave'
+  %script#leave-template{type: 'text/x-handlebars-template'}= render partial: 'select_courses/filters/leave_row'
