@@ -39,12 +39,11 @@
         .filter.leaves-filter
           %h2.filter-heading Périodes de congés
           .filter-body
-            .leaves-list
-              .row
-                = render partial: 'leave', collection: @leaves
-                %a.btn.btn-primary.btn-block.add-period
-                  Ajouter un congé
-                  %i.glyphicon.glyphicon-plus
+            .leaves-list.row
+              = render partial: 'leave', collection: @leaves
+              %a.btn.btn-primary.btn-block.add-period
+                Ajouter un congé
+                %i.glyphicon.glyphicon-plus
     %button.btn.btn-block.pull-right.btn-primary
       Soumettre
       %i.glyphicon.glyphicon-share
