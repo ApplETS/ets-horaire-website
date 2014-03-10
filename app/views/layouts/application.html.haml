@@ -3,11 +3,10 @@
   %head
     %title Générateur d'horaire pour l'ÉTS
     %meta{content: 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no', name: 'viewport'}
-    %link{href: '//netdna.bootstrapcdn.com/bootswatch/3.0.1/flatly/bootstrap.min.css', rel: 'stylesheet'}
+    %link{href: '//fonts.googleapis.com/css?family=Lato:400,700,900,400italic', rel: 'stylesheet'}
     = stylesheet_link_tag 'application', media: 'all'
 
     %script{src: '//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js', type: 'text/javascript'}
-    %script{src: '//netdna.bootstrapcdn.com/bootstrap/3.0.1/js/bootstrap.min.js', type: 'text/javascript'}
     = yield :pre_javascript
     = javascript_include_tag 'application'
 
