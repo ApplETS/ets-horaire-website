@@ -12,6 +12,7 @@ gem 'jquery-rails'
 gem 'turbolinks'
 gem 'hpricot'
 gem 'whenever', require: false
+gem 'bootstrap-sass', '~> 3.1.1'
 
 group :development do
   gem 'capistrano'
