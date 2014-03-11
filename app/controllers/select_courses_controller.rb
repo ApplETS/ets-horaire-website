@@ -63,7 +63,6 @@ class SelectCoursesController < ApplicationController
   end
 
   def ensure_trimester_and_bachelor_present_and_valid
-    return redirect_back_to_selection unless params.has_key?(:trimestre) || params.has_key?(:baccalaureat)
     @bachelor = Bachelor.find_by_slug_and_trimester_slug(params[:baccalaureat], params[:trimestre])
     return redirect_back_to_selection if @bachelor.nil?
   end
