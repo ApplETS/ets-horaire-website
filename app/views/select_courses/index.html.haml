@@ -22,9 +22,9 @@
             .col-xs-12.col-sm-10.controls
               .courses-list.input-group.input-group-lg{data: { toggle: 'buttons' }}
                 - @courses.each do |course|
-                  %label.btn.btn-primary.course-btn{for: "schedule_course_#{course.name}", class: (params.try(:[], 'schedule').try(:[], 'courses').try(:[], course.name) == 'on' ? 'active' : nil)}
-                    %input{id: "schedule_course_#{course.name}", type: 'checkbox', name: "schedule[courses][#{course.name}]", checked: (params.try(:[], 'schedule').try(:[], 'courses').try(:[], course.name) == 'on')}
-                    = course.name
+                  %label.btn.btn-primary.course-btn{for: "schedule_course_#{course}", class: (@selected_courses.include?(course) ? 'active' : nil)}
+                    %input{id: "schedule_course_#{course}", type: 'checkbox', name: "schedule[courses][#{course}]", checked: @selected_courses.include?(course)}
+                    = course
           %hr
           %h2 Nombre de cours par horaire
           .number-of-courses-selection.btn-group.btn-group-justified{data: { toggle: 'buttons' }}
