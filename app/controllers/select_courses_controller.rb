@@ -7,19 +7,19 @@ class SelectCoursesController < ApplicationController
   HOURS_TO_EXPIRY = 24
   COURSES_RANGE = (1..5)
 
+  before_filter :build_form_data
   before_filter :ensure_trimester_and_bachelor_present_and_valid, only: :index
   before_filter :find_bachelor, only: :compute
   before_filter :ensure_course_selected, only: :compute
   before_filter :ensure_nb_of_courses_within_limit, only: :compute
 
   def index
-    render_new_form
+    render_populated_form
   end
 
   def compute
-    courses = @bachelor.courses.find_all { |course| @courses.include?(course.name) }
+    courses = @bachelor.courses.find_all { |course| @selected_courses.include?(course.name) }
 
-    @leaves = LeavesBuilder.build(params.try(:[], 'schedule').try(:[], 'filters').try(:[], 'leaves'))
     schedule_finder = ScheduleFinder.build do |c|
       c.additional_comparator do |groups_combinations, group|
         LeavesFilter.valid?(group, @leaves)
@@ -52,7 +52,7 @@ class SelectCoursesController < ApplicationController
         trimester_term: @bachelor.trimester.term,
         trimester_is_for_new_students: @bachelor.trimester.for_new_students?,
         bachelor_name: @bachelor.name,
-        selected_courses: @courses,
+        selected_courses: @selected_courses,
         nb_of_courses: @nb_of_courses,
         leaves: @leaves,
         schedules: schedules,
@@ -72,8 +72,7 @@ class SelectCoursesController < ApplicationController
   end
 
   def ensure_course_selected
-    @courses = params['schedule']['courses'].try(:keys)
-    return unless @courses.nil?
+    return unless @selected_courses.nil?
 
     flash[:notice] = 'Veuillez sélectionner au minimum un cours!'
     render_populated_form
@@ -88,7 +87,7 @@ class SelectCoursesController < ApplicationController
   end
 
   def nb_of_courses_within_limit?
-    @nb_of_courses.present? && @nb_of_courses <= @courses.size && COURSES_RANGE.include?(@nb_of_courses)
+    @nb_of_courses.present? && @nb_of_courses <= @selected_courses.size && COURSES_RANGE.include?(@nb_of_courses)
   end
 
   def redirect_back_to_selection
@@ -96,30 +95,21 @@ class SelectCoursesController < ApplicationController
     redirect_to root_path
   end
 
-  def render_new_form
-    populate_form_with_parameters
-    render 'index'
-  end
-
   def render_populated_form
-    populate_form_with_parameters
-    populate_form_with_data
-    render 'index'
-  end
-
-  def populate_form_with_parameters
     @trimester_slug = @bachelor.trimester.slug
     @bachelor_slug = @bachelor.slug
     @trimester_year = @bachelor.trimester.year
     @trimester_term = @bachelor.trimester.term
     @trimester_is_for_new_students = @bachelor.trimester.for_new_students?
     @bachelor_name = @bachelor.name
-    @courses = @bachelor.courses
+    @courses = @bachelor.courses.map(&:name)
     @courses_range = COURSES_RANGE
-    @leaves = []
+
+    render 'index'
   end
 
-  def populate_form_with_data
-    @leaves = LeavesBuilder.build(params['schedule'].try(:[], 'filters').try(:[], 'leaves'))
+  def build_form_data
+    @leaves = LeavesBuilder.build(params.try(:[], 'schedule').try(:[], 'filters').try(:[], 'leaves'))
+    @selected_courses = (params['schedule'].try(:[], 'courses').try(:keys) || [])
   end
 end
