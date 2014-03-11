@@ -1,18 +1,18 @@
 .row.leave-row
   .col-xs-12.col-sm-3
-    %select.form-control{name: "filters[leaves][][weekday]"}
+    %select.form-control{name: "schedule[filters][leaves][][weekday]"}
       - %w(Lundi Mardi Mercredi Jeudi Vendredi).each do |weekday|
         %option{value: weekday.downcase, selected: (defined?(leave) ? (leave.weekday.fr == weekday.downcase) : false)}= weekday
   .col-xs-5.col-sm-4
     .input-group
       %span.input-group-addon De
-      %select.form-control{name: "filters[leaves][][from-time]"}
+      %select.form-control{name: "schedule[filters][leaves][][from-time]"}
         - (0..23).each do |hour|
           %option{value: hour, selected: (defined?(leave) ? (leave.start_time.hour == hour) : false)}= "#{sprintf('%02d', hour)}h00"
   .col-xs-5.col-sm-4
     .input-group
       %span.input-group-addon À
-      %select.form-control{name: "filters[leaves][][to-time]"}
+      %select.form-control{name: "schedule[filters][leaves][][to-time]"}
         - (0..23).each do |hour|
           %option{value: hour, selected: (defined?(leave) ? (leave.end_time.hour == hour) : (hour == 23))}= "#{sprintf('%02d', hour)}h00"
   .col-xs-2.col-sm-1

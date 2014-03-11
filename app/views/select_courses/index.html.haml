@@ -5,8 +5,8 @@
     %li.active Choix de cours
   %h1 Choix de cours
   = form_tag(select_courses_path, method: :post, class: 'courses_choice') do
-    %input.hidden{type: 'text', name: 'trimestre', value: @trimester_slug}
-    %input.hidden{type: 'text', name: 'baccalaureat', value: @bachelor_slug}
+    %input.hidden{type: 'text', name: 'schedule[bachelor]', value: @bachelor_slug}
+    %input.hidden{type: 'text', name: 'schedule[trimester]', value: @trimester_slug}
     .form-horizontal
       = render partial: 'shared/bachelor_choice_resume'
       .form-group
@@ -20,8 +20,8 @@
           %h2 Nombre de cours par horaire
           .number-of-courses-selection.btn-group.btn-group-justified{data: { toggle: 'buttons' }}
             - @courses_range.each do |index|
-              %label.btn.btn-primary{for: "number-of-courses-#{index}", class: (params.try(:[], 'number-of-courses') == index.to_s ? 'active' : nil)}
-                %input{id: "number-of-courses-#{index}", type: 'radio', name: "number-of-courses", value: index, checked: (params.try(:[], 'number-of-courses') == index.to_s)}
+              %label.btn.btn-primary{for: "schedule_number_of_courses_#{index}", class: (params.try(:[], 'schedule').try(:[], 'number_of_courses') == index.to_s ? 'active' : nil)}
+                %input{id: "schedule_number_of_courses_#{index}", type: 'radio', name: "schedule[number_of_courses]", value: index, checked: (params.try(:[], 'schedule').try(:[], 'number_of_courses') == index.to_s)}
                 = index
           %hr
           .form-group
@@ -29,8 +29,8 @@
             .col-xs-12.col-sm-10.controls
               .courses-list.input-group.input-group-lg{data: { toggle: 'buttons' }}
                 - @courses.each do |course|
-                  %label.btn.btn-primary.course-btn{for: "course-#{course.name}", class: (params.try(:[], 'courses').try(:[], course.name) == 'on' ? 'active' : nil)}
-                    %input{id: "course-#{course.name}", type: 'checkbox', name: "courses[#{course.name}]", checked: (params.try(:[], 'courses').try(:[], course.name) == 'on')}
+                  %label.btn.btn-primary.course-btn{for: "schedule_course_#{course.name}", class: (params.try(:[], 'schedule').try(:[], 'courses').try(:[], course.name) == 'on' ? 'active' : nil)}
+                    %input{id: "schedule_course_#{course.name}", type: 'checkbox', name: "schedule[courses][#{course.name}]", checked: (params.try(:[], 'schedule').try(:[], 'courses').try(:[], course.name) == 'on')}
                     = course.name
     .panel.panel-default.filters
       .panel-heading Filtres
