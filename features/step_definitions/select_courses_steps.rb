@@ -19,9 +19,9 @@ end
   within '.leaves-list' do
     leaves.hashes.each do |leave|
       find('a', text: 'Ajouter un congé').click
-      all(".leave-row select[name='filters[leaves][][weekday]']").last.select leave['Jour']
-      all(".leave-row select[name='filters[leaves][][from-time]']").last.select leave['Début']
-      all(".leave-row select[name='filters[leaves][][to-time]']").last.select leave['Fin']
+      all(".leave-row select[name='schedule[filters][leaves][][weekday]']").last.select leave['Jour']
+      all(".leave-row select[name='schedule[filters][leaves][][from-time]']").last.select leave['Début']
+      all(".leave-row select[name='schedule[filters][leaves][][to-time]']").last.select leave['Fin']
     end
   end
 end

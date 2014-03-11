@@ -7,7 +7,8 @@ class SelectCoursesController < ApplicationController
   HOURS_TO_EXPIRY = 24
   COURSES_RANGE = (1..5)
 
-  before_filter :ensure_trimester_and_bachelor_present_and_valid
+  before_filter :ensure_trimester_and_bachelor_present_and_valid, only: :index
+  before_filter :find_bachelor, only: :compute
   before_filter :ensure_course_selected, only: :compute
   before_filter :ensure_nb_of_courses_within_limit, only: :compute
 
@@ -18,7 +19,7 @@ class SelectCoursesController < ApplicationController
   def compute
     courses = @bachelor.courses.find_all { |course| @courses.include?(course.name) }
 
-    @leaves = LeavesBuilder.build(params.try(:[], 'filters').try(:[], 'leaves'))
+    @leaves = LeavesBuilder.build(params.try(:[], 'schedule').try(:[], 'filters').try(:[], 'leaves'))
     schedule_finder = ScheduleFinder.build do |c|
       c.additional_comparator do |groups_combinations, group|
         LeavesFilter.valid?(group, @leaves)
@@ -67,8 +68,12 @@ class SelectCoursesController < ApplicationController
     return redirect_back_to_selection if @bachelor.nil?
   end
 
+  def find_bachelor
+    @bachelor = Bachelor.find_by_slug_and_trimester_slug(params['schedule']['bachelor'], params['schedule']['trimester'])
+  end
+
   def ensure_course_selected
-    @courses = params[:courses].try(:keys)
+    @courses = params['schedule']['courses'].try(:keys)
     return unless @courses.nil?
 
     flash[:notice] = 'Veuillez sélectionner au minimum un cours!'
@@ -76,7 +81,7 @@ class SelectCoursesController < ApplicationController
   end
 
   def ensure_nb_of_courses_within_limit
-    @nb_of_courses = (params['number-of-courses'] || '').to_i
+    @nb_of_courses = (params['schedule']['number_of_courses'] || '').to_i
     return if nb_of_courses_within_limit?
 
     flash[:notice] = 'Veuillez spécifier un nombre de cours valide!'
@@ -116,6 +121,6 @@ class SelectCoursesController < ApplicationController
   end
 
   def populate_form_with_data
-    @leaves = LeavesBuilder.build(params.try(:[], 'filters').try(:[], 'leaves'))
+    @leaves = LeavesBuilder.build(params['schedule'].try(:[], 'filters').try(:[], 'leaves'))
   end
 end
