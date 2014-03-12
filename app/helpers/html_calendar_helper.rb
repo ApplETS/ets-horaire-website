@@ -13,7 +13,7 @@ module HtmlCalendarHelper
   end
 
   def period_classes_for(period)
-    "period #{period.css_class} from-#{flat_time period.start_time} duration-#{duration_of period}"
+    "period period-#{period.nb} from-#{flat_time period.start_time} duration-#{duration_of period}"
   end
 
   def format_time_of(period)

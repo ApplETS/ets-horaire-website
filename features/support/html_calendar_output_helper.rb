@@ -6,7 +6,9 @@ module HtmlCalendarOutputHelper
     'mardi' => 'tuesday',
     'mercredi' => 'wednesday',
     'jeudi' => 'thursday',
-    'vendredi' => 'friday'
+    'vendredi' => 'friday',
+    'samedi' => 'saturday',
+    'dimanche' => 'sunday'
   }
 
   def should_have_all_periods_of(results)

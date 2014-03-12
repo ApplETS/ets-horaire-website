@@ -91,3 +91,34 @@ Fonctionnalité: Génération d'horaire
       | 3                | Jeudi    | 09h00 - 12h00 | CHM131 | 9      | TP        |
       | 3                | Jeudi    | 18h00 - 22h00 | COM110 | 4      | TP A+B    |
       | 3                | Vendredi | 13h30 - 15h30 | FRA150 | 1      | TP        |
+
+  Scénario: Une combinaison d'horaire pour une ancien étudiant
+    Étant donné je suis un étudiant en Génie de la construction, inscrit à la session d’Été 2014
+    Et je choisi CTN200, CTN258, CTN600 et CTN626 comme cours qui m'intéressent
+    Et je spécifie comme contrainte les combinaisons de 4 cours seulement
+    Lorsque je soumets mon choix
+    Alors je suis sur la page des résultats
+    Et il devrait n'y avoir que 2 résultats possibles
+    Et il devrait y avoir une mention de Génie de la construction à la session d’Été 2014
+    Et il devrait y avoir une mention des cours sélectionnés: CTN200, CTN258, CTN600 et CTN626
+    Et il devrait y avoir une mention de la contrainte de 4 cours, sans aucun congé
+    Lorsque je sélectionne le Calendrier HTML
+    Alors je devrais voir apparaitre:
+      | Numéro d'horaire | Jour     | Période       | Cours  | Groupe | Type      |
+      | 1                | Lundi    | 08h45 - 12h15 | CTN626 | 2      | Cours     |
+      | 1                | Lundi    | 18h00 - 21h30 | CTN600 | 1      | Cours     |
+      | 1                | Mardi    | 13h30 - 17h00 | CTN258 | 2      | Cours     |
+      | 1                | Mardi    | 18h00 - 21h30 | CTN200 | 1      | Cours     |
+      | 1                | Mercredi | 13h30 - 16h30 | CTN626 | 2      | TP-Labo/2 |
+      | 1                | Jeudi    | 08h45 - 11h45 | CTN258 | 2      | TP/Labo   |
+      | 1                | Jeudi    | 18h00 - 21h00 | CTN200 | 1      | TP/Labo   |
+      | 1                | Samedi   | 09h00 - 17h00 | CTN600 | 1      | TP-Labo/2 |
+
+      | 2                | Lundi    | 08h45 - 12h15 | CTN626 | 2      | Cours     |
+      | 2                | Lundi    | 18h00 - 21h30 | CTN600 | 1      | Cours     |
+      | 2                | Mardi    | 13h30 - 17h00 | CTN258 | 2      | Cours     |
+      | 2                | Mardi    | 18h00 - 21h00 | CTN200 | 2      | TP/Labo   |
+      | 2                | Mercredi | 13h30 - 16h30 | CTN626 | 2      | TP-Labo/2 |
+      | 2                | Jeudi    | 08h45 - 11h45 | CTN258 | 2      | TP/Labo   |
+      | 2                | Jeudi    | 18h00 - 21h30 | CTN200 | 2      | Cours     |
+      | 2                | Samedi   | 09h00 - 17h00 | CTN600 | 1      | TP-Labo/2 |
