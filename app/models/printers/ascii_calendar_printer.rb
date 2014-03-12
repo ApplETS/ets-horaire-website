@@ -1,17 +1,13 @@
 # -*- encoding : utf-8 -*-
 
 class AsciiCalendarPrinter < Printer
-  HEADING_WIDTH = 91
+  include WeekdayHelper
+
   COLUMN_WIDTH = 16
   NB_COLUMNS = 5
   FULL_COLUMN_SPACE = COLUMN_WIDTH.times.collect { " " }.join
-  FULL_SCHEDULE_LINE = (COLUMN_WIDTH * NB_COLUMNS + NB_COLUMNS + 1).times.collect { "-" }.join
   MINUTES_PER_HOUR = 60
-  MONDAY = 0
-  TUESDAY = 1440
-  WEDNESDAY = 2880
-  THURSDAY = 4320
-  FRIDAY = 5760
+  WEEKDAY_HOURS = (0..6).collect { |index| index * 24 * 60 }
 
   def initialize
     @name = 'Calendrier ASCII'
@@ -20,9 +16,11 @@ class AsciiCalendarPrinter < Printer
 
   def output(schedules)
     @output = ''
+    @weekdays = necessary_weekdays_of(schedules)
+    @full_line_width = (@weekdays.size * (COLUMN_WIDTH + 1) + 6)
     schedules.each_with_index do |schedule, index|
       @output << "#{fill_heading(index + 1)}\r\n"
-      @output << "#{fill_heading}\r\n\r\n"
+      @output << "#{line_fill}\r\n\r\n"
       print schedule
       @output << "\r\n"
     end
@@ -38,23 +36,32 @@ class AsciiCalendarPrinter < Printer
   def fill_heading(text = '')
     text = text.to_s
     text << ' ' unless text.empty?
-    filling = (HEADING_WIDTH - text.length).times.collect { '*' }.join
-    "#{text}#{filling}"
+    "#{text}#{line_fill(text.size)}"
+  end
+
+  def line_fill(padding = 0, char = '*')
+    (@full_line_width - padding).times.collect { char }.join
   end
 
   def print(schedule)
-    @output << "     #{FULL_SCHEDULE_LINE}\r\n"
-    @output << "     |#{align_left "Lundi"}|#{align_left "Mardi"}|#{align_left "Mercredi"}|#{align_left "Jeudi"}|#{align_left "Vendredi"}|\r\n"
-    @output << "     #{FULL_SCHEDULE_LINE}\r\n"
+    week_line = @weekdays.collect { |weekday| align_left(weekday.fr.capitalize) }.join('|')
+
+    @output << "     #{line_fill(5, '-')}\r\n"
+    @output << "     |#{week_line}|\r\n"
+    @output << "     #{line_fill(5, '-')}\r\n"
     (8..23).each do |hour|
       @output << print_line(hour, schedule)
     end
-    @output << "     #{FULL_SCHEDULE_LINE}\r\n"
+    @output << "     #{line_fill(5, '-')}\r\n"
   end
 
   def print_line(hour, schedule)
     hour_zerofilled = hour.to_s.rjust(2, "0")
-    "#{hour_zerofilled}:00|#{print_column MONDAY, hour, schedule}|#{print_column TUESDAY, hour, schedule}|#{print_column WEDNESDAY, hour, schedule}|#{print_column THURSDAY, hour, schedule}|#{print_column FRIDAY, hour, schedule}|\r\n"
+    output = "#{hour_zerofilled}:00|"
+    @weekdays.each do |weekday|
+      output << "#{print_column(WEEKDAY_HOURS[weekday.index], hour, schedule)}|"
+    end
+    "#{output}\r\n"
   end
 
   def print_column(weekday, hour, schedule)
