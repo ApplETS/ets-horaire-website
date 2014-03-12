@@ -63,12 +63,12 @@ class SelectCoursesController < ApplicationController
   end
 
   def ensure_trimester_and_bachelor_present_and_valid
-    @bachelor = Bachelor.find_by_slug_and_trimester_slug(params[:baccalaureat], params[:trimestre])
-    return redirect_back_to_selection if @bachelor.nil?
+    @bachelor = Bachelor.find_by_slug_and_trimester_slug(params['baccalaureat'], params['trimestre'])
+    redirect_back_to_selection if @bachelor.nil?
   end
 
   def find_bachelor
-    @bachelor = Bachelor.find_by_slug_and_trimester_slug(params['schedule']['bachelor'], params['schedule']['trimester'])
+    @bachelor = Bachelor.find_by_slug_and_trimester_slug(schedule('bachelor'), schedule('trimester'))
   end
 
   def ensure_course_selected
@@ -79,7 +79,7 @@ class SelectCoursesController < ApplicationController
   end
 
   def ensure_nb_of_courses_within_limit
-    @nb_of_courses = (params['schedule']['number_of_courses'] || '').to_i
+    @nb_of_courses = (schedule('number_of_courses') || '').to_i
     return if nb_of_courses_within_limit?
 
     flash[:notice] = 'Veuillez spécifier un nombre de cours valide!'
@@ -109,7 +109,14 @@ class SelectCoursesController < ApplicationController
   end
 
   def build_form_data
-    @leaves = LeavesBuilder.build(params.try(:[], 'schedule').try(:[], 'filters').try(:[], 'leaves'))
-    @selected_courses = (params['schedule'].try(:[], 'courses').try(:keys) || [])
+    @leaves = LeavesBuilder.build(schedule('filters.leaves'))
+    @selected_courses = (schedule('courses').try(:keys) || [])
+  end
+
+  def schedule(param)
+    keys = param.split('.')
+    result = params['schedule']
+    keys.each { |key| result = result.try(:[], key) }
+    result
   end
 end
