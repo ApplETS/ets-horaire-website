@@ -6,18 +6,18 @@
         %tr
           %th.hour
           - @weekdays.each do |weekday|
-            %th= weekday
+            %th= weekday.fr.capitalize
       %tbody
         - @hours.each do |hour|
           %tr.hour
             %td= hour_string_with(hour)
-            - @weekdays.each do
-              %td.empty
+            - @weekdays.each do |weekday|
+              %td.empty{class: ('weekend' if weekday.weekend?)}
           - unless last? hour
             %tr.half-hour
               %td
-              - @weekdays.each do
-                %td.empty
+              - @weekdays.each do |weekday|
+                %td.empty{class: ('weekend' if weekday.weekend?)}
     .schedule
       - schedule.each do |weekday|
         %div{class: weekday_classes_for(weekday)}

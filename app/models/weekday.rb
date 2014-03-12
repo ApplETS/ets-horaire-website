@@ -28,12 +28,30 @@ class Weekday
     define_method(lang_downcase) { LANGUAGES[lang][@index] }
   end
 
-  private
+  def workday?
+    (0..4).include?(@index)
+  end
 
-  def self.create_weekday_using(lang, name, &block)
-    index = LANGUAGES[lang].index(&block)
-    raise "'#{name}' is not a valid weekday." if index.nil?
-    Weekday.new index
+  def weekend?
+    (5..6).include?(@index)
+  end
+
+  def ==(c)
+    @index == c.index
+  end
+
+  class << self
+    def all
+      (0..6).collect { |index| new index }
+    end
+
+    private
+
+    def create_weekday_using(lang, name, &block)
+      index = LANGUAGES[lang].index(&block)
+      raise "'#{name}' is not a valid weekday." if index.nil?
+      Weekday.new index
+    end
   end
 
 end

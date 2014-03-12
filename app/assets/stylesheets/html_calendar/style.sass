@@ -1,11 +1,12 @@
 @import "compass"
 
-$column-width: 150px
+$column-width: 135px
 $row-height: 15px
+$period-margin: 5px
 $period-padding: 5px
-$period-width: $column-width - $period-padding * 2 - 10px
+$period-width: $column-width - $period-padding * 2 - $period-margin * 2
 $period-colors: rgb(90,167,157), rgb(49,90,119), rgb(43,58,101), rgb(210,73,82), rgb(151,190,126), rgb(231,223,154)
-$weekdays: monday, tuesday, wednesday, thursday, friday
+$weekdays: monday, tuesday, wednesday, thursday, friday, saturday, sunday
 $from-hour: 8
 $to-hour: 23
 $period-shadow-height: 2px
@@ -57,6 +58,9 @@ fieldset
         height: $row-height
         font-size: 12px
 
+        td.weekend
+          background-color: #dedede
+
       tr.hour
         border-top: 1px solid #808080
 
@@ -77,7 +81,7 @@ fieldset
         $weekday: nth($weekdays, $index + 1)
 
         &.#{$weekday}
-          left: ($index * $column-width)
+          left: ($index * $column-width) + $period-margin
 
       .period
         position: absolute
