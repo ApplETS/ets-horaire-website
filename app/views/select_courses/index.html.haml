@@ -17,21 +17,20 @@
       .panel.panel-default.parameters
         .panel-heading Paramètres
         .panel-body
-          .form-group
-            %label.col-xs-12.col-sm-2.control-label Cours
-            .col-xs-12.col-sm-10.controls
-              .courses-list.input-group.input-group-lg{data: { toggle: 'buttons' }}
-                - @courses.each do |course|
-                  %label.btn.btn-primary.course-btn{for: "schedule_course_#{course}", class: (@selected_courses.include?(course) ? 'active' : nil)}
-                    %input{id: "schedule_course_#{course}", type: 'checkbox', name: "schedule[courses][#{course}]", checked: @selected_courses.include?(course)}
-                    = course
-          %hr
-          %h2 Nombre de cours par horaire
-          .number-of-courses-selection.btn-group.btn-group-justified{data: { toggle: 'buttons' }}
-            - @courses_range.each do |index|
-              %label.btn.btn-primary{for: "schedule_number_of_courses_#{index}", class: (@nb_of_courses == index ? 'active' : nil)}
-                %input{id: "schedule_number_of_courses_#{index}", type: 'radio', name: "schedule[number_of_courses]", value: index, checked: (@nb_of_courses == index)}
-                = index
+          %fieldset
+            %legend Cours
+            .courses-list.input-group.input-group-lg{data: { toggle: 'buttons' }}
+              - @courses.each do |course|
+                %label.btn.btn-primary.course-btn{for: "schedule_course_#{course}", class: (@selected_courses.include?(course) ? 'active' : nil)}
+                  %input{id: "schedule_course_#{course}", type: 'checkbox', name: "schedule[courses][#{course}]", checked: @selected_courses.include?(course)}
+                  = course
+          %fieldset
+            %legend Nombre de cours par horaire
+            .number-of-courses-selection.btn-group.btn-group-justified{data: { toggle: 'buttons' }}
+              - @courses_range.each do |index|
+                %label.btn.btn-primary{for: "schedule_number_of_courses_#{index}", class: (@nb_of_courses == index ? 'active' : nil)}
+                  %input{id: "schedule_number_of_courses_#{index}", type: 'radio', name: "schedule[number_of_courses]", value: index, checked: (@nb_of_courses == index)}
+                  = index
     .panel.panel-default.filters
       .panel-heading Filtres
       .panel-body
