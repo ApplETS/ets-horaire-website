@@ -21,8 +21,8 @@ class SelectCoursesController < ApplicationController
     courses = @bachelor.courses.find_all { |course| @selected_courses.include?(course.name) }
 
     schedule_finder = ScheduleFinder.build do |c|
-      c.additional_comparator do |groups_combinations, group|
-        LeavesFilter.valid?(group, @leaves)
+      c.before_filter do |course|
+        LeavesFilter.keep?(course, @leaves)
       end
     end
     schedules = schedule_finder.combinations_for(courses, @nb_of_courses)

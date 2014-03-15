@@ -7,6 +7,7 @@ class ConditionalCombinator
 
   private_class_method :new
   def initialize(configuration)
+    @before_filter = configuration.get_before_filter
     @comparator = configuration.get_comparator
     @shovel_filter = configuration.get_shovel_filter
     @hard_limit = configuration.hard_limit
@@ -15,12 +16,15 @@ class ConditionalCombinator
 
   def find_combinations(values, set_size)
     return [] if values.empty? || set_size == 0 || set_size > values.size
-    return collect_in_individual_arrays(values) if set_size == 1
+
+    @values = values
+    apply_before_filter
+    return [] if @values.empty?
 
     @set_size = set_size
-    @values = values
-    @combinations = []
+    return collect_in_individual_arrays if set_size == 1
 
+    @combinations = []
     loop_through(0, values.size - set_size, [])
     @combinations
   end
@@ -31,10 +35,15 @@ class ConditionalCombinator
 
   private
 
-  def collect_in_individual_arrays(values)
+  def apply_before_filter
+    @values.keep_if { |value| @before_filter.call(value) }
+  end
+
+  def collect_in_individual_arrays
     combinations = []
-    values.each do |value|
-      combinations << [value] if @comparator.call([], value)
+    @values.each do |value|
+      combination = [value]
+      combinations << combination if @comparator.call([], value) && add_to_combinations?(combination)
     end
     combinations
   end
@@ -72,10 +81,16 @@ class ConditionalCombinator
     def initialize
       @hard_limit = NO_LIMIT
       @shovel_filter = Proc.new { true }
+      @before_filter = Proc.new { true }
     end
 
+    def get_before_filter; @before_filter; end
     def get_shovel_filter; @shovel_filter; end
     def get_comparator; @comparator; end
+
+    def before_filter(&block)
+      @before_filter = block
+    end
 
     def comparator(&block)
       @comparator = block
