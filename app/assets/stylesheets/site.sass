@@ -17,8 +17,8 @@ html, body
 
 .btn
   &.btn-primary.active
-    border: 1px solid #18bc9c
-    background-color: #18bc9c
+    border: 1px solid $brand-success
+    background-color: $brand-success
 
   .glyphicon
     margin: 0 10px
@@ -38,15 +38,12 @@ html, body
       font-weight: bold
 
       &.result-caption
-        color: #18bc9c
+        color: $brand-success
 
       &.total-caption
         color: #1e2a36
 
-.schedules-url-group
-  margin-bottom: 20px
-
-.course-btn
+.courses-list .course-btn
   margin: 0 5px 5px 0
   padding: 5px
 
@@ -115,13 +112,13 @@ html, body
 
           &:hover
             img
-              border-color: #18bc9c
+              border-color: $brand-success
 
 footer
   height: 72px
   margin-top: 20px
   padding: 10px 0
-  background-color: #ecf0f1
+  background-color: $gray-lighter
 
   .row
     margin: 5px 0
