@@ -18,7 +18,7 @@
         .panel-heading Paramètres
         .panel-body
           %fieldset
-            %legend Cours
+            %legend Cours qui m'intéressent
             .courses-list.input-group.input-group-lg{data: { toggle: 'buttons' }}
               - @courses.each do |course|
                 %label.btn.btn-primary.course-btn{for: "schedule_course_#{course}", class: (@selected_courses.include?(course) ? 'active' : nil)}
