@@ -22,11 +22,6 @@ class OutputController < ApplicationController
     @results_limit = ScheduleFinder::RESULTS_LIMIT
   end
 
-  def result
-    output = @printer.output(@schedules)
-    render text: output, content_type: @printer.content_type
-  end
-
   private
 
   def ensure_key_present
@@ -44,12 +39,5 @@ class OutputController < ApplicationController
   def flash_invalid_key
     flash[:notice] = "Votre clé n'est plus valide!"
     redirect_to root_path
-  end
-
-  def ensure_output_exists
-    @printer = Printer.find_by_slug(params[:output_type])
-    return unless @printer.nil?
-
-    redirect_to output_path(cle: params[:cle])
   end
 end
