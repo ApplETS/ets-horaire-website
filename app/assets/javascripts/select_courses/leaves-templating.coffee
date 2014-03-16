@@ -1,5 +1,5 @@
 $ ->
-  return unless $('body#select_courses').length
+  return unless $('body.select_courses').length
 
   $(".leaves-list").find('.leave-row').each (index, element) ->
     removeRowOnButtonClickIn $(element)

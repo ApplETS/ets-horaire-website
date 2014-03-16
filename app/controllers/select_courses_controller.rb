@@ -42,7 +42,7 @@ class SelectCoursesController < ApplicationController
     flash[:notice] = "Seulement les #{ScheduleFinder::RESULTS_LIMIT} premiers résultats sont affichés. Veuillez fournir plus de critères pour des résultats optimals." if schedule_finder.reached_limit?
     flash[:alert] = "Vos combinaisons vont être sauvegardés pour #{HOURS_TO_EXPIRY} heures."
     hash = store_results_of(schedules)
-    redirect_to output_path(cle: hash)
+    redirect_to results_path(cle: hash)
   end
 
   def store_results_of(schedules)

@@ -2,7 +2,7 @@
 
 require 'json'
 
-class OutputController < ApplicationController
+class ResultsController < ApplicationController
   before_filter :ensure_key_present
   before_filter :ensure_key_valid
   before_filter :ensure_output_exists, only: :result
