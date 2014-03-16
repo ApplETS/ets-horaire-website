@@ -13,7 +13,7 @@
     .input-group
       %span.input-group-addon À
       %select.form-control{name: "schedule[filters][leaves][][to-time]"}
-        - (0..23).each do |hour|
-          %option{value: hour, selected: (defined?(leave) ? (leave.end_time.hour == hour) : (hour == 23))}= "#{sprintf('%02d', hour)}h00"
+        - (1..24).each do |hour|
+          %option{value: hour, selected: (defined?(leave) ? (leave.end_time.hour == hour) : (hour == 24))}= "#{sprintf('%02d', hour)}h00"
   .col-xs-2.col-sm-1
     %a.btn.btn-block.btn-primary.remove-period -
