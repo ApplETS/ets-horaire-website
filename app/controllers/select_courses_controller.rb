@@ -109,8 +109,8 @@ class SelectCoursesController < ApplicationController
   end
 
   def build_form_data
-    @leaves = LeavesBuilder.build(schedule('filters.leaves'))
     @selected_courses = (schedule('courses').try(:keys) || [])
+    @leaves = LeavesBuilder.build(schedule('filters.leaves'))
   end
 
   def schedule(param)
