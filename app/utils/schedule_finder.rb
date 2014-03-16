@@ -11,14 +11,12 @@ class ScheduleFinder
 
   private_class_method :new
   def initialize(configuration)
-    additional_comparator = configuration.get_additional_comparator
-
     @conditional_combinator = ConditionalCombinator.build do |c|
       c.hard_limit = RESULTS_LIMIT
 
       c.before_filter &configuration.get_before_filter
       c.comparator do |groups_combinations, group|
-        does_not_conflicts_with?(groups_combinations, group) && additional_comparator.call(groups_combinations, group)
+        does_not_conflicts_with?(groups_combinations, group)
       end
       c.shovel_filter &configuration.get_shovel_filter
     end
@@ -52,21 +50,15 @@ class ScheduleFinder
 
   class Configuration
     def initialize
-      @additional_comparator = Proc.new { true }
       @shovel_filter = Proc.new { true }
       @before_filter = Proc.new { true }
     end
 
     def get_before_filter; @before_filter; end
-    def get_additional_comparator; @additional_comparator; end
     def get_shovel_filter; @shovel_filter; end
 
     def before_filter(&block)
       @before_filter = block
-    end
-
-    def additional_comparator(&block)
-      @additional_comparator = block
     end
 
     def shovel_filter(&block)
