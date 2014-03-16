@@ -3,13 +3,13 @@
 class BaseOutputController < ApplicationController
   before_filter :ensure_key_present
   before_filter :ensure_key_valid
-
-  def index
-    printer = Printer.find_by_slug(params[:controller])
-    render text: printer.output(@schedules)
-  end
+  before_filter :load_printer
 
   private
+
+  def load_printer
+    @printer = Printer.find_by_slug(params[:controller])
+  end
 
   def ensure_key_present
     return if params.has_key?(:cle)

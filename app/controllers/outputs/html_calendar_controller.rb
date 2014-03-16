@@ -13,6 +13,8 @@ class HtmlCalendarController < BaseOutputController
     @weekdays = necessary_weekdays_of(@schedules)
     @hours = HOURS
     transform_schedules
+
+    respond_to { |format| format.html }
   end
 
   private
