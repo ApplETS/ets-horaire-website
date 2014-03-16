@@ -50,8 +50,8 @@ class ScheduleFinder
 
   class Configuration
     def initialize
-      @shovel_filter = Proc.new { true }
       @before_filter = Proc.new { true }
+      @shovel_filter = Proc.new { true }
     end
 
     def get_before_filter; @before_filter; end
