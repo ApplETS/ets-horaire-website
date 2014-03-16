@@ -2,8 +2,11 @@
   .container
     %h1 Générateur d'horaire pour les étudiants de l'ÉTS
     %p Planifiez facilement et rapidement votre prochain horaire
+    %p
+      %a.btn.btn-primary{href: '#bachelor-selection'} Commencer!
 .container
   = flash_messages
+  %a{name: 'bachelor-selection'}
   = form_tag(select_bachelor_path, method: :post, enctype: 'multipart/form-data') do
     #trimester-panel-group.panel-group
       - @trimesters.each_with_index do |trimester, index|
