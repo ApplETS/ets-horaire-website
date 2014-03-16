@@ -6,7 +6,7 @@ totalArc = undefined
 resultsArc = undefined
 
 $ ->
-  return unless $('body#output').length
+  return unless $('body.results').length
 
   canvas = Raphael("results-canvas", CANVAS_SIZE, CANVAS_SIZE)
   canvas.customAttributes.arc = (xloc, yloc, value, total, R) ->

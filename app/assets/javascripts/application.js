@@ -16,4 +16,4 @@
 //= require handlebars-v1.1.2
 //= require raphael-min
 //= require select_courses/leaves-templating
-//= require output/arc-results
+//= require results/arc-results
