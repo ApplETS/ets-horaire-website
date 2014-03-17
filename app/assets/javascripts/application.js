@@ -15,5 +15,5 @@
 //= require jquery_ujs
 //= require handlebars-v1.1.2
 //= require raphael-min
-//= require select_courses/leaves-templating
+//= require select_courses/filter-templating
 //= require results/arc-results
