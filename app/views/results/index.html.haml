@@ -7,7 +7,8 @@
     %li= link_to 'Choix du baccalauréat', root_path
     %li= link_to 'Choix de cours', select_courses_path(trimestre: @trimester_slug, baccalaureat: @bachelor_slug)
     %li.active Résultats
-  %h1 Résultats
+  .page-header
+    %h1 Résultats
   .form-horizontal
     .form-group
       .col-xs-12.col-sm-10.pull-right

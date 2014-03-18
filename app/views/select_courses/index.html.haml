@@ -3,7 +3,8 @@
   %ol.breadcrumb
     %li= link_to 'Choix du baccalauréat', root_path
     %li.active Choix de cours
-  %h1 Choix de cours
+  .page-header
+    %h1 Choix de cours
   = form_tag(select_courses_path, method: :post, class: 'courses_choice') do
     %input.hidden{type: 'text', name: 'schedule[bachelor]', value: @bachelor_slug}
     %input.hidden{type: 'text', name: 'schedule[trimester]', value: @trimester_slug}
