@@ -1,12 +1,15 @@
 .jumbotron
   .container
-    %h1 Générateur d'horaire pour les étudiants de l'ÉTS
-    %p Planifiez facilement et rapidement votre prochain horaire
+    %h1
+      Générateur d'horaire pour
+      %span.hidden-xs les étudiants de
+      l'ÉTS
+    %p.hidden-xs Planifiez facilement et rapidement votre prochain horaire!
     %p
-      %a.btn.btn-primary{href: '#bachelor-selection'} Commencer!
+      %a.btn.btn-primary{href: '#choix-du-baccalaureat'} Commencer
 .container
   = flash_messages
-  %a{name: 'bachelor-selection'}
+  %a{name: 'choix-du-baccalaureat'}
   = form_tag(select_bachelor_path, method: :post, enctype: 'multipart/form-data') do
     #trimester-panel-group.panel-group
       - @trimesters.each_with_index do |trimester, index|
