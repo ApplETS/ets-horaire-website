@@ -15,8 +15,12 @@
         #results
           #results-canvas
           .results-description
-            .caption.result-caption= "Nombre de combinaisons: #{@schedules.size}"
-            .caption.total-caption= "Nombre de combinaisons permises: #{@results_limit}"
+            .caption.result-caption
+              Nombre de combinaisons:
+              .badge= @schedules.size
+            .caption.total-caption
+              Nombre de combinaisons permises
+              .badge= @results_limit
     = render partial: 'shared/bachelor_choice_resume'
     .form-group
       %label.col-xs-12.col-sm-2.control-label Cours sélectionnés
