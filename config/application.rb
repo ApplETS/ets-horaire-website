@@ -28,6 +28,7 @@ module EtsHoraire
       #{config.root}/app/models/printers
       #{config.root}/app/models/printers/html
       #{config.root}/app/utils
+      #{config.root}/app/presenters
     )
   end
 end

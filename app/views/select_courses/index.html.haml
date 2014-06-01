@@ -6,8 +6,8 @@
   .page-header
     %h1 Choix de cours
   = form_tag(select_courses_path, method: :post, class: 'courses_choice') do
-    %input.hidden{type: 'text', name: 'schedule[bachelor]', value: @bachelor_slug}
-    %input.hidden{type: 'text', name: 'schedule[trimester]', value: @trimester_slug}
+    %input.hidden{type: 'text', name: 'schedule[bachelor]', value: @bachelor_presenter.slug}
+    %input.hidden{type: 'text', name: 'schedule[trimester]', value: @bachelor_presenter.trimester_slug}
     .form-horizontal
       = render partial: 'shared/bachelor_choice_resume'
       .form-group
@@ -21,7 +21,7 @@
           %fieldset
             %legend Cours qui m'intéressent
             .courses-list.input-group.input-group-lg{data: { toggle: 'buttons' }}
-              - @courses.each do |course|
+              - @bachelor_presenter.courses.each do |course|
                 %label.btn.btn-primary.course-btn{for: "schedule_course_#{course}", class: (@selected_courses.include?(course) ? 'active' : nil)}
                   %input{id: "schedule_course_#{course}", type: 'checkbox', name: "schedule[courses][#{course}]", checked: @selected_courses.include?(course)}
                   = course

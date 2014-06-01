@@ -18,4 +18,10 @@ class Bachelor
     bachelor.trimester = trimester
     bachelor
   end
+
+  %w(slug year term for_new_students).each do |delegated_method|
+    define_method("trimester_#{delegated_method}") do
+      @trimester.send(delegated_method)
+    end
+  end
 end

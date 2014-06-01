@@ -100,13 +100,14 @@ class SelectCoursesController < ApplicationController
   end
 
   def render_populated_form
-    @trimester_slug = @bachelor.trimester.slug
-    @bachelor_slug = @bachelor.slug
-    @trimester_year = @bachelor.trimester.year
-    @trimester_term = @bachelor.trimester.term
-    @trimester_is_for_new_students = @bachelor.trimester.for_new_students?
-    @bachelor_name = @bachelor.name
-    @courses = @bachelor.courses.map(&:name)
+    @bachelor_presenter = PresentableBachelor.new(@bachelor)
+    #@trimester_slug = @bachelor.trimester.slug
+    #@bachelor_slug = @bachelor.slug
+    #@trimester_year = @bachelor.trimester.year
+    #@trimester_term = @bachelor.trimester.term
+    #@trimester_is_for_new_students = @bachelor.trimester.for_new_students?
+    #@bachelor_name = @bachelor.name
+    #@courses = @bachelor.courses.map(&:name)
     @courses_range = COURSES_RANGE
 
     render 'index'
