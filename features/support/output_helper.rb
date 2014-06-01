@@ -9,7 +9,7 @@ module OutputHelper
     query_parameters['cle']
   end
 
-  def should_have_all_periods_of(results, schedules)
+  def should_have_all_periods_persisted(results, schedules)
     nb_periods = 0
     schedules.each do |schedule|
       schedule.each do |group|

@@ -7,6 +7,8 @@ module NavigationHelpers
         '/'
       when 'la page des résultats'
         '/resultats'
+      when 'la page de Calendrier HTML'
+        '/resultats/calendrier_html'
       else
         begin
           page_name =~ /la page (.*)/
