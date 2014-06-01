@@ -73,7 +73,7 @@ class TrimesterDatabase
 
     x_new_student_int_value = (x.for_new_students? ? 1 : 0)
     y_new_student_int_value = (y.for_new_students? ? 1 : 0)
-    x_new_student_int_value <=> y_new_student_int_value
+    y_new_student_int_value <=> x_new_student_int_value
   end
 
   def sort_by_bachelor(trimesters)
