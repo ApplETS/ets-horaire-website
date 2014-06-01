@@ -15,8 +15,7 @@ Fonctionnalité: Génération d'horaire
     Et il devrait y avoir une mention de Génie logiciel à la session d’Automne 2013
     Et il devrait y avoir une mention des cours sélectionnés: LOG210, LOG240, LOG540, LOG645 et LOG720
     Et il devrait y avoir une mention de la contrainte de 5 cours, sans aucun congé
-    Lorsque je sélectionne le Calendrier HTML
-    Alors je devrais voir apparaitre:
+    Et je devrais avoir comme cours:
       | Numéro d'horaire | Jour     | Période       | Cours  | Groupe | Type      |
       | 1                | Lundi    | 08h30 - 10h30 | LOG720 | 1      | Labo A    |
       | 1                | Lundi    | 10h30 - 12h30 | LOG720 | 1      | Labo B    |
@@ -68,8 +67,7 @@ Fonctionnalité: Génération d'horaire
       | Lundi    | 00h00 | 23h00 |
       | Mercredi | 00h00 | 23h00 |
       | Vendredi | 16h00 | 23h00 |
-    Lorsque je sélectionne le Calendrier HTML
-    Alors je devrais voir apparaitre:
+    Et je devrais avoir comme cours:
       | Numéro d'horaire | Jour     | Période       | Cours  | Groupe | Type      |
       | 1                | Mardi    | 09h00 - 12h00 | CHM131 | 4      | TP        |
       | 1                | Mardi    | 13h30 - 17h00 | FRA150 | 1      | Cours     |
@@ -102,8 +100,7 @@ Fonctionnalité: Génération d'horaire
     Et il devrait y avoir une mention de Génie de la construction à la session d’Été 2014
     Et il devrait y avoir une mention des cours sélectionnés: CTN200, CTN258, CTN600 et CTN626
     Et il devrait y avoir une mention de la contrainte de 4 cours, sans aucun congé
-    Lorsque je sélectionne le Calendrier HTML
-    Alors je devrais voir apparaitre:
+    Et je devrais avoir comme cours:
       | Numéro d'horaire | Jour     | Période       | Cours  | Groupe | Type      |
       | 1                | Lundi    | 08h45 - 12h15 | CTN626 | 2      | Cours     |
       | 1                | Lundi    | 18h00 - 21h30 | CTN600 | 1      | Cours     |

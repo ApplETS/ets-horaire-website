@@ -1,5 +1,7 @@
 # encoding: utf-8
 
-Alors(/^je devrais voir apparaitre:$/) do |results|
-  should_have_all_periods_of(results)
+Alors(/^je devrais avoir comme cours:$/) do |results|
+  key = output_key_of(current_url)
+  results_data = Rails.cache.read(key)
+  should_have_all_periods_of(results, results_data.schedules)
 end

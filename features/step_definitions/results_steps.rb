@@ -42,10 +42,3 @@ Alors(/^il devrait y avoir des mentions pour les congés:$/) do |leaves|
     end
   end
 end
-
-Lorsque(/^je sélectionne le (.*)$/) do |output_type|
-  click_link output_type
-
-  page.driver.browser.switch_to.window(page.driver.browser.window_handles.last)
-  expect(current_path).to eq(path_to("la page de #{output_type}"))
-end
