@@ -2,6 +2,7 @@ $ ->
   return unless $('body.select_courses').length
 
   apply_filter_behavior_for 'leave'
+  apply_filter_behavior_for 'restriction'
 
 apply_filter_behavior_for = (name) ->
   $(".#{name}s-list").find(".#{name}-row").each (index, element) ->

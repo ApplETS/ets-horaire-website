@@ -20,6 +20,7 @@ class ResultsController < ApplicationController
     @trimester_slug = @results_data.trimester_slug
     @bachelor_slug = @results_data.bachelor_slug
     @results_limit = ScheduleFinder::RESULTS_LIMIT
+    @restrictions = @results_data.restrictions
   end
 
   private

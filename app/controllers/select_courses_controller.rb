@@ -24,6 +24,9 @@ class SelectCoursesController < ApplicationController
       c.before_filter do |course|
         LeavesFilter.keep?(course, @leaves)
       end
+      c.shovel_filter do |courses|
+        CourseRestrictionFilter.keep?(courses, @restrictions)
+      end
     end
     schedules = schedule_finder.combinations_for(courses, @nb_of_courses)
 
@@ -57,7 +60,8 @@ class SelectCoursesController < ApplicationController
         leaves: @leaves,
         schedules: schedules,
         trimester_slug: @bachelor.trimester.slug,
-        bachelor_slug: @bachelor.slug
+        bachelor_slug: @bachelor.slug,
+        restrictions: @restrictions
     }), expires_in: HOURS_TO_EXPIRY.hours
     hash
   end
@@ -111,6 +115,7 @@ class SelectCoursesController < ApplicationController
   def build_form_data
     @selected_courses = (schedule('courses').try(:keys) || [])
     @leaves = LeavesBuilder.build(schedule('filters.leaves'))
+    @restrictions = CourseRestrictionBuilder.build(schedule('filters.restrictions'))
   end
 
   def schedule(param)

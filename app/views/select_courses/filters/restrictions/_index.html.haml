@@ -1,0 +1,8 @@
+%fieldset.filter.restrictions-filter
+  %legend.filter-heading Restrictions du nombre de cours
+  .filter-body
+    .filter-row-list.restrictions-list.row
+      = render partial: 'select_courses/filters/restrictions/row', collection: @restrictions
+      %a.btn.btn-primary.btn-block.add-restriction
+        Ajouter une restriction
+        %i.glyphicon.glyphicon-plus

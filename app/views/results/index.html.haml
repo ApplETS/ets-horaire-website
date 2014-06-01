@@ -40,7 +40,7 @@
           %table.table
             %thead
               %tr
-                %th Jour
+                %th Journée
                 %th Début
                 %th Fin
             %tbody
@@ -49,6 +49,22 @@
                   %td= leave.weekday.fr.capitalize
                   %td= leave.start_time.to_s
                   %td= leave.end_time.to_s
+    .form-group
+      %label.col-xs-12.col-sm-2.control-label Restrictions
+      .col-xs-12.col-sm-10.restrictions
+        - if @restrictions.empty?
+          %input.form-control{readonly: true, value: 'Aucunes'}
+        - else
+          %table.table
+            %thead
+              %tr
+                %th Journée
+                %th Restriction
+            %tbody
+              - @restrictions.each do |restriction|
+                %tr
+                  %td= restriction.time_span.name
+                  %td= "#{restriction.condition.name} #{restriction.value} cours"
 
     .form-group
       .controls.pull-right.col-xs-12.col-sm-10

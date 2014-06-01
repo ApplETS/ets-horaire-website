@@ -1,0 +1,15 @@
+.filter-row.row.restriction-row
+  .col-xs-3
+    %select.form-control{name: "schedule[filters][restrictions][][time_span]"}
+      - CourseRestriction::TimeSpan.all.each do |time_span|
+        %option{value: time_span.slug, selected: (defined?(row) ? (row.time_span == time_span) : false)}= time_span.name
+  .col-xs-4
+    %select.form-control{name: "schedule[filters][restrictions][][condition]"}
+      - CourseRestriction::Condition.all.each do |condition|
+        %option{value: condition.slug, selected: (defined?(row) ? (row.condition == condition) : false)}= condition.name
+  .col-xs-4
+    %select.form-control{name: "schedule[filters][restrictions][][value]"}
+      - CourseRestriction::VALUE_RANGE.each do |value|
+        %option{value: value, selected: (defined?(row) ? (row.value == value) : false)}= "#{value} Cours"
+  .col-xs-1
+    %a.btn.btn-block.btn-primary.remove-restriction -

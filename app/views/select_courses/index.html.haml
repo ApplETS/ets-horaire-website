@@ -36,8 +36,10 @@
       .panel-heading Filtres
       .panel-body
         = render partial: 'select_courses/filters/leaves/index'
+        = render partial: 'select_courses/filters/restrictions/index'
     %button.btn.btn-block.pull-right.btn-primary
       Soumettre
       %i.glyphicon.glyphicon-share
 - content_for :post_html do
   %script#leave-template{type: 'text/x-handlebars-template'}= render partial: 'select_courses/filters/leaves/row'
+  %script#restriction-template{type: 'text/x-handlebars-template'}= render partial: 'select_courses/filters/restrictions/row'
