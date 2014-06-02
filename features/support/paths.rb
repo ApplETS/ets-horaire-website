@@ -9,6 +9,10 @@ module NavigationHelpers
         '/resultats'
       when 'la page de Calendrier HTML'
         '/resultats/calendrier_html'
+      when 'la page de Calendrier ASCII'
+        '/resultats/calendrier_ascii'
+      when 'la page de Liste Simple'
+        '/resultats/liste_simple'
       else
         begin
           page_name =~ /la page (.*)/

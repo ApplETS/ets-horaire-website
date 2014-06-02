@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-When(/^un horaire composé des périodes avec la clé (.*):$/) do |key, periods|
+When(/^un horaire avec la clé (.*) et composé des périodes:$/) do |key, periods|
   @periods = periods
   schedules = build_period_hierarchy_with(periods)
   persist_to_app(key, schedules)

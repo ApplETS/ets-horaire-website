@@ -6,7 +6,7 @@ Fonctionnalité: Génération d'horaire
   Afin de mieux comprendre les résultats de la combinaison d'horaire.
 
   Scénario: Un horaire généré et représenté en HTML
-    Étant donné un horaire composé des périodes avec la clé 1a2b-3c4d:
+    Étant donné un horaire avec la clé 1a2b-3c4d et composé des périodes:
       | Numéro d'horaire | Jour     | Période       | Cours  | Groupe | Type      |
       | 1                | Mardi    | 09h00 - 12h00 | CHM131 | 4      | TP        |
       | 1                | Mardi    | 13h30 - 17h00 | FRA150 | 1      | Cours     |

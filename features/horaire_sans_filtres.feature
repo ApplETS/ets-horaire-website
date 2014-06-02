@@ -15,6 +15,11 @@ Fonctionnalité: Génération d'horaire
     Et il devrait y avoir une mention de Génie logiciel à la session d’Automne 2013
     Et il devrait y avoir une mention des cours sélectionnés: LOG210, LOG240, LOG540, LOG645 et LOG720
     Et il devrait y avoir une mention de la contrainte de 5 cours, sans aucun congé
+    Et il devrait y avoir des liens vers les sorties:
+      | Sortie           |
+      | Calendrier HTML  |
+      | Calendrier ASCII |
+      | Liste Simple     |
     Et je devrais avoir comme cours:
       | Numéro d'horaire | Jour     | Période       | Cours  | Groupe | Type      |
       | 1                | Lundi    | 08h30 - 10h30 | LOG720 | 1      | Labo A    |
@@ -57,6 +62,11 @@ Fonctionnalité: Génération d'horaire
     Et il devrait y avoir une mention de Génie de la construction à la session d’Été 2014
     Et il devrait y avoir une mention des cours sélectionnés: CTN200, CTN258, CTN600 et CTN626
     Et il devrait y avoir une mention de la contrainte de 4 cours, sans aucun congé
+    Et il devrait y avoir des liens vers les sorties:
+      | Sortie           |
+      | Calendrier HTML  |
+      | Calendrier ASCII |
+      | Liste Simple     |
     Et je devrais avoir comme cours:
       | Numéro d'horaire | Jour     | Période       | Cours  | Groupe | Type      |
       | 1                | Lundi    | 08h45 - 12h15 | CTN626 | 2      | Cours     |

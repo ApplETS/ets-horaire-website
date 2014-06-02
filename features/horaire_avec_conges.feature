@@ -25,6 +25,11 @@ Fonctionnalité: Génération d'horaire
       | Lundi    | 00h00 | 23h00 |
       | Mercredi | 00h00 | 23h00 |
       | Vendredi | 16h00 | 23h00 |
+    Et il devrait y avoir des liens vers les sorties:
+      | Sortie           |
+      | Calendrier HTML  |
+      | Calendrier ASCII |
+      | Liste Simple     |
     Et je devrais avoir comme cours:
       | Numéro d'horaire | Jour     | Période       | Cours  | Groupe | Type      |
       | 1                | Mardi    | 09h00 - 12h00 | CHM131 | 4      | TP        |

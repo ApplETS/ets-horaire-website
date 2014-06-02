@@ -3,8 +3,8 @@
 require 'cgi'
 
 module OutputHelper
-  def output_key_of(url)
-    url_query = URI::parse(url).query
+  def output_key_of_current_url
+    url_query = URI::parse(current_url).query
     query_parameters = CGI::parse(url_query)
     query_parameters['cle']
   end
