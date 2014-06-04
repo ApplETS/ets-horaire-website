@@ -1,16 +1,13 @@
 class ConditionalCombinator
-  def self.build
-    configuration = Configuration.new
-    yield configuration
-    new configuration
-  end
+  NO_LIMIT = -1
 
-  private_class_method :new
-  def initialize(configuration)
-    @before_filter = configuration.get_before_filter
-    @comparator = configuration.get_comparator
-    @shovel_filter = configuration.get_shovel_filter
-    @hard_limit = configuration.hard_limit
+  attr_writer :before_filter, :comparator, :shovel_filter, :hard_limit
+
+  def initialize
+    @before_filter = Proc.new { true }
+    @comparator = Proc.new { true }
+    @shovel_filter = Proc.new { true }
+    @hard_limit = NO_LIMIT
     @combinations = []
   end
 
@@ -72,32 +69,5 @@ class ConditionalCombinator
 
   def add_to_combinations?(combination_stack)
     combination_stack.size == @set_size && @shovel_filter.call(combination_stack)
-  end
-
-  class Configuration
-    NO_LIMIT = -1
-    attr_accessor :hard_limit
-
-    def initialize
-      @hard_limit = NO_LIMIT
-      @shovel_filter = Proc.new { true }
-      @before_filter = Proc.new { true }
-    end
-
-    def get_before_filter; @before_filter; end
-    def get_shovel_filter; @shovel_filter; end
-    def get_comparator; @comparator; end
-
-    def before_filter(&block)
-      @before_filter = block
-    end
-
-    def comparator(&block)
-      @comparator = block
-    end
-
-    def shovel_filter(&block)
-      @shovel_filter = block
-    end
   end
 end

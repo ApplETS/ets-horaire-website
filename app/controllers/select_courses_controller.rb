@@ -20,13 +20,12 @@ class SelectCoursesController < ApplicationController
   def compute
     courses = @bachelor.courses.find_all { |course| @selected_courses.include?(course.name) }
 
-    schedule_finder = ScheduleFinder.build do |c|
-      c.before_filter do |course|
-        LeavesFilter.keep?(course, @leaves)
-      end
-      c.shovel_filter do |courses|
-        CourseRestrictionFilter.keep?(courses, @restrictions)
-      end
+    schedule_finder = ScheduleFinder.new
+    schedule_finder.before_filter = Proc.new do |course|
+      LeavesFilter.keep?(course, @leaves)
+    end
+    schedule_finder.shovel_filter = Proc.new do |courses|
+      CourseRestrictionFilter.keep?(courses, @restrictions)
     end
     schedules = schedule_finder.combinations_for(courses, @nb_of_courses)
 

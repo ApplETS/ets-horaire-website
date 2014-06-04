@@ -7,7 +7,7 @@ describe ScheduleFinder do
     NB_COURSES = 5
     NB_COURSES.times.each do |courses_per_schedule|
       describe "when providing no courses" do
-        subject { ScheduleFinder.build }
+        subject { ScheduleFinder.new }
 
         let(:schedules) { subject.combinations_for [], courses_per_schedule }
 
@@ -18,7 +18,7 @@ describe ScheduleFinder do
     end
 
     describe "when providing a single course" do
-      subject { ScheduleFinder.build }
+      subject { ScheduleFinder.new }
 
       let(:period_1_5) { Period.new(Weekday.en("friday"), "Cours", WeekdayTime.new(Weekday.en("friday"), 6, 00), WeekdayTime.new(Weekday.en("friday"), 7, 00)) }
       let(:group_5) { Group.new(5, [period_1_5]) }
@@ -135,7 +135,7 @@ describe ScheduleFinder do
       let(:course_4) { Course.new("GIA400", [group_1_4, group_2_4, group_3_4]) }
 
       describe 'with no additional filters' do
-        subject { ScheduleFinder.build }
+        subject { ScheduleFinder.new }
 
         context 'for a possiblity of 0' do
           let(:courses) { [course_1, course_2, course_3, course_4] }
@@ -238,9 +238,9 @@ describe ScheduleFinder do
 
         describe 'with a comparator that always returns false' do
           subject do
-            ScheduleFinder.build do |c|
-              c.before_filter { false }
-            end
+            schedule_finder = ScheduleFinder.new
+            schedule_finder.before_filter = Proc.new { false }
+            schedule_finder
           end
 
           it { expect(subject.combinations_for(courses, 4)).to be_empty }
@@ -248,9 +248,9 @@ describe ScheduleFinder do
 
         describe 'when group with number 3 are filtered out' do
           subject do
-            ScheduleFinder.build do |c|
-              c.before_filter { |group| group.nb != 3 }
-            end
+            schedule_finder = ScheduleFinder.new
+            schedule_finder.before_filter = Proc.new { |group| group.nb != 3 }
+            schedule_finder
           end
           let(:schedules) { subject.combinations_for courses, 4 }
 

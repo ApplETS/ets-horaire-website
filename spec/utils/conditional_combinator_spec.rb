@@ -5,9 +5,9 @@ describe ConditionalCombinator do
 
   describe "when providing an always true condition" do
     subject do
-      ConditionalCombinator.build do |c|
-        c.comparator { true }
-      end
+      combinator = ConditionalCombinator.new
+      combinator.comparator = Proc.new { true }
+      combinator
     end
 
     describe "when finding combinations of 4" do
@@ -37,9 +37,9 @@ describe ConditionalCombinator do
 
   describe "when providing an always false condition" do
     subject do
-      ConditionalCombinator.build do |c|
-        c.comparator { false }
-      end
+      combinator = ConditionalCombinator.new
+      combinator.comparator = Proc.new { false }
+      combinator
     end
     let(:combinations) { subject.find_combinations([1, 2, 3, 4], 2) }
 
@@ -50,9 +50,9 @@ describe ConditionalCombinator do
 
   describe "when providing a condition that specifies that the compared element shouldn't be contained in the elements already combined" do
     subject do
-      ConditionalCombinator.build do |c|
-        c.comparator { |combination_stack, value| !combination_stack.include?(value) }
-      end
+      combinator = ConditionalCombinator.new
+      combinator.comparator = Proc.new { |combination_stack, value| !combination_stack.include?(value) }
+      combinator
     end
     let(:combinations) { subject.find_combinations([1, 2, 3, 4, 4], 2) }
   
@@ -63,11 +63,11 @@ describe ConditionalCombinator do
 
   describe "when providing concrete objects" do
     subject do
-      ConditionalCombinator.build do |c|
-        c.comparator do |concrete_objects_stack, concrete_object|
-          concrete_objects_stack.none? { |comparable_concrete_object| concrete_object.conflicts_with? comparable_concrete_object }
-        end
+      combinator = ConditionalCombinator.new
+      combinator.comparator = Proc.new do |concrete_objects_stack, concrete_object|
+        concrete_objects_stack.none? { |comparable_concrete_object| concrete_object.conflicts_with? comparable_concrete_object }
       end
+      combinator
     end
 
     describe "when providing a set of 4 concrete objects" do
@@ -178,14 +178,14 @@ describe ConditionalCombinator do
 
   describe "when providing concrete objects with a filter" do
     subject do
-      ConditionalCombinator.build do |c|
-        c.comparator do |concrete_objects_stack, concrete_object|
-          concrete_objects_stack.none? { |comparable_concrete_object| concrete_object.conflicts_with? comparable_concrete_object }
-        end
-        c.shovel_filter do |concrete_objects_stack|
-          concrete_objects_stack.none? { |concrete_object| concrete_object.id == 3 }
-        end
+      combinator = ConditionalCombinator.new
+      combinator.comparator = Proc.new do |concrete_objects_stack, concrete_object|
+        concrete_objects_stack.none? { |comparable_concrete_object| concrete_object.conflicts_with? comparable_concrete_object }
       end
+      combinator.shovel_filter = Proc.new do |concrete_objects_stack|
+        concrete_objects_stack.none? { |concrete_object| concrete_object.id == 3 }
+      end
+      combinator
     end
 
     describe "when providing a set of 5 concrete objects" do
