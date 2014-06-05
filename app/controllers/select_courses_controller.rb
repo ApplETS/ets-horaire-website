@@ -19,11 +19,10 @@ class SelectCoursesController < ApplicationController
 
   def compute
     courses = @bachelor.courses.find_all { |course| @selected_courses.include?(course.name) }
+    courses = flatten(courses)
+    courses.keep_if { |group_course| LeavesFilter.keep?(group_course, @leaves) }
 
     schedule_finder = ScheduleFinder.new
-    schedule_finder.before_filter = Proc.new do |course|
-      LeavesFilter.keep?(course, @leaves)
-    end
     schedule_finder.shovel_filter = Proc.new do |courses|
       CourseRestrictionFilter.keep?(courses, @restrictions)
     end
@@ -34,6 +33,15 @@ class SelectCoursesController < ApplicationController
   end
 
   private
+
+  def flatten(courses)
+    group_courses = courses.collect do |course|
+      course.groups.collect do |group|
+        GroupCourse.new(course.name, group.periods, group.nb)
+      end
+    end
+    group_courses.flatten
+  end
 
   def render_no_results_found
     flash[:notice] = 'Aucun résultat trouvé. Veuillez essayer une différente combinaison de cours ou restreindre vos critères.'

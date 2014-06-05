@@ -1,10 +1,9 @@
 class ConditionalCombinator
   NO_LIMIT = -1
 
-  attr_writer :before_filter, :comparator, :shovel_filter, :hard_limit
+  attr_writer :comparator, :shovel_filter, :hard_limit
 
   def initialize
-    @before_filter = Proc.new { true }
     @comparator = Proc.new { true }
     @shovel_filter = Proc.new { true }
     @hard_limit = NO_LIMIT
@@ -15,9 +14,6 @@ class ConditionalCombinator
     return [] if values.empty? || set_size == 0 || set_size > values.size
 
     @values = values
-    apply_before_filter
-    return [] if @values.empty?
-
     @set_size = set_size
     return collect_in_individual_arrays if set_size == 1
 
@@ -31,10 +27,6 @@ class ConditionalCombinator
   end
 
   private
-
-  def apply_before_filter
-    @values.keep_if { |value| @before_filter.call(value) }
-  end
 
   def collect_in_individual_arrays
     combinations = []
