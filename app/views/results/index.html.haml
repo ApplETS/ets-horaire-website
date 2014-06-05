@@ -5,7 +5,7 @@
   = flash_messages
   %ol.breadcrumb
     %li= link_to 'Choix du baccalauréat', root_path
-    %li= link_to 'Choix de cours', select_courses_path(trimestre: @trimester_slug, baccalaureat: @bachelor_slug)
+    %li= link_to 'Choix de cours', select_courses_path(trimestre: @bachelor.trimester_slug, baccalaureat: @bachelor.slug)
     %li.active Résultats
   .page-header
     %h1 Résultats
@@ -68,7 +68,7 @@
 
     .form-group
       .controls.pull-right.col-xs-12.col-sm-10
-        = link_to select_courses_path(trimestre: @trimester_slug, baccalaureat: @bachelor_slug), class: 'btn btn-block btn-primary' do
+        = link_to select_courses_path(trimestre: @bachelor.trimester_slug, baccalaureat: @bachelor.slug), class: 'btn btn-block btn-primary' do
           %i.glyphicon.glyphicon-chevron-left
           Choisir de nouveau
   .panel.panel-default.outputs

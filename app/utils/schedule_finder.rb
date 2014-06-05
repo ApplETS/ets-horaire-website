@@ -12,6 +12,7 @@ class ScheduleFinder
   def initialize
     @shovel_filter = Proc.new { true }
     @conditional_combinator = ConditionalCombinator.new
+    @conditional_combinator.hard_limit = RESULTS_LIMIT
     @conditional_combinator.comparator = Proc.new do |groups_combinations, group|
       does_not_conflicts_with?(groups_combinations, group)
     end
