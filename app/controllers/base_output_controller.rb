@@ -17,10 +17,10 @@ class BaseOutputController < ApplicationController
   end
 
   def ensure_key_valid
-    @results_data = Rails.cache.read(params[:cle])
-    return flash_invalid_key if @results_data.nil?
+    results_data = Rails.cache.read(params[:cle])
+    return flash_invalid_key if results_data.nil?
 
-    @schedules = @results_data.schedules
+    @schedules = results_data.schedules
   end
 
   def flash_invalid_key
