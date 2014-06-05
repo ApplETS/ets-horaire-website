@@ -48,7 +48,7 @@ class SelectCoursesController < ApplicationController
 
   def filter_courses(bachelor)
     courses = bachelor.courses.find_all { |course| @selected_courses.include?(course.name) }
-    courses = flatten(courses)
+    courses = FlattenCourses.to_group_courses(courses)
     courses.keep_if { |group_course| LeavesFilter.keep?(group_course, @leaves) }
     courses
   end
@@ -64,15 +64,6 @@ class SelectCoursesController < ApplicationController
   def redirect_back_to_selection
     flash[:notice] = 'Veuillez spécifier un baccalauréat valide!'
     redirect_to root_path
-  end
-
-  def flatten(courses)
-    group_courses = courses.collect do |course|
-      course.groups.collect do |group|
-        GroupCourse.new(course.name, group.periods, group.nb)
-      end
-    end
-    group_courses.flatten
   end
 
   def render_no_results_found_with(bachelor)
