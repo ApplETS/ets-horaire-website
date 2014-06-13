@@ -7,13 +7,13 @@
     .input-group
       %span.input-group-addon De
       %select.form-control{name: "schedule[filters][leaves][][from-time]"}
-        - (0..23).each do |hour|
+        - (8..23).each do |hour|
           %option{value: hour, selected: (defined?(row) ? (row.start_time.hour == hour) : false)}= "#{sprintf('%02d', hour)}h00"
   .col-xs-5.col-sm-4
     .input-group
       %span.input-group-addon À
       %select.form-control{name: "schedule[filters][leaves][][to-time]"}
-        - (1..24).each do |hour|
+        - (9..24).each do |hour|
           %option{value: hour, selected: (defined?(row) ? (row.end_time.hour == hour) : (hour == 24))}= "#{sprintf('%02d', hour)}h00"
   .col-xs-2.col-sm-1
     %a.btn.btn-block.btn-primary.remove-leave -
