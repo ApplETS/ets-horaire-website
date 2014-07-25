@@ -10,3 +10,4 @@ db/courses/development
 db/courses/staging
 db/courses/production
 .rspec
+config/initializers/version.rb
