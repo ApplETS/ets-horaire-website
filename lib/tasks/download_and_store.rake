@@ -1,120 +1,77 @@
 # -*- encoding : utf-8 -*-
+require 'colorize'
 require_relative '../helpers/printing_helper'
-require 'ostruct'
 
-include PrintingHelper
 namespace :download_and_store do
-  ETSMTL = 'http://etsmtl.ca'
-  WEBPAGE = "#{ETSMTL}/horaires-bac"
-  FILE_PATH = "#{Rails.root.join('tmp/files/horaires.html')}"
-  TERMS = {
-    'hiver' => 'hiver',
-    'été' => 'ete',
-    'automne' => 'automne'
-  }
-
-  desc 'Download PDFs from etsmtl.ca, store them and convert them to JSON for easy use'
-  task :pdfs_from_etsmtl => :environment do
-    print_title 'Downloading PDFs from etsmtl.ca'
-
-    download_pdf_webpage
-    html_page = read_file_as_html
-
-    for_each_table_in(html_page) do |table, term, new_students_columns|
-      for_each_cell_in(table, new_students_columns) do |cell, new_student_column|
-        link = (cell/'a:nth-child(1)').first
-        download(link, term, new_student_column) unless link.nil?
-      end
-    end
-  end
+  include PrintingHelper
 
   desc 'Download PDFs from an URL that will be scanned for schedules'
-  task :pdfs_from_url => :environment do
+  task :pdfs => :environment do
     url = ENV['FROM_URL']
-    prefix = ENV['WITH_PREFIX']
-    suffix = ENV['AND_SUFFIX']
+    (notify_of_usage("Missing url."); next) unless url.present?
+    (notify_of_usage("Missing year."); next) unless ENV['BACHELOR_YEAR'].present?
+    (notify_of_usage("Missing term."); next) unless ENV['BACHELOR_TERM'].present?
+
+    print_title "Downloading PDFs from #{url}"
+    notify_of_overwrite if overwrite_existing?
 
     bachelor_names = BachelorBuilder::NAMES.keys
     bachelor_names.each do |bachelor_name|
-      new_filename = "#{prefix}_#{bachelor_name}#{suffix.nil? || suffix.empty? ? '' : "_#{suffix}"}.pdf"
-      filename_path = Rails.root.join('files/pdfs/', new_filename)
-      return if File.exist?(filename_path)
+      filename_path = filepath_for(bachelor_name)
+      (warn_about_existing(filename_path); next) if skip?(filename_path)
 
-      file_url = File.join(url, "hor_#{bachelor_name.upcase}.pdf")
+      file_url = file_url_for(url, bachelor_name)
       wget file_url, filename_path
     end
   end
 
   private
 
-  def download_pdf_webpage
-    FileUtils.rm(FILE_PATH) if File.exist?(FILE_PATH)
-    puts "- Downloading '#{WEBPAGE}' to '#{FILE_PATH}'"
-    wget WEBPAGE, FILE_PATH
+  def skip?(filename_path)
+    File.exist?(filename_path) && !overwrite_existing?
   end
 
-  def read_file_as_html
-    File.open(FILE_PATH, 'r') { |f| Hpricot(f) }
+  def notify_of_overwrite
+    puts "* Overwriting existing files.".yellow
   end
 
-  def extract_terms_from(html_page)
-    terms = (html_page/'.Titre3')[0..-2]
-    terms.collect do |term|
-      text = term.inner_text.strip.downcase
-      title_match_data = text.match(/(\w+) (\d+)/)
-
-      term = title_match_data[1]
-      slug = TERMS[term]
-      year = title_match_data[2]
-
-      OpenStruct.new(year: year, name: term, slug: slug)
-    end
+  def notify_of_usage(message)
+    puts message.red
+    puts "Usage: rake download_and_store:pdfs FROM_URL=http://url BACHELOR_YEAR=9999 BACHELOR_TERM=hiver (FOR_NEW_STUDENTS=0|1) (OVERWRITE_EXISTING=0|1)".red
   end
 
-  def for_each_table_in(html_page)
-    terms = extract_terms_from(html_page)
-    course_pdfs_tables = (html_page/'.etsTableauDonnees')[0..-2]
-
-    course_pdfs_tables.each_with_index do |table, index|
-      term = terms[index]
-      new_students_columns = determine_new_students_columns_from(table)
-
-      yield table, term, new_students_columns
-    end
+  def filepath_for(bachelor_name)
+    filename = "#{prefix}_#{bachelor_name}#{suffix}.pdf"
+    Rails.root.join('files/pdfs/', filename)
   end
 
-  def determine_new_students_columns_from(table)
-    headers = (table/'th')[1..-1]
-
-    headers.each_with_index.collect do |header, index|
-      text = header.inner_text.downcase
-      text.include?('nouveaux')
-    end
+  def prefix
+    "#{ENV['BACHELOR_YEAR']}_#{ENV['BACHELOR_TERM']}"
   end
 
-  def for_each_cell_in(table, new_student_columns)
-    (table/'tbody tr').each do |row|
-      cells = (row/'td')[1..-1]
-
-      new_student_columns.each_with_index do |new_student_column, index|
-        yield cells[index], new_student_column
-      end
-    end
+  def suffix
+    for_new_students? ? "_nouveaux" : ''
   end
 
-  def download(link, term, new_student_column)
-    href = File.join(ETSMTL, link.attributes['href'])
-    basename = File.basename(href, '.pdf')
-    program = basename.split('_')[1].downcase
-    new_filename = "#{term.year}_#{term.slug}_#{program}#{new_student_column ? '_nouveaux' : ''}.pdf"
-    filename_path = Rails.root.join('files/pdfs/', new_filename)
+  def for_new_students?
+    ENV['FOR_NEW_STUDENTS'] == '1'
+  end
 
-    return if File.exist?(filename_path)
-    puts "- Downloading '#{href}' to '#{filename_path}'"
-    wget href, filename_path
+  def overwrite_existing?
+    ENV['OVERWRITE_EXISTING'] == '1'
+  end
+
+  def warn_about_existing(filename_path)
+    puts "File at ".yellow + filename_path.to_s + " already exists. Skipping download.".yellow
+  end
+
+  def file_url_for(url ,bachelor_name)
+    File.join(url, "hor_#{bachelor_name.upcase}.pdf")
   end
 
   def wget(from, to)
-    system "wget -qO- -4 #{from} -O #{to}"
+    puts "Copying file from #{from.to_s.green}"
+    puts "               to #{to.to_s.green}"
+    system "wget -qO- -4 #{from.to_s} -O #{to.to_s}"
   end
 end
