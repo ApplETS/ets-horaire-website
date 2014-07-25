@@ -1,0 +1,1 @@
+EtsHoraire::Application::version = `git name-rev --tags --name-only $(git rev-parse HEAD)`
