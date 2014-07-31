@@ -20,13 +20,13 @@ describe ScheduleFinder do
     describe "when providing a single course" do
       subject { ScheduleFinder.new }
 
-      let(:period_1_5) { Period.new(Weekday.en("friday"), "Cours", WeekdayTime.new(Weekday.en("friday"), 6, 00), WeekdayTime.new(Weekday.en("friday"), 7, 00)) }
+      let(:period_1_5) { Period.new(Weekday.en("friday"), "Cours", WeekdayTime.new(6, 00), WeekdayTime.new(7, 00)) }
       let(:group_5) { GroupCourse.new("LOG550", [period_1_5], 5) }
 
       let(:group_7) { GroupCourse.new("LOG550", [], 7) }
 
-      let(:period_1_8) { Period.new(Weekday.en("monday"), "Cours", WeekdayTime.new(Weekday.en("monday"), 6, 00), WeekdayTime.new(Weekday.en("monday"), 7, 00)) }
-      let(:period_2_8) { Period.new(Weekday.en("monday"), "TP", WeekdayTime.new(Weekday.en("monday"), 9, 00), WeekdayTime.new(Weekday.en("monday"), 10, 00)) }
+      let(:period_1_8) { Period.new(Weekday.en("monday"), "Cours", WeekdayTime.new(6, 00), WeekdayTime.new(7, 00)) }
+      let(:period_2_8) { Period.new(Weekday.en("monday"), "TP", WeekdayTime.new(9, 00), WeekdayTime.new(10, 00)) }
       let(:group_8) { GroupCourse.new("LOG550", [period_1_8, period_2_8], 8) }
 
       let(:groups) { [group_5, group_7, group_8] }
@@ -78,57 +78,57 @@ describe ScheduleFinder do
 
     describe "when providing multiple courses" do
       # COM110
-      let(:period_1_1_1) { Period.new(Weekday.en("thursday"), "Cours", WeekdayTime.new(Weekday.en("thursday"), 9, 00), WeekdayTime.new(Weekday.en("thursday"), 12, 30)) }
-      let(:period_2_1_1) { Period.new(Weekday.en("tuesday"), "TP", WeekdayTime.new(Weekday.en("tuesday"), 8, 30), WeekdayTime.new(Weekday.en("tuesday"), 12, 30)) }
+      let(:period_1_1_1) { Period.new(Weekday.en("thursday"), "Cours", WeekdayTime.new(9, 00), WeekdayTime.new(12, 30)) }
+      let(:period_2_1_1) { Period.new(Weekday.en("tuesday"), "TP", WeekdayTime.new(8, 30), WeekdayTime.new(12, 30)) }
       let(:group_1_1) { GroupCourse.new("COM110", [period_1_1_1, period_2_1_1], 1) }
 
-      let(:period_1_2_1) { Period.new(Weekday.en("wednesday"), "Cours", WeekdayTime.new(Weekday.en("wednesday"), 9, 00), WeekdayTime.new(Weekday.en("wednesday"), 12, 30)) }
-      let(:period_2_2_1) { Period.new(Weekday.en("monday"), "TP", WeekdayTime.new(Weekday.en("monday"), 8, 30), WeekdayTime.new(Weekday.en("monday"), 12, 30)) }
+      let(:period_1_2_1) { Period.new(Weekday.en("wednesday"), "Cours", WeekdayTime.new(9, 00), WeekdayTime.new(12, 30)) }
+      let(:period_2_2_1) { Period.new(Weekday.en("monday"), "TP", WeekdayTime.new(8, 30), WeekdayTime.new(12, 30)) }
       let(:group_2_1) { GroupCourse.new("COM110", [period_1_2_1, period_2_2_1], 2) }
 
-      let(:period_1_3_1) { Period.new(Weekday.en("monday"), "Cours", WeekdayTime.new(Weekday.en("monday"), 18, 00), WeekdayTime.new(Weekday.en("monday"), 21, 30)) }
-      let(:period_2_3_1) { Period.new(Weekday.en("wednesday"), "TP", WeekdayTime.new(Weekday.en("wednesday"), 18, 00), WeekdayTime.new(Weekday.en("wednesday"), 22, 00)) }
+      let(:period_1_3_1) { Period.new(Weekday.en("monday"), "Cours", WeekdayTime.new(18, 00), WeekdayTime.new(21, 30)) }
+      let(:period_2_3_1) { Period.new(Weekday.en("wednesday"), "TP", WeekdayTime.new(18, 00), WeekdayTime.new(22, 00)) }
       let(:group_3_1) { GroupCourse.new("COM110", [period_1_3_1, period_2_3_1], 3) }
 
-      let(:period_1_4_1) { Period.new(Weekday.en("wednesday"), "Cours", WeekdayTime.new(Weekday.en("wednesday"), 13, 30), WeekdayTime.new(Weekday.en("wednesday"), 17, 00)) }
-      let(:period_2_4_1) { Period.new(Weekday.en("friday"), "TP", WeekdayTime.new(Weekday.en("friday"), 8, 30), WeekdayTime.new(Weekday.en("friday"), 12, 30)) }
+      let(:period_1_4_1) { Period.new(Weekday.en("wednesday"), "Cours", WeekdayTime.new(13, 30), WeekdayTime.new(17, 00)) }
+      let(:period_2_4_1) { Period.new(Weekday.en("friday"), "TP", WeekdayTime.new(8, 30), WeekdayTime.new(12, 30)) }
       let(:group_4_1) { GroupCourse.new("COM110", [period_1_4_1, period_2_4_1], 4) }
 
-      let(:period_1_5_1) { Period.new(Weekday.en("thursday"), "Cours", WeekdayTime.new(Weekday.en("thursday"), 18, 00), WeekdayTime.new(Weekday.en("thursday"), 21, 30)) }
-      let(:period_2_5_1) { Period.new(Weekday.en("tuesday"), "TP", WeekdayTime.new(Weekday.en("tuesday"), 18, 00), WeekdayTime.new(Weekday.en("tuesday"), 22, 00)) }
+      let(:period_1_5_1) { Period.new(Weekday.en("thursday"), "Cours", WeekdayTime.new(18, 00), WeekdayTime.new(21, 30)) }
+      let(:period_2_5_1) { Period.new(Weekday.en("tuesday"), "TP", WeekdayTime.new(18, 00), WeekdayTime.new(22, 00)) }
       let(:group_5_1) { GroupCourse.new("COM110", [period_1_5_1, period_2_5_1], 5) }
 
       let(:groups_1) { [group_1_1, group_2_1, group_3_1, group_4_1, group_5_1] }
 
       # LOG320
-      let(:period_1_1_2) { Period.new(Weekday.en("friday"), "Cours", WeekdayTime.new(Weekday.en("friday"), 13, 00), WeekdayTime.new(Weekday.en("friday"), 17, 00)) }
-      let(:period_2_1_2) { Period.new(Weekday.en("tuesday"), "TP", WeekdayTime.new(Weekday.en("tuesday"), 13, 00), WeekdayTime.new(Weekday.en("tuesday"), 17, 00)) }
+      let(:period_1_1_2) { Period.new(Weekday.en("friday"), "Cours", WeekdayTime.new(13, 00), WeekdayTime.new(17, 00)) }
+      let(:period_2_1_2) { Period.new(Weekday.en("tuesday"), "TP", WeekdayTime.new(13, 00), WeekdayTime.new(17, 00)) }
       let(:group_1_2) { GroupCourse.new("LOG320", [period_1_1_2, period_2_1_2], 1) }
 
       let(:groups_2) { [group_1_2] }
 
       # LOG330
-      let(:period_1_1_3) { Period.new(Weekday.en("thursday"), "Cours", WeekdayTime.new(Weekday.en("thursday"), 18, 00), WeekdayTime.new(Weekday.en("thursday"), 21, 00)) }
-      let(:period_2_1_3) { Period.new(Weekday.en("friday"), "TP", WeekdayTime.new(Weekday.en("friday"), 18, 00), WeekdayTime.new(Weekday.en("friday"), 20, 00)) }
+      let(:period_1_1_3) { Period.new(Weekday.en("thursday"), "Cours", WeekdayTime.new(18, 00), WeekdayTime.new(21, 00)) }
+      let(:period_2_1_3) { Period.new(Weekday.en("friday"), "TP", WeekdayTime.new(18, 00), WeekdayTime.new(20, 00)) }
       let(:group_1_3) { GroupCourse.new("LOG330", [period_1_1_3, period_2_1_3], 1) }
 
-      let(:period_1_2_3) { Period.new(Weekday.en("monday"), "Cours", WeekdayTime.new(Weekday.en("monday"), 18, 00), WeekdayTime.new(Weekday.en("monday"), 21, 00)) }
-      let(:period_2_2_3) { Period.new(Weekday.en("tuesday"), "TP", WeekdayTime.new(Weekday.en("tuesday"), 9, 00), WeekdayTime.new(Weekday.en("tuesday"), 12, 00)) }
+      let(:period_1_2_3) { Period.new(Weekday.en("monday"), "Cours", WeekdayTime.new(18, 00), WeekdayTime.new(21, 00)) }
+      let(:period_2_2_3) { Period.new(Weekday.en("tuesday"), "TP", WeekdayTime.new(9, 00), WeekdayTime.new(12, 00)) }
       let(:group_2_3) { GroupCourse.new("LOG330", [period_1_2_3, period_2_2_3], 2) }
 
       let(:groups_3) { [group_1_3, group_2_3] }
 
       # GIA400
-      let(:period_1_1_4) { Period.new(Weekday.en("tuesday"), "Cours", WeekdayTime.new(Weekday.en("tuesday"), 18, 00), WeekdayTime.new(Weekday.en("tuesday"), 21, 00)) }
-      let(:period_2_1_4) { Period.new(Weekday.en("friday"), "TP", WeekdayTime.new(Weekday.en("friday"), 9, 00), WeekdayTime.new(Weekday.en("friday"), 12, 00)) }
+      let(:period_1_1_4) { Period.new(Weekday.en("tuesday"), "Cours", WeekdayTime.new(18, 00), WeekdayTime.new(21, 00)) }
+      let(:period_2_1_4) { Period.new(Weekday.en("friday"), "TP", WeekdayTime.new(9, 00), WeekdayTime.new(12, 00)) }
       let(:group_1_4) { GroupCourse.new("GIA400", [period_1_1_4, period_2_1_4], 1) }
 
-      let(:period_1_2_4) { Period.new(Weekday.en("friday"), "Cours", WeekdayTime.new(Weekday.en("friday"), 13, 00), WeekdayTime.new(Weekday.en("friday"), 17, 00)) }
-      let(:period_2_2_4) { Period.new(Weekday.en("monday"), "TP", WeekdayTime.new(Weekday.en("monday"), 13, 00), WeekdayTime.new(Weekday.en("monday"), 17, 00)) }
+      let(:period_1_2_4) { Period.new(Weekday.en("friday"), "Cours", WeekdayTime.new(13, 00), WeekdayTime.new(17, 00)) }
+      let(:period_2_2_4) { Period.new(Weekday.en("monday"), "TP", WeekdayTime.new(13, 00), WeekdayTime.new(17, 00)) }
       let(:group_2_4) { GroupCourse.new("GIA400", [period_1_2_4, period_2_2_4], 2) }
 
-      let(:period_1_3_4) { Period.new(Weekday.en("wednesday"), "Cours", WeekdayTime.new(Weekday.en("wednesday"), 9, 00), WeekdayTime.new(Weekday.en("wednesday"), 12, 00)) }
-      let(:period_2_3_4) { Period.new(Weekday.en("monday"), "TP", WeekdayTime.new(Weekday.en("monday"), 9, 00), WeekdayTime.new(Weekday.en("monday"), 12, 00)) }
+      let(:period_1_3_4) { Period.new(Weekday.en("wednesday"), "Cours", WeekdayTime.new(9, 00), WeekdayTime.new(12, 00)) }
+      let(:period_2_3_4) { Period.new(Weekday.en("monday"), "TP", WeekdayTime.new(9, 00), WeekdayTime.new(12, 00)) }
       let(:group_3_4) { GroupCourse.new("GIA400", [period_1_3_4, period_2_3_4], 3) }
 
       let(:groups_4) { [group_1_4, group_2_4, group_3_4] }

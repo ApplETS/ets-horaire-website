@@ -3,7 +3,7 @@ require 'spec_helper'
 
 describe Period do
   describe "When creating a Lab on friday" do
-    let(:friday) { double(Weekday) }
+    let(:friday) { double(Weekday, index: 4) }
     let(:start_time) { double(WeekdayTime) }
     let(:end_time) { double(WeekdayTime) }
     let(:lab) { Period.new(friday, "Lab", start_time, end_time) }
@@ -15,9 +15,9 @@ describe Period do
   end
 
   describe :duration do
-    let(:monday) { double(Weekday) }
-    let(:start_time) { double(WeekdayTime, to_weekday_i: 200) }
-    let(:end_time) { double(WeekdayTime, to_weekday_i: 750) }
+    let(:monday) { double(Weekday, index: 0) }
+    let(:start_time) { double(WeekdayTime, to_i: 200) }
+    let(:end_time) { double(WeekdayTime, to_i: 750) }
     let(:cours) { Period.new(monday, "Cours", start_time, end_time) }
 
     specify { cours.duration.should eq(550) }
@@ -25,14 +25,14 @@ describe Period do
 
   describe :conflicts? do
     describe "When comparing two periods one before the other" do
-      let(:tuesday) { double(Weekday) }
+      let(:tuesday) { double(Weekday, index: 1) }
 
-      let(:first_period_start_time) { double(WeekdayTime, to_week_i: 200) }
-      let(:first_period_end_time) { double(WeekdayTime, to_week_i: 500) }
+      let(:first_period_start_time) { double(WeekdayTime, to_i: 200) }
+      let(:first_period_end_time) { double(WeekdayTime, to_i: 500) }
       let(:first_period) { Period.new(tuesday, "Cours", first_period_start_time, first_period_end_time) }
 
-      let(:second_period_start_time) { double(WeekdayTime, to_week_i: 550) }
-      let(:second_period_end_time) { double(WeekdayTime, to_week_i: 1250) }
+      let(:second_period_start_time) { double(WeekdayTime, to_i: 550) }
+      let(:second_period_end_time) { double(WeekdayTime, to_i: 1250) }
       let(:second_period) { Period.new(tuesday, "Cours", second_period_start_time, second_period_end_time) }
 
       specify do
@@ -42,14 +42,14 @@ describe Period do
     end
 
     describe "When comparing two intersecting periods" do
-      let(:tuesday) { double(Weekday) }
+      let(:tuesday) { double(Weekday, index: 1) }
 
-      let(:first_period_start_time) { double(WeekdayTime, to_week_i: 0) }
-      let(:first_period_end_time) { double(WeekdayTime, to_week_i: 1000) }
+      let(:first_period_start_time) { double(WeekdayTime, to_i: 0) }
+      let(:first_period_end_time) { double(WeekdayTime, to_i: 1000) }
       let(:first_period) { Period.new(tuesday, "Cours", first_period_start_time, first_period_end_time) }
 
-      let(:second_period_start_time) { double(WeekdayTime, to_week_i: 500) }
-      let(:second_period_end_time) { double(WeekdayTime, to_week_i: 1500) }
+      let(:second_period_start_time) { double(WeekdayTime, to_i: 500) }
+      let(:second_period_end_time) { double(WeekdayTime, to_i: 1500) }
       let(:second_period) { Period.new(tuesday, "Cours", second_period_start_time, second_period_end_time) }
 
       specify do
@@ -59,14 +59,14 @@ describe Period do
     end
 
     describe "When comparing one period contained in another" do
-      let(:tuesday) { double(Weekday) }
+      let(:tuesday) { double(Weekday, index: 1) }
 
-      let(:first_period_start_time) { double(WeekdayTime, to_week_i: 0) }
-      let(:first_period_end_time) { double(WeekdayTime, to_week_i: 1500) }
+      let(:first_period_start_time) { double(WeekdayTime, to_i: 0) }
+      let(:first_period_end_time) { double(WeekdayTime, to_i: 1500) }
       let(:external_period) { Period.new(tuesday, "Cours", first_period_start_time, first_period_end_time) }
 
-      let(:second_period_start_time) { double(WeekdayTime, to_week_i: 500) }
-      let(:second_period_end_time) { double(WeekdayTime, to_week_i: 1000) }
+      let(:second_period_start_time) { double(WeekdayTime, to_i: 500) }
+      let(:second_period_end_time) { double(WeekdayTime, to_i: 1000) }
       let(:internal_period) { Period.new(tuesday, "Cours", second_period_start_time, second_period_end_time) }
 
       specify do

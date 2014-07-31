@@ -6,22 +6,16 @@ class WeekdayTime
   MINUTES_PER_HOUR = 60
   MINUTES_PER_DAY = 24 * MINUTES_PER_HOUR
 
-  attr_reader :weekday, :hour, :minutes
+  attr_reader :hour, :minutes
 
-  def initialize(weekday, hour, minutes)
-    @weekday = weekday
+  def initialize(hour, minutes)
     @hour = hour
     @minutes = minutes
-    @week_time_int = @weekday.index * MINUTES_PER_DAY
     @weekday_time_int = hour * MINUTES_PER_HOUR + minutes
   end
 
-  def to_weekday_i
+  def to_i
     @weekday_time_int
-  end
-
-  def to_week_i
-    @week_time_int + @weekday_time_int
   end
 
   def to_s

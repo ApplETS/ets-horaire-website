@@ -5,8 +5,8 @@ class PeriodBuilder
     def build(period_struct)
       weekday = weekday_using(period_struct)
       type = filter_type_of(period_struct)
-      start_time = convert_to_weekday_time_using(weekday, period_struct.start_time)
-      end_time = convert_to_weekday_time_using(weekday, period_struct.end_time)
+      start_time = convert_to_weekday_time_using(period_struct.start_time)
+      end_time = convert_to_weekday_time_using(period_struct.end_time)
 
       raise "The start time must be smaller than the end time." if invalid?(start_time, end_time)
 
@@ -24,9 +24,9 @@ class PeriodBuilder
       type == "C" ? "Cours" : type
     end
 
-    def convert_to_weekday_time_using(weekday, plain_time)
+    def convert_to_weekday_time_using(plain_time)
       hour, minutes = time_split_int(plain_time)
-      @start_time = WeekdayTime.new(weekday, hour, minutes)
+      @start_time = WeekdayTime.new(hour, minutes)
     end
 
     def time_split_int(plain_time)
@@ -35,7 +35,7 @@ class PeriodBuilder
     end
 
     def invalid?(start_time, end_time)
-      start_time.to_week_i > end_time.to_week_i
+      start_time.to_i > end_time.to_i
     end
   end
 end

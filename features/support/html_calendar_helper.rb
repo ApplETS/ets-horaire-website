@@ -18,8 +18,8 @@ module HtmlCalendarHelper
 
       time_matches = /^(\d{2})h(\d{2}) - (\d{2})h(\d{2})$/.match(period['Période'])
       weekday = Weekday.fr(period['Jour'].downcase)
-      start_time = WeekdayTime.new(weekday, time_matches[1].to_i, time_matches[2].to_i)
-      end_time = WeekdayTime.new(weekday, time_matches[3].to_i, time_matches[4].to_i)
+      start_time = WeekdayTime.new(time_matches[1].to_i, time_matches[2].to_i)
+      end_time = WeekdayTime.new(time_matches[3].to_i, time_matches[4].to_i)
       period = Period.new(weekday, period['Type'], start_time, end_time)
 
       group_course.periods << period
