@@ -1,6 +1,8 @@
 # -*- encoding : utf-8 -*-
 
 class Group
+  include Serializable
+
   attr_reader :nb, :periods
 
   def initialize(nb, periods)

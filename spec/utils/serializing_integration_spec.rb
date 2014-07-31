@@ -8,6 +8,6 @@ describe 'Serializing/Deserializing' do
   let(:hash) { JSON.parse(json) }
 
   specify do
-    expect(Serialize.bachelor_from(Deserialize.bachelor_from(hash)).to_json).to eq(json)
+    expect(Bachelor.deserialize(hash).serialize.to_json).to eq(json)
   end
 end

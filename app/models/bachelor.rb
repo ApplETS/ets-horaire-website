@@ -1,4 +1,6 @@
 class Bachelor
+  include Serializable
+
   attr_reader :name, :slug, :courses
   attr_accessor :trimester
 

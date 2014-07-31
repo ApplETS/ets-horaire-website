@@ -1,6 +1,7 @@
 # -*- encoding : utf-8 -*-
 
 class Weekday
+  include Serializable
 
   LANGUAGES = {
     EN: %w(monday tuesday wednesday thursday friday saturday sunday),

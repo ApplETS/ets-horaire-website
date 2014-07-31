@@ -1,6 +1,7 @@
 # -*- encoding : utf-8 -*-
 
 class Period
+  include Serializable
   attr_reader :weekday, :type, :start_time, :end_time
 
   def initialize(weekday, type, start_time, end_time)

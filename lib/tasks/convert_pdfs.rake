@@ -62,7 +62,7 @@ namespace :convert_pdfs do
     serialized_bachelors = []
     students_type[key].each do |file_struct|
       bachelor = build_bachelor_from(file_struct)
-      serialized_bachelors << Serialize.bachelor_from(bachelor)
+      serialized_bachelors << bachelor.serialize
     end
     output_to_json(serialized_bachelors, file_path) unless serialized_bachelors.empty?
   end

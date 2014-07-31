@@ -1,6 +1,8 @@
 # -*- encoding : utf-8 -*-
 
 class Course
+  include Serializable
+
   attr_reader :name, :groups
 
   def initialize(name, groups)

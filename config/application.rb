@@ -33,6 +33,7 @@ module EtsHoraire
       #{config.root}/app/io
       #{config.root}/app/models/printers
       #{config.root}/app/models/printers/html
+      #{config.root}/app/serializers
       #{config.root}/app/presenters
       #{config.root}/app/utils
     )

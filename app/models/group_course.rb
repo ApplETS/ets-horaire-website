@@ -1,6 +1,7 @@
 # -*- encoding : utf-8 -*-
 
 class GroupCourse < Group
+  include Serializable
 
   attr_reader :course_name
 
