@@ -11,8 +11,8 @@ Fonctionnalité: Génération d'horaire
     Et je spécifie comme contrainte les combinaisons de 3 cours seulement
     Et je spécifie les congés:
       | Jour     | Début | Fin   |
-      | Lundi    | 00h00 | 23h00 |
-      | Mercredi | 00h00 | 23h00 |
+      | Lundi    | 08h00 | 23h00 |
+      | Mercredi | 08h00 | 23h00 |
       | Vendredi | 16h00 | 23h00 |
     Lorsque je soumets mon choix
     Alors je suis sur la page des résultats
@@ -22,8 +22,8 @@ Fonctionnalité: Génération d'horaire
     Et il devrait y avoir une mention de la contrainte de 3 cours
     Et il devrait y avoir des mentions pour les congés:
       | Jour     | Début | Fin   |
-      | Lundi    | 00h00 | 23h00 |
-      | Mercredi | 00h00 | 23h00 |
+      | Lundi    | 08h00 | 23h00 |
+      | Mercredi | 08h00 | 23h00 |
       | Vendredi | 16h00 | 23h00 |
     Et il devrait y avoir des liens vers les sorties:
       | Sortie           |

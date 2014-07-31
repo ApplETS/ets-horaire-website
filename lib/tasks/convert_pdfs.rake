@@ -8,7 +8,7 @@ namespace :convert_pdfs do
     print_title 'Convert PDF of courses to a json file'
 
     @wrote_to_at_least_one_file = false
-    folder_path = Rails.root.join('files/pdfs/*.pdf')
+    folder_path = Rails.root.join(File.join(from_folder, "/*.pdf"))
 
     groups = {}
     Dir.glob(folder_path) do |filename|
@@ -33,18 +33,26 @@ namespace :convert_pdfs do
     if @wrote_to_at_least_one_file
       write_log_file
     else
-      puts '- Nothing to convert!'
+      puts 'Nothing to convert!'
     end
   end
 
   private
 
-  def database_folder_appended_with(file)
-    Rails.root.join 'db/courses', current_environment, file
+  def from_folder
+    ENV['FROM_FOLDER'] || 'files/pdfs'
+  end
+
+  def to_folder
+    ENV['TO_FOLDER'] || File.join('db/courses', current_environment)
   end
 
   def current_environment
     ENV['RAILS_ENV'] || 'development'
+  end
+
+  def database_folder_appended_with(file)
+    Rails.root.join to_folder, file
   end
 
   def store_to_json(students_type, key, basename)
