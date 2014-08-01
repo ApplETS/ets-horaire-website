@@ -45,7 +45,7 @@ class TrimesterDatabase
     return false if @json_files_last_modified == @last_modified
 
     @last_modified = @json_files_last_modified
-    return true
+    true
   end
 
   def fetch_trimesters

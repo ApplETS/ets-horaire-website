@@ -16,7 +16,7 @@ class StreamCourseBuilder
         group_match_data = LineMatcher.group(line)
         period_match_data = LineMatcher.period(line)
 
-        if new_course_line?(course_match_data, course)
+        if new_course_line?(course, course_match_data)
           course = CourseStruct.new(course_match_data[1], [])
           courses << course
         elsif group_line?(course, group_match_data)
@@ -39,7 +39,7 @@ class StreamCourseBuilder
       PeriodStruct.new *attributes
     end
 
-    def new_course_line?(course_match_data, course)
+    def new_course_line?(course, course_match_data)
       return false if course_match_data.nil?
       return true if course.nil?
       course_match_data[1] != course.name
