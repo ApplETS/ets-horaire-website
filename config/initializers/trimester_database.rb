@@ -1,0 +1,1 @@
+TrimesterDatabase.repository = JsonTrimesterRepository.new

@@ -31,6 +31,7 @@ module EtsHoraire
       #{config.root}/app/controllers/outputs
       #{config.root}/app/filters
       #{config.root}/app/io
+      #{config.root}/app/io/trimester_repositories
       #{config.root}/app/models/printers
       #{config.root}/app/models/printers/html
       #{config.root}/app/serializers
