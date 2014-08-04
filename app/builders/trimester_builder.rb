@@ -1,12 +1,6 @@
 # -*- encoding : utf-8 -*-
 
 class TrimesterBuilder
-  TERMS = {
-    'automne' => 'Automne',
-    'ete' => 'Été',
-    'hiver' => 'Hiver'
-  }
-
   class << self
     def build(trimester_slug, serialized_bachelors)
       bachelors = serialized_bachelors.collect { |serialized_bachelor| Bachelor.deserialize(serialized_bachelor) }
@@ -18,8 +12,9 @@ class TrimesterBuilder
 
     def extract_term_from(parts)
       term_slug = parts[0]
-      raise "Missing term #{term} in TrimesterBuilder." unless TERMS.has_key?(term_slug)
-      TERMS[term_slug]
+      Trimester::TERMS.fetch(term_slug)
+    rescue KeyError
+      raise "Missing term #{term} in TrimesterBuilder."
     end
 
     def extract_year_from(parts)

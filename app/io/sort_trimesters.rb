@@ -1,6 +1,6 @@
 class SortTrimesters
-  ORDERED_TERMS = TrimesterBuilder::TERMS.values
-  ORDERED_BACHELORS = BachelorBuilder::NAMES.values
+  ORDERED_TERMS = Trimester::TERMS.values
+  ORDERED_BACHELORS = Bachelor::NAMES.values
 
   class << self
     def by_terms_then_year(trimesters)

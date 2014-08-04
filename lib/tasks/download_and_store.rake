@@ -15,7 +15,7 @@ namespace :download_and_store do
     print_title "Downloading PDFs from #{url}"
     notify_of_overwrite if overwrite_existing?
 
-    bachelor_names = BachelorBuilder::NAMES.keys
+    bachelor_names = Bachelor::NAMES.keys
     bachelor_names.each do |bachelor_name|
       filename_path = filepath_for(bachelor_name)
       (warn_about_existing(filename_path); next) if skip?(filename_path)
