@@ -49,8 +49,7 @@ class SelectCoursesController < ApplicationController
   def filter_courses(bachelor)
     courses = bachelor.courses.find_all { |course| @selected_courses.include?(course.name) }
     courses = FlattenCourses.to_group_courses(courses)
-    courses.keep_if { |group_course| LeavesFilter.keep?(group_course, @leaves) }
-    courses
+    courses.select { |group_course| LeavesFilter.keep?(group_course, @leaves) }
   end
 
   def build_schedule_finder
