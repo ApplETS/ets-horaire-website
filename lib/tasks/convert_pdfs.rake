@@ -3,6 +3,8 @@ require 'json'
 
 include PrintingHelper
 namespace :convert_pdfs do
+  COURSES_TO_IGNORE = %w(PRE010)
+
   desc 'Convert PDFs of courses to a json file'
   task :to_json => :environment do
     print_title 'Convert PDF of courses to a json file'
@@ -68,8 +70,7 @@ namespace :convert_pdfs do
   end
 
   def build_bachelor_from(file_struct)
-    courses_stream = PdfStream.from_file(file_struct.file_path)
-    courses_struct = StreamCourseBuilder.build_courses_from(courses_stream)
+    courses_struct = EtsScheduleParser::PdfParser.parse(file_struct.file_path, COURSES_TO_IGNORE)
     BachelorBuilder.build file_struct, courses_struct
   end
 

@@ -15,6 +15,8 @@ gem 'whenever', require: false
 gem 'bootstrap-sass', '~> 3.1.1'
 gem 'colorize'
 
+gem 'ets_schedule_parser', git: 'https://github.com/Krystosterone/ets_schedule_parser.git', tag: '0.1.0'
+
 group :development do
   gem 'capistrano'
   gem 'capistrano-rails'

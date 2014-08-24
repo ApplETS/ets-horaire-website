@@ -1,3 +1,10 @@
+GIT
+  remote: https://github.com/Krystosterone/ets_schedule_parser.git
+  revision: ec0f135921e2d2a7110a18d239886e0fd7d55e76
+  tag: 0.1.0
+  specs:
+    ets_schedule_parser (0.1.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -214,6 +221,7 @@ DEPENDENCIES
   colorize
   compass-rails
   cucumber-rails
+  ets_schedule_parser!
   haml-rails
   hpricot
   jquery-rails
