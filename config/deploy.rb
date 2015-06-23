@@ -1,9 +1,9 @@
 set :application, 'scheduler'
 set :repo_url, 'git@github.com:ApplETS/ets-horaire-website.git'
 
-# ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }
+set :branch, :master
 
-# set :deploy_to, '/var/www/my_app'
+set :deploy_to, -> { "/var/www/#{fetch(:application)}.clubapplets.ca" }
 # set :scm, :git
 
 set :format, :pretty
