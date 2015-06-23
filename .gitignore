@@ -3,8 +3,6 @@ log
 tmp
 public/assets
 files
-config/deploy.rb
-config/deploy/*
 db/*.sqlite3
 db/courses/development
 db/courses/staging
