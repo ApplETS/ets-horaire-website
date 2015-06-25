@@ -61,11 +61,11 @@ GEM
     capistrano-rails (1.1.3)
       capistrano (~> 3.1)
       capistrano-bundler (~> 1.1)
-    capistrano-rvm (0.1.2)
-      capistrano (~> 3.0)
-      sshkit (~> 1.2)
-    capistrano-unicorn (0.1.10)
-      capistrano
+    capistrano-rbenv (2.0.3)
+      capistrano (~> 3.1)
+      sshkit (~> 1.3)
+    capistrano3-unicorn (0.2.1)
+      capistrano (~> 3.1, >= 3.1.0)
     capybara (2.4.4)
       mime-types (>= 1.16)
       nokogiri (>= 1.3.3)
@@ -266,10 +266,10 @@ PLATFORMS
 DEPENDENCIES
   bootstrap-sass (~> 3.3.5)
   bundler
-  capistrano
-  capistrano-rails
-  capistrano-rvm
-  capistrano-unicorn
+  capistrano (~> 3.1)
+  capistrano-rails (~> 1.1)
+  capistrano-rbenv (~> 2.0)
+  capistrano3-unicorn
   capybara
   coffee-rails
   colorize

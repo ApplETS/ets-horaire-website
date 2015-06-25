@@ -18,10 +18,10 @@ gem 'colorize'
 gem 'ets_schedule_parser', git: 'https://github.com/Krystosterone/ets_schedule_parser.git', tag: '0.1.0'
 
 group :development do
-  gem 'capistrano'
-  gem 'capistrano-rails'
-  gem 'capistrano-rvm'
-  gem 'capistrano-unicorn', require: false
+  gem 'capistrano', '~> 3.1'
+  gem 'capistrano-rbenv', '~> 2.0'
+  gem 'capistrano-rails', '~> 1.1'
+  gem 'capistrano3-unicorn'
 end
 
 group :test do
@@ -31,9 +31,7 @@ group :test do
   gem 'selenium-webdriver'
 end
 
-group :production do
-  gem 'unicorn'
-end
+gem 'unicorn'
 
 group :doc do
   gem 'sdoc', require: false
