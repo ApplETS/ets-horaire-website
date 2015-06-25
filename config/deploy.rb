@@ -1,3 +1,5 @@
+require 'capistrano-unicorn'
+
 set :application, 'scheduler'
 set :repo_url, 'git@github.com:ApplETS/ets-horaire-website.git'
 
@@ -15,6 +17,8 @@ set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public
 
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
 set :keep_releases, 2
+
+after 'deploy:restart', 'unicorn:restart'
 
 namespace :deploy do
 
