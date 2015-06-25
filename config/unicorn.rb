@@ -3,6 +3,10 @@ app_dir = File.expand_path("../..", __FILE__)
 shared_dir = "/var/www/scheduler.clubapplets.ca/shared"
 working_directory app_dir
 
+before_exec do |server|
+	ENV['BUNDLE_GEMFILE'] = '/var/www/scheduler.clubapplets.ca/current/Gemfile'
+end
+
 # Set unicorn options
 worker_processes 2
 preload_app true
