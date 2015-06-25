@@ -20,7 +20,7 @@ gem 'ets_schedule_parser', git: 'https://github.com/Krystosterone/ets_schedule_p
 group :development do
   gem 'capistrano'
   gem 'capistrano-rails'
-  gem 'capistrano-rvm',
+  gem 'capistrano-rvm'
   gem 'capistrano-unicorn', require: false
 end
 
