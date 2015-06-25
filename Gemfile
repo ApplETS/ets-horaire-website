@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'bundler'
-gem 'rails', '~> 4.0.2'
+gem 'rails', '~> 4.2.1'
 gem 'sqlite3'
 gem 'sass-rails'
 gem 'compass-rails'
@@ -12,7 +12,7 @@ gem 'jquery-rails'
 gem 'turbolinks'
 gem 'hpricot'
 gem 'whenever', require: false
-gem 'bootstrap-sass', '~> 3.1.1'
+gem 'bootstrap-sass', '~> 3.3.5'
 gem 'colorize'
 
 gem 'ets_schedule_parser', git: 'https://github.com/Krystosterone/ets_schedule_parser.git', tag: '0.1.0'
