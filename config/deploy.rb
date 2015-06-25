@@ -16,13 +16,15 @@ set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
 set :keep_releases, 2
 
+after 'deploy:publishing', 'deploy:restart'
+
 namespace :deploy do
 
   desc 'Restart application'
   task :restart do
     on roles(:app), in: :sequence, wait: 5 do
-      # Your restart mechanism here, for example:
-      # execute :touch, release_path.join('tmp/restart.txt')
+      invoke 'unicorn:legacy_restart'
+      execute :chmod, "-R g+rwx #{current_path}"
     end
   end
 
