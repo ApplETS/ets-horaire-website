@@ -8,12 +8,12 @@
 //## Gray and brand colors for use across Bootstrap.
 
 $gray-darker:            lighten(#000, 13.5%); // #222
-$gray-dark:              #7b8a8b;   // #333
+$gray-dark:              #515151;   // #333
 $gray:                   #95a5a6; // #555
 $gray-light:             #b4bcc2;   // #999
 $gray-lighter:           #ecf0f1; // #eee
 
-$brand-primary:         #2C3E50;
+$brand-primary:         #2eb2e6;
 $brand-success:         #18BC9C;
 $brand-info:            #3498DB;
 $brand-warning:         #F39C12;
@@ -339,13 +339,13 @@ $container-lg:                 $container-large-desktop;
 // Basics of a navbar
 $navbar-height:                    60px;
 $navbar-margin-bottom:             $line-height-computed;
-$navbar-border-radius:             $border-radius-base;
+$navbar-border-radius:             0;
 $navbar-padding-horizontal:        floor(($grid-gutter-width / 2));
 $navbar-padding-vertical:          (($navbar-height - $line-height-computed) / 2);
 $navbar-collapse-max-height:       340px;
 
 $navbar-default-color:             #777;
-$navbar-default-bg:                $brand-primary;
+$navbar-default-bg:                $gray-dark;
 $navbar-default-border:            darken($navbar-default-bg, 6.5%);
 
 // Navbar links
