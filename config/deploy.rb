@@ -32,10 +32,7 @@ namespace :deploy do
 
   desc 'Restart application'
   task :restart do
-    on roles(:app), in: :sequence, wait: 5 do
-      invoke 'unicorn:legacy_restart'
-      execute :chmod, "-R g+rwx #{current_path}"
-    end
+    invoke 'unicorn:legacy_restart'
   end
 
   after :restart, :clear_cache do

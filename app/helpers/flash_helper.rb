@@ -8,6 +8,7 @@ module FlashHelper
 
   def flash_messages
     flash_messages = flash.keys.collect do |key|
+      key = key.to_sym
       raise MissingFlashType.new("Associate the type #{key} to an alert class in FlashHelper.") unless FLASH_TYPES.has_key?(key)
 
       button = "<button class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">&times</button>"
